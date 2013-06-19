@@ -10,7 +10,7 @@
 
 /// @cond
 
-require( dirname( __FILE__ ) . '/cli.inc' );
+require __DIR__ . '/cli.inc';
 
 # Override the memory limit for wfShellExec, 100 MB seems to be too little
 $wgMaxShellMemory = 1024 * 200;
@@ -57,7 +57,6 @@ if ( isset( $options['really'] ) ) {
 $bot->execute();
 
 /// @endcond
-
 
 /**
  * Class for marking translation fuzzy.
@@ -172,25 +171,29 @@ class FuzzyScript {
 	 * @param string $comment Edit summary.
 	 */
 	private function updateMessage( $title, $text, $dryrun, $comment = null ) {
-		global $wgTranslateDocumentationLanguageCode, $wgUser;
+		global $wgTranslateDocumentationLanguageCode;
 
-		$oldUser = $wgUser;
-		$wgUser = FuzzyBot::getUser();
+		$context = RequestContext::getMain();
+		$oldUser = $context->getUser();
+		$context->setUser( FuzzyBot::getUser() );
 
 		STDOUT( "Updating {$title->getPrefixedText()}... ", $title );
 		if ( !$title instanceof Title ) {
 			STDOUT( "INVALID TITLE!", $title );
+
 			return;
 		}
 
 		$items = explode( '/', $title->getText(), 2 );
 		if ( isset( $items[1] ) && $items[1] === $wgTranslateDocumentationLanguageCode ) {
 			STDOUT( "IGNORED!", $title );
+
 			return;
 		}
 
 		if ( $dryrun ) {
 			STDOUT( "DRY RUN!", $title );
+
 			return;
 		}
 
@@ -201,6 +204,6 @@ class FuzzyScript {
 		$success = $status === true || ( is_object( $status ) && $status->isOK() );
 		STDOUT( $success ? 'OK' : 'FAILED', $title );
 
-		$wgUser = $oldUser;
+		$context->setUser( $oldUser );
 	}
 }

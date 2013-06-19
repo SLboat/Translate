@@ -52,6 +52,7 @@ class SpecialTranslate extends SpecialPage {
 
 			if ( $editpage ) {
 				$editpage->execute();
+
 				return;
 			}
 		}
@@ -61,6 +62,7 @@ class SpecialTranslate extends SpecialPage {
 
 		if ( $this->options['group'] === '' || ( $isBeta && !$this->group ) ) {
 			$this->groupInformation();
+
 			return;
 		}
 
@@ -92,6 +94,7 @@ class SpecialTranslate extends SpecialPage {
 				if ( isset( $wgTranslateBlacklist[$check][$this->options['language']] ) ) {
 					$reason = $wgTranslateBlacklist[$check][$this->options['language']];
 					$out->addWikiMsg( 'translate-page-disabled', $reason );
+
 					return;
 				}
 			}
@@ -124,10 +127,11 @@ class SpecialTranslate extends SpecialPage {
 					$linktext = $this->msg( 'translate-page-description-hasoptional-open' )->escaped();
 					$params = array( 'task' => 'optional' ) + $this->nondefaults;
 					$link = Linker::link( $this->getTitle(), $linktext, array(), $params );
-					$note = $this->msg( 'translate-page-description-hasoptional' )->rawParams( $link )->parseAsBlock();
+					$note = $this->msg( 'translate-page-description-hasoptional' )
+						->rawParams( $link )->parseAsBlock();
 
 					if ( $description ) {
-						$description .= '<br>' . $note;
+						$description .= '<br />' . $note;
 					} else {
 						$description = $note;
 					}
@@ -240,13 +244,13 @@ class SpecialTranslate extends SpecialPage {
 		$isBeta = self::isBeta( $request );
 
 		$defaults = array(
-		/* str  */'taction'  => 'translate',
-		/* str  */'task'     => $isBeta ? 'custom' : 'untranslated',
-		/* str  */'language' => $this->getLanguage()->getCode(),
-		/* str  */'group'    => $isBeta ? '!additions': '',
-		/* str  */'offset'   => '', // Used to be int, now str
-		/* int  */'limit'    => $isBeta ? 0 : 100,
-		/* int  */'optional' => '0',
+			/* str  */'taction'  => 'translate',
+			/* str  */'task'     => $isBeta ? 'custom' : 'untranslated',
+			/* str  */'language' => $this->getLanguage()->getCode(),
+			/* str  */'group'    => $isBeta ? '!additions': '',
+			/* str  */'offset'   => '', // Used to be int, now str
+			/* int  */'limit'    => $isBeta ? 0 : 100,
+			/* int  */'optional' => '0',
 		);
 
 		// Dump everything here
@@ -405,7 +409,11 @@ class SpecialTranslate extends SpecialPage {
 			$extra = '';
 		}
 
-		$nonEssential = Html::rawElement( 'span', array( 'class' => 'mw-sp-translate-nonessential' ), implode( "", $options ) );
+		$nonEssential = Html::rawElement(
+			'span',
+			array( 'class' => 'mw-sp-translate-nonessential' ),
+			implode( "", $options )
+		);
 
 		$button = Xml::submitButton( $this->msg( 'translate-submit' )->text() );
 
@@ -422,6 +430,7 @@ class SpecialTranslate extends SpecialPage {
 				"$nonEssential\n$extra\n$button\n" .
 				Html::closeElement( 'form' ) .
 				Html::closeElement( 'fieldset' );
+
 		return $form;
 	}
 
@@ -509,12 +518,13 @@ class SpecialTranslate extends SpecialPage {
 		$output .= Html::element( 'span', array( 'class' => 'two columns tux-message-filter-box-icon' ) );
 		$output .= Html::element( 'input', array(
 			'class' => 'ten columns tux-message-filter-box',
-			'type' => 'text',
+			'type' => 'search',
 		) );
-		$output .= Html::element( 'span', array( 'class' => 'one columns tux-message-filter-box-clear hide' ) );
+
 		$output .= Html::closeElement( 'div' ); // close three columns
 
 		$output .= Html::closeElement( 'div' ); // close the row
+
 		return $output;
 	}
 
@@ -547,6 +557,22 @@ class SpecialTranslate extends SpecialPage {
 	}
 
 	protected function tuxLanguageSelector() {
+		// Changes here must also be reflected when the language
+		// changes on the client side
+		global $wgTranslateDocumentationLanguageCode;
+
+		if ( $this->options['language'] === $wgTranslateDocumentationLanguageCode ) {
+			// The name will be displayed in the UI language,
+			// so use for lang and dir
+			$targetLangCode = $this->getLanguage()->getCode();
+			$targetLangDir = $this->getLanguage()->getDir();
+			$targetLangName = $this->msg( 'translate-documentation-language' )->text();
+		} else {
+			$targetLangCode = $this->options['language'];
+			$targetLangDir = Language::factory( $this->options['language'] )->getDir();
+			$targetLangName = Language::fetchLanguageName( $this->options['language'] );
+		}
+
 		// No-break space is added for spacing after the label
 		// and to ensure separation of words (in Arabic, for example)
 		return Html::rawElement( 'div',
@@ -557,27 +583,31 @@ class SpecialTranslate extends SpecialPage {
 			) .
 				'&#160;' . // nbsp
 				Html::element( 'span',
-					array( 'class' => 'uls' ),
-					Language::fetchLanguageName( $this->options['language'] )
+					array(
+						'class' => 'uls',
+						'lang' => $targetLangCode,
+						'dir' => $targetLangDir,
+					),
+					$targetLangName
 				)
 		);
 	}
 
 	protected function tuxGroupDescription() {
-		return
-			Html::rawElement( 'div',
-				array( 'class' => 'twelve columns description' ),
-				$this->getGroupDescription( $this->group )
-			);
+		return Html::rawElement(
+			'div',
+			array( 'class' => 'twelve columns description' ),
+			$this->getGroupDescription( $this->group )
+		);
 	}
 
 	protected function tuxGroupWarning() {
 		// Initialize an empty warning box to be filled client-side.
-		return
-			Html::element( 'div',
-				array( 'class' => 'twelve columns group-warning' ),
-				''
-			);
+		return Html::element(
+			'div',
+			array( 'class' => 'twelve columns group-warning' ),
+			''
+		);
 	}
 
 	/**
@@ -588,7 +618,10 @@ class SpecialTranslate extends SpecialPage {
 	 */
 	private static function optionRow( $label, $option, $error = null ) {
 		return "<label>$label&nbsp;$option</label>" .
-			( $error ? Html::rawElement( 'span', array( 'class' => 'mw-sp-translate-error' ), $error ) : '' ) . ' ';
+			( $error ?
+				Html::rawElement( 'span', array( 'class' => 'mw-sp-translate-error' ), $error ) :
+				''
+			) . ' ';
 	}
 
 	protected function taskLinks( $tasks ) {
@@ -596,6 +629,7 @@ class SpecialTranslate extends SpecialPage {
 
 		foreach ( $tasks as $index => $id ) {
 			$task = TranslateTasks::getTask( $id );
+
 			if ( !$task ) {
 				unset( $tasks[$index] );
 				continue;
@@ -613,6 +647,7 @@ class SpecialTranslate extends SpecialPage {
 			return $sep . $this->msg( 'translate-taction-disabled' )->escaped();
 		} elseif ( $count === 1 ) {
 			$id = array_pop( $tasks );
+
 			// If there is only one task, and it is the default task, hide it.
 			// If someone disables the default task for action, we will show
 			// a list of alternative task(s), but not showing anything
@@ -620,6 +655,7 @@ class SpecialTranslate extends SpecialPage {
 			if ( $this->defaults['task'] === $id ) {
 				return '';
 			}
+
 			// Give grep a chance to find the usages:
 			// translate-taskui-view, translate-taskui-untranslated, translate-taskui-optional,
 			// translate-taskui-acceptqueue, translate-taskui-reviewall,
@@ -630,6 +666,7 @@ class SpecialTranslate extends SpecialPage {
 			);
 		} else {
 			$output = '';
+
 			foreach ( $tasks as $id ) {
 				// Give grep a chance to find the usages:
 				// translate-taskui-view, translate-taskui-untranslated, translate-taskui-optional,
@@ -640,6 +677,7 @@ class SpecialTranslate extends SpecialPage {
 						$this->msg( "translate-taskui-$id" )->escaped()
 				) . ' ';
 			}
+
 			return $sep . $output;
 		}
 	}
@@ -681,7 +719,10 @@ class SpecialTranslate extends SpecialPage {
 		$selector->setDefault( $this->options['limit'] );
 
 		foreach ( $items as $count ) {
-			$selector->addOption( $this->msg( 'translate-page-limit-option' )->numParams( $count )->text(), $count );
+			$selector->addOption(
+				$this->msg( 'translate-page-limit-option' )->numParams( $count )->text(),
+				$count
+			);
 		}
 
 		return $selector->getHTML();
@@ -805,7 +846,12 @@ class SpecialTranslate extends SpecialPage {
 		}
 
 		$message = $this->msg( 'translate-workflowstatus' )->rawParams( $stateIndicator );
-		$box = Html::rawElement( 'div', array( 'id' => 'mw-sp-translate-workflow' ), $message->escaped() );
+		$box = Html::rawElement(
+			'div',
+			array( 'id' => 'mw-sp-translate-workflow' ),
+			$message->escaped()
+		);
+
 		return $box;
 	}
 
@@ -838,8 +884,8 @@ class SpecialTranslate extends SpecialPage {
 
 		$request = $skin->getRequest();
 		// However, query string params take precedence
-		$params = $request->getQueryValues() + $params;
-		asort( $params );
+		$params['language'] = $request->getVal( 'language' );
+		$params['group'] = $request->getVal( 'group' );
 
 		$taction = $request->getVal( 'taction', 'translate' );
 
@@ -847,43 +893,49 @@ class SpecialTranslate extends SpecialPage {
 		$languagestats = SpecialPage::getTitleFor( 'LanguageStats' );
 		$messagegroupstats = SpecialPage::getTitleFor( 'MessageGroupStats' );
 
-		unset( $params['task'] ); // Depends on taction
-		unset( $params['taction'] ); // We're supplying this ourself
-		unset( $params['title'] ); // As above
-		unset( $params['x'] ); // Was posted -marker on stats pages
-		unset( $params['suppresscomplete'] ); // Stats things, should
-		unset( $params['suppressempty'] ); // not be passed
-
 		// Clear the special page tab that might be there already
 		$tabs['namespaces'] = array();
 
-		$tabs['namespaces']['translate'] = $data = array(
+		$tabs['namespaces']['translate'] = array(
 			'text' => wfMessage( 'translate-taction-translate' )->text(),
-			'href' => $translate->getLocalUrl( array( 'taction' => 'translate' ) + $params ),
-			'class' => $alias === 'Translate' && $taction === 'translate' ? 'selected' : '',
+			'href' => $translate->getLocalUrl( $params ),
+			'class' => 'tux-tab',
 		);
 
-		if ( !self::isBeta( $request ) ) {
-			$tabs['namespaces']['proofread'] = $data = array(
-				'text' => wfMessage( 'translate-taction-proofread' )->text(),
-				'href' => $translate->getLocalUrl( array( 'taction' => 'proofread' ) + $params ),
-				'class' => $alias === 'Translate' && $taction === 'proofread' ? 'selected' : '',
-			);
+		if ( $alias === 'Translate' && $taction === 'translate' ) {
+			$tabs['namespaces']['translate']['class'] .= ' selected';
 		}
 
-		// Limit only applies to the above
-		unset( $params['limit'] );
+		if ( !self::isBeta( $request ) ) {
+			$tabs['namespaces']['proofread'] = array(
+				'text' => wfMessage( 'translate-taction-proofread' )->text(),
+				'href' => $translate->getLocalUrl( array( 'taction' => 'proofread' ) + $params ),
+				'class' => 'tux-tab',
+			);
+
+			if ( $alias === 'Translate' && $taction === 'proofread' ) {
+				$tabs['namespaces']['proofread']['class'] .= ' selected';
+			}
+		}
 
 		$tabs['views']['lstats'] = array(
 			'text' => wfMessage( 'translate-taction-lstats' )->text(),
 			'href' => $languagestats->getLocalUrl( $params ),
-			'class' => $alias === 'LanguageStats' ? 'selected' : '',
+			'class' => 'tux-tab',
 		);
+		if ( $alias === 'LanguageStats' ) {
+			$tabs['views']['lstats']['class'] .= ' selected';
+		}
+
 		$tabs['views']['mstats'] = array(
 			'text' => wfMessage( 'translate-taction-mstats' )->text(),
 			'href' => $messagegroupstats->getLocalUrl( $params ),
-			'class' => $alias === 'MessageGroupStats' ? 'selected' : '',
+			'class' => 'tux-tab',
 		);
+
+		if ( $alias === 'MessageGroupStats' ) {
+			$tabs['views']['mstats']['class'] .= ' selected';
+		}
 
 		// Kind of hackish, but works for now
 		global $wgTranslateTasks;
@@ -895,8 +947,12 @@ class SpecialTranslate extends SpecialPage {
 			$tabs['views']['export'] = array(
 				'text' => wfMessage( 'translate-taction-export' )->text(),
 				'href' => $translate->getLocalUrl( array( 'taction' => 'export' ) + $params ),
-				'class' => $alias === 'Translate' && $taction === 'export' ? 'selected' : '',
+				'class' => 'tux-tab',
 			);
+
+			if ( $alias === 'Translate' && $taction === 'export' ) {
+				$tabs['views']['export']['class'] .= ' selected';
+			}
 
 			// We only need the tab to apper once ;)
 			break;

@@ -1,6 +1,7 @@
 <?php
 /**
- * Command line script to import/update source messages and translations into the wiki database.
+ * Command line script to import/update source messages and translations into
+ * the wiki database.
  *
  * @author Niklas Laxström
  * @author Siebrand Mazeland
@@ -14,7 +15,7 @@
 
 $options = array( 'git' );
 $optionsWithArgs = array( 'group', 'lang', 'start', 'end' );
-require( dirname( __FILE__ ) . '/cli.inc' );
+require __DIR__ . '/cli.inc';
 
 # Override the memory limit for wfShellExec, 100 MB seems to be too little for svn
 $wgMaxShellMemory = 1024 * 200;
@@ -63,7 +64,8 @@ if ( !isset( $options['lang'] ) || strval( $options['lang'] ) === '' ) {
 $start = isset( $options['start'] ) ? strtotime( $options['start'] ) : false;
 $end = isset( $options['end'] ) ? strtotime( $options['end'] ) : false;
 
-STDOUT( "Conflict times: " . wfTimestamp( TS_ISO_8601, $start ) . " - " . wfTimestamp( TS_ISO_8601, $end ) );
+STDOUT( "Conflict times: " . wfTimestamp( TS_ISO_8601, $start ) . " - " .
+	wfTimestamp( TS_ISO_8601, $end ) );
 
 $codes = array_filter( array_map( 'trim', explode( ',', $options['lang'] ) ) );
 
@@ -223,8 +225,10 @@ class ChangeSyncer {
 	/**
 	 * Do some conflict resolution for translations.
 	 * @param string $code Language code.
-	 * @param bool|int $startTs Time of the last export (changes in wiki after this will conflict)
-	 * @param bool|int $endTs Time of the last export (changes in source before this wont conflict)
+	 * @param bool|int $startTs Time of the last export (changes in wiki after
+	 * this will conflict)
+	 * @param bool|int $endTs Time of the last export (changes in source before
+	 * this won't conflict)
 	 * @param bool|int $changeTs When change happened in the source.
 	 */
 	public function checkConflicts( $code, $startTs = false, $endTs = false, $changeTs = false ) {
@@ -267,15 +271,15 @@ class ChangeSyncer {
 
 			STDOUT( "Conflict in " . $this->color( 'bold', $page ) . "!", $page );
 
-			global $wgLang;
 			$iso = 'xnY-xnm-xnd"T"xnH:xni:xns';
+			$lang = RequestContext::getMain()->getLanguage();
 
 			// Finally all is ok, now lets start comparing timestamps
 			// Make sure we are comparing timestamps in same format
 			$wikiTs = $this->getLastGoodChange( $title, $startTs );
 			if ( $wikiTs ) {
 				$wikiTs = wfTimestamp( TS_UNIX, $wikiTs );
-				$wikiDate = $wgLang->sprintfDate( $iso, wfTimestamp( TS_MW, $wikiTs ) );
+				$wikiDate = $lang->sprintfDate( $iso, wfTimestamp( TS_MW, $wikiTs ) );
 			} else {
 				$wikiDate = 'Unknown';
 			}
@@ -289,7 +293,7 @@ class ChangeSyncer {
 			}
 			if ( $changeTs ) {
 				$changeTs = wfTimestamp( TS_UNIX, $changeTs );
-				$changeDate = $wgLang->sprintfDate( $iso, wfTimestamp( TS_MW, $changeTs ) );
+				$changeDate = $lang->sprintfDate( $iso, wfTimestamp( TS_MW, $changeTs ) );
 			} else {
 				$changeDate = 'Unknown';
 			}
@@ -300,10 +304,13 @@ class ChangeSyncer {
 					continue;
 				} elseif ( !$wikiTs || ( $changeTs > $endTs && $wikiTs < $startTs ) ) {
 					STDOUT( " →Changed in source after export: IMPORT", $page );
-					$this->import( $title, $translation, 'Updating translation from external source' );
+					$this->import(
+						$title,
+						$translation,
+						'Updating translation from external source'
+					);
 					continue;
 				}
-
 			}
 
 			if ( !$this->interactive ) {
@@ -326,12 +333,20 @@ class ChangeSyncer {
 				}
 
 				if ( $action === 'I' ) {
-					$this->import( $title, $translation, 'Updating translation from external source' );
+					$this->import(
+						$title,
+						$translation,
+						'Updating translation from external source'
+					);
 					break;
 				}
 
 				if ( $action === 'C' ) {
-					$this->import( $title, TRANSLATE_FUZZY . $translation, 'Edit conflict between wiki and source' );
+					$this->import(
+						$title,
+						TRANSLATE_FUZZY . $translation,
+						'Edit conflict between wiki and source'
+					);
 					break;
 				}
 			} while ( true );
@@ -393,10 +408,9 @@ class ChangeSyncer {
 	 * @param $comment \string Edit summary.
 	 */
 	public function import( $title, $translation, $comment ) {
-		global $wgUser;
-
-		$old = $wgUser;
-		$wgUser = FuzzyBot::getUser();
+		$context = RequestContext::getMain();
+		$oldUser = $context->getUser();
+		$context->setUser( FuzzyBot::getUser() );
 
 		$flags = EDIT_FORCE_BOT;
 		if ( $this->norc ) {
@@ -409,7 +423,7 @@ class ChangeSyncer {
 		$success = $status === true || ( is_object( $status ) && $status->isOK() );
 		STDOUT( $success ? 'OK' : 'FAILED', $title );
 
-		$wgUser = $old;
+		$context->setUser( $oldUser );
 	}
 }
 

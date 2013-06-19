@@ -18,7 +18,7 @@
 class TranslateEditAddons {
 	/**
 	 * Add some tabs for navigation for users who do not use Ajax interface.
-	 * Hooks: SkinTemplateNavigation, SkinTemplateTabs
+	 * Hook: SkinTemplateNavigation
 	 */
 	static function addNavigationTabs( Skin $skin, array &$tabs ) {
 		$title = $skin->getTitle();
@@ -161,8 +161,10 @@ class TranslateEditAddons {
 				$editpage->getArticle()->getContext()->getOutput()->wrapWikiMsg(
 					"<div class='error'>$1</div>", 'translate-language-disabled'
 				);
+
 				return false;
 			}
+
 			return true;
 		}
 		$msg = wfMessage( 'translate-edit-tag-warning' )->inContentLanguage()->plain();
@@ -185,6 +187,7 @@ class TranslateEditAddons {
 		}
 
 		$object->editFormTextTop .= self::editBoxes( $object );
+
 		return true;
 	}
 
@@ -287,20 +290,8 @@ class TranslateEditAddons {
 	public static function isFuzzy( Title $title ) {
 		# wfDeprecated( __METHOD__, '1.19' );
 		$handle = new MessageHandle( $title );
+
 		return $handle->isFuzzy();
-	}
-
-	/**
-	 * Removes protection tab for message namespaces - not useful.
-	 * Hook: SkinTemplateTabs
-	 */
-	public static function tabs( Skin $skin, &$tabs ) {
-		$handle = new MessageHandle( $skin->getTitle() );
-		if ( $handle->isMessageNamespace() ) {
-			unset( $tabs['protect'] );
-		}
-
-		return true;
 	}
 
 	/**
@@ -309,10 +300,11 @@ class TranslateEditAddons {
 	public static function keepFields( EditPage $editpage, OutputPage $out ) {
 		$request = $editpage->getArticle()->getContext()->getRequest();
 
-		$out->addHTML( "\n" .
-			Html::hidden( 'loadgroup', $request->getText( 'loadgroup' ) ) .
-			Html::hidden( 'loadtask', $request->getText( 'loadtask' ) ) .
-			"\n"
+		$out->addHTML(
+			"\n" .
+				Html::hidden( 'loadgroup', $request->getText( 'loadgroup' ) ) .
+				Html::hidden( 'loadtask', $request->getText( 'loadtask' ) ) .
+				"\n"
 		);
 
 		return true;
@@ -462,6 +454,7 @@ class TranslateEditAddons {
 		);
 		$index = array( 'rt_type', 'rt_page', 'rt_revision' );
 		$dbw->replace( 'revtag', array( $index ), $conds, __METHOD__ );
+
 		return true;
 	}
 
@@ -480,6 +473,7 @@ class TranslateEditAddons {
 				$popts->setPreSaveTransform( false );
 			}
 		}
+
 		return true;
 	}
 

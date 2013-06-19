@@ -61,10 +61,11 @@ class MessageWebImporter {
 		$this->title = $title;
 	}
 
+	/**
+	 * @return User
+	 */
 	public function getUser() {
-		global $wgUser;
-
-		return $this->user ? $this->user : $wgUser;
+		return $this->user ? $this->user : RequestContext::getMain()->getUser();
 	}
 
 	public function setUser( User $user ) {
@@ -80,7 +81,7 @@ class MessageWebImporter {
 
 	/**
 	 * Group is either MessageGroup object or group id.
-	 * @param $group MessageGroup|string
+	 * @param MessageGroup|string $group
 	 */
 	public function setGroup( $group ) {
 		if ( $group instanceof MessageGroup ) {
@@ -99,7 +100,7 @@ class MessageWebImporter {
 	}
 
 	/**
-	 * @return String
+	 * @return string
 	 */
 	protected function getAction() {
 		return $this->getTitle()->getFullURL();
@@ -133,15 +134,16 @@ class MessageWebImporter {
 	 * @return bool
 	 */
 	protected function allowProcess() {
-		global $wgRequest;
+		$request = RequestContext::getMain()->getRequest();
 
-		if ( $wgRequest->wasPosted() &&
-			$wgRequest->getBool( 'process', false ) &&
-			$this->getUser()->matchEditToken( $wgRequest->getVal( 'token' ) )
+		if ( $request->wasPosted() &&
+			$request->getBool( 'process', false ) &&
+			$this->getUser()->matchEditToken( $request->getVal( 'token' ) )
 		) {
 
 			return true;
 		}
+
 		return false;
 	}
 
@@ -157,8 +159,8 @@ class MessageWebImporter {
 	}
 
 	/**
-	 * @param $fuzzy bool
-	 * @param $action
+	 * @param bool $fuzzy
+	 * @param string $action
 	 * @return string
 	 */
 	protected function getDefaultAction( $fuzzy, $action ) {
@@ -170,9 +172,8 @@ class MessageWebImporter {
 	}
 
 	public function execute( $messages ) {
-		global $wgOut, $wgLang;
-
-		$this->out = $wgOut;
+		$context = RequestContext::getMain();
+		$this->out = $context->getOutput();
 
 		// Set up diff engine
 		$diff = new DifferenceEngine;
@@ -208,7 +209,8 @@ class MessageWebImporter {
 
 			if ( $old === false ) {
 				$para = '<code class="mw-tmi-new">' . htmlspecialchars( $key ) . '</code>';
-				$name = wfMessage( 'translate-manage-import-new' )->rawParams( $para )->escaped();
+				$name = $context->msg( 'translate-manage-import-new' )->rawParams( $para )
+					->escaped();
 				$text = TranslateUtils::convertWhiteSpaceToHTML( $value );
 				$changed[] = self::makeSectionElement( $name, 'new', $text );
 			} else {
@@ -216,8 +218,8 @@ class MessageWebImporter {
 				$text = $diff->getDiff( '', '' );
 				$type = 'changed';
 
-				global $wgRequest;
-				$action = $wgRequest->getVal( self::escapeNameForPHP( "action-$type-$key" ) );
+				$action = $context->getRequest()
+					->getVal( self::escapeNameForPHP( "action-$type-$key" ) );
 
 				if ( $process ) {
 					if ( !count( $changed ) ) {
@@ -225,9 +227,10 @@ class MessageWebImporter {
 					}
 
 					if ( $action === null ) {
-						$message = wfMessage(
+						$message = $context->msg(
 							'translate-manage-inconsistent',
-							wfEscapeWikiText( "action-$type-$key" ) )->parse();
+							wfEscapeWikiText( "action-$type-$key" )
+						)->parse();
 						$changed[] = "<li>$message</li></ul>";
 						$process = false;
 					} else {
@@ -246,13 +249,13 @@ class MessageWebImporter {
 
 						$key = array_shift( $message );
 						$params = $message;
-						$message = wfMessage( $key, $params )->parse();
+						$message = $context->msg( $key, $params )->parse();
 						$changed[] = "<li>$message</li>";
 
 						if ( $this->checkProcessTime() ) {
 							$process = false;
-							$message = wfMessage(
-								'translate-manage-toolong' )->numParams( $this->processingTime )->parse();
+							$message = $context->msg( 'translate-manage-toolong' )
+								->numParams( $this->processingTime )->parse();
 							$changed[] = "<li>$message</li></ul>";
 						}
 						continue;
@@ -270,14 +273,14 @@ class MessageWebImporter {
 				// translate-manage-action-import, translate-manage-action-conflict,
 				// translate-manage-action-ignore, translate-manage-action-fuzzy
 				foreach ( $actions as $action ) {
-					$label = wfMessage( "translate-manage-action-$action" )->text();
+					$label = $context->msg( "translate-manage-action-$action" )->text();
 					$name = self::escapeNameForPHP( "action-$type-$key" );
 					$id = Sanitizer::escapeId( "action-$key-$action" );
 					$act[] = Xml::radioLabel( $label, $name, $action, $id, $action === $defaction );
 				}
 
 				$param = '<code class="mw-tmi-diff">' . htmlspecialchars( $key ) . '</code>';
-				$name = wfMessage( 'translate-manage-import-diff', $param,
+				$name = $context->msg( 'translate-manage-import-diff', $param,
 					implode( ' ', $act )
 				)->text();
 
@@ -293,7 +296,7 @@ class MessageWebImporter {
 
 			foreach ( $diff as $s ) {
 				$para = '<code class="mw-tmi-deleted">' . htmlspecialchars( $s ) . '</code>';
-				$name = wfMessage( 'translate-manage-import-deleted' )->rawParams( $para )->escaped();
+				$name = $context->msg( 'translate-manage-import-deleted' )->rawParams( $para )->escaped();
 				$text = TranslateUtils::convertWhiteSpaceToHTML( $collection[$s]->translation() );
 				$changed[] = self::makeSectionElement( $name, 'deleted', $text );
 			}
@@ -308,7 +311,7 @@ class MessageWebImporter {
 				$changed[] = '<ul>';
 			}
 
-			$message = wfMessage( 'translate-manage-import-done' )->parse();
+			$message = $context->msg( 'translate-manage-import-done' )->parse();
 			$changed[] = "<li>$message</li></ul>";
 			$this->out->addHTML( implode( "\n", $changed ) );
 		} else {
@@ -317,36 +320,43 @@ class MessageWebImporter {
 				if ( $code === 'en' ) {
 					$this->out->addWikiMsg( 'translate-manage-intro-en' );
 				} else {
-					$lang = TranslateUtils::getLanguageName( $code, $wgLang->getCode() );
+					$lang = TranslateUtils::getLanguageName(
+						$code,
+						$context->getLanguage()->getCode()
+					);
 					$this->out->addWikiMsg( 'translate-manage-intro-other', $lang );
 				}
 				$this->out->addHTML( Html::hidden( 'language', $code ) );
 				$this->out->addHTML( implode( "\n", $changed ) );
-				$this->out->addHTML( Xml::submitButton( wfMessage( 'translate-manage-submit' )->text() ) );
+				$this->out->addHTML( Xml::submitButton( $context->msg( 'translate-manage-submit' )->text() ) );
 			} else {
 				$this->out->addWikiMsg( 'translate-manage-nochanges' );
 			}
 		}
 
 		$this->out->addHTML( $this->doFooter() );
+
 		return $alldone;
 	}
 
 	/**
 	 * Perform an action on a given group/key/code
 	 *
-	 * @param $action \string Options: 'import', 'conflict' or 'ignore'
-	 * @param $group MessageGroup Group object
-	 * @param $key \string Message key
-	 * @param $code \string Language code
-	 * @param $message \string contents for the $key/code combination
-	 * @param $comment \string edit summary (default: empty) - see Article::doEdit
-	 * @param $user User User that will make the edit (default: null - $wgUser) - see Article::doEdit
-	 * @param $editFlags Integer bitfield: see Article::doEdit
+	 * @param string $action Options: 'import', 'conflict' or 'ignore'
+	 * @param MessageGroup $group Group object
+	 * @param string $key Message key
+	 * @param string $code Language code
+	 * @param string $message Contents for the $key/code combination
+	 * @param string $comment Edit summary (default: empty) - see Article::doEdit
+	 * @param User $user User that will make the edit (default: null - RequestContext user).
+	 *        See Article::doEdit.
+	 * @param int $editFlags Integer bitfield: see Article::doEdit
 	 * @throws MWException
-	 * @return \string Action result
+	 * @return string Action result
 	 */
-	public static function doAction( $action, $group, $key, $code, $message, $comment = '', $user = null, $editFlags = 0 ) {
+	public static function doAction( $action, $group, $key, $code, $message, $comment = '',
+		$user = null, $editFlags = 0
+	) {
 		global $wgTranslateDocumentationLanguageCode;
 
 		$title = self::makeTranslationTitle( $group, $key, $code );
@@ -362,7 +372,9 @@ class MessageWebImporter {
 			return self::doImport( $title, $message, $comment, $user, $editFlags );
 		} elseif ( $action === 'ignore' ) {
 			return array( 'translate-manage-import-ignore', $key );
-		} elseif ( $action === 'fuzzy' && $code !== 'en' && $code !== $wgTranslateDocumentationLanguageCode ) {
+		} elseif ( $action === 'fuzzy' && $code !== 'en' &&
+			$code !== $wgTranslateDocumentationLanguageCode
+		) {
 			$message = self::makeTextFuzzy( $message );
 
 			return self::doImport( $title, $message, $comment, $user, $editFlags );
@@ -383,7 +395,7 @@ class MessageWebImporter {
 	 * @param Title $title
 	 * @param $message
 	 * @param $comment
-	 * @param $user User
+	 * @param User $user
 	 * @param $editFlags
 	 * @return array
 	 */
@@ -397,24 +409,26 @@ class MessageWebImporter {
 				wfEscapeWikiText( $title->getPrefixedText() )
 			);
 		} else {
-			throw new MWException( "Failed to import new version of page {$title->getPrefixedText()}\n{$status->getWikiText()}" );
+			$text = "Failed to import new version of page {$title->getPrefixedText()}\n";
+			$text .= "{$status->getWikiText()}";
+			throw new MWException( $text );
 		}
 	}
 
 	/**
 	 * @static
 	 * @param Title $title
-	 * @param  $message
-	 * @param  $comment
-	 * @param  $user
+	 * @param $message
+	 * @param $comment
+	 * @param $user
 	 * @param int $editFlags
 	 * @return array|String
 	 */
 	public static function doFuzzy( $title, $message, $comment, $user, $editFlags = 0 ) {
-		global $wgUser;
+		$context = RequestContext::getMain();
 
-		if ( !$wgUser->isAllowed( 'translate-manage' ) ) {
-			return wfMessage( 'badaccess-group0' )->text();
+		if ( !$context->getUser()->isAllowed( 'translate-manage' ) ) {
+			return $context->msg( 'badaccess-group0' )->text();
 		}
 
 		$dbw = wfGetDB( DB_MASTER );
@@ -450,7 +464,9 @@ class MessageWebImporter {
 			$ttitle = Title::makeTitle( $row->page_namespace, $row->page_title );
 
 			// No fuzzy for English original or documentation language code.
-			if ( $ttitle->getSubpageText() == 'en' || $ttitle->getSubpageText() == $wgTranslateDocumentationLanguageCode ) {
+			if ( $ttitle->getSubpageText() === 'en' ||
+				$ttitle->getSubpageText() === $wgTranslateDocumentationLanguageCode
+			) {
 				// Use imported text, not database text.
 				$text = $message;
 			} else {
@@ -472,7 +488,7 @@ class MessageWebImporter {
 		$text = '';
 		foreach ( $changed as $c ) {
 			$key = array_shift( $c );
-			$text .= "* " . wfMessage( $key, $c )->plain() . "\n";
+			$text .= "* " . $context->msg( $key, $c )->plain() . "\n";
 		}
 
 		return array( 'translate-manage-import-fuzzy', "\n" . $text );
@@ -482,9 +498,9 @@ class MessageWebImporter {
 	 * Given a group, message key and language code, creates a title for the
 	 * translation page.
 	 *
-	 * @param $group MessageGroup
-	 * @param $key \string Message key
-	 * @param $code \string Language code
+	 * @param MessageGroup $group
+	 * @param string $key Message key
+	 * @param string $code Language code
 	 * @return Title
 	 */
 	public static function makeTranslationTitle( $group, $key, $code ) {
@@ -496,11 +512,11 @@ class MessageWebImporter {
 	/**
 	 * Make section elements.
 	 *
-	 * @param $legend \string Legend as raw html.
-	 * @param $type \string Contents of type class.
-	 * @param $content \string Contents as raw html.
-	 * @param $lang Language The language in which the text is written.
-	 * @return \string Section element as html.
+	 * @param string $legend Legend as raw html.
+	 * @param string $type Contents of type class.
+	 * @param string $content Contents as raw html.
+	 * @param Language $lang The language in which the text is written.
+	 * @return string Section element as html.
 	 */
 	public static function makeSectionElement( $legend, $type, $content, $lang = null ) {
 		$containerParams = array( 'class' => "mw-tpt-sp-section mw-tpt-sp-section-type-{$type}" );
@@ -522,7 +538,7 @@ class MessageWebImporter {
 	/**
 	 * Prepends translation with fuzzy tag and ensures there is only one of them.
 	 *
-	 * @param $message String: message content
+	 * @param string $message Message content
 	 * @return string Message prefixed with TRANSLATE_FUZZY tag
 	 */
 	public static function makeTextFuzzy( $message ) {
@@ -535,8 +551,8 @@ class MessageWebImporter {
 	 * Escape name such that it validates as name and id parameter in html, and
 	 * so that we can get it back with WebRequest::getVal(). Especially dot and
 	 * spaces are difficult for the latter.
-	 * @param $name \string
-	 * @return \string
+	 * @param string $name
+	 * @return string
 	 */
 	public static function escapeNameForPHP( $name ) {
 		$replacements = array(
@@ -552,6 +568,7 @@ class MessageWebImporter {
 
 		/* How nice of you PHP. No way to split array into keys and values in one
 		 * function or have str_replace which takes one array? */
+
 		return str_replace( array_keys( $replacements ), array_values( $replacements ), $name );
 	}
 }

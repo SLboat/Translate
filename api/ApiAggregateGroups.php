@@ -20,9 +20,7 @@ class ApiAggregateGroups extends ApiBase {
 	protected static $salt = 'translate-manage';
 
 	public function execute() {
-		global $wgUser;
-
-		if ( !$wgUser->isallowed( self::$right ) ) {
+		if ( !$this->getUser()->isallowed( self::$right ) ) {
 			$this->dieUsage( 'Permission denied', 'permissiondenied' );
 		}
 
@@ -68,7 +66,7 @@ class ApiAggregateGroups extends ApiBase {
 
 			TranslateMetadata::setSubgroups( $aggregateGroup, $subgroups );
 
-			$logparams = array(
+			$logParams = array(
 				'aggregategroup' => TranslateMetadata::get( $aggregateGroup, 'name' ),
 				'aggregategroup-id' => $aggregateGroup,
 			);
@@ -77,18 +75,19 @@ class ApiAggregateGroups extends ApiBase {
 			 * aggregate message groups, the message group object $group
 			 * might not always be available. In this case we need to fake
 			 * some title. */
-			$title = $group ? $group->getTitle() : Title::newFromText( "Special:Translate/$subgroupId" );
+			$title = $group ?
+				$group->getTitle() :
+				Title::newFromText( "Special:Translate/$subgroupId" );
 
 			$entry = new ManualLogEntry( 'pagetranslation', $action );
-			$entry->setPerformer( $wgUser );
+			$entry->setPerformer( $this->getUser() );
 			$entry->setTarget( $title );
 			// @todo
 			// $entry->setComment( $comment );
-			$entry->setParameters( $logparams );
+			$entry->setParameters( $logParams );
 
 			$logid = $entry->insert();
 			$entry->publish( $logid );
-
 		} elseif ( $action === 'remove' ) {
 			if ( !isset( $params['aggregategroup'] ) ) {
 				$this->dieUsageMsg( array( 'missingparam', 'aggregategroup' ) );
@@ -124,7 +123,6 @@ class ApiAggregateGroups extends ApiBase {
 			$output['groups'] = self::getAllPages();
 			$output['aggregategroupId'] = $aggregateGroupId;
 			// @todo Logging
-
 		}
 
 		// If we got this far, nothing has failed
@@ -140,7 +138,8 @@ class ApiAggregateGroups extends ApiBase {
 		if ( strlen( $aggregateGroupName ) + strlen( $prefix ) >= 200 ) {
 			return $prefix . substr( sha1( $aggregateGroupName ), 0, 5 );
 		} else {
-			return $prefix . preg_replace( '/[\x00-\x1f\x23\x27\x2c\x2e\x3c\x3e\x5b\x5d\x7b\x7c\x7d\x7f\s]+/i', '_', $aggregateGroupName );
+			$pattern = '/[\x00-\x1f\x23\x27\x2c\x2e\x3c\x3e\x5b\x5d\x7b\x7c\x7d\x7f\s]+/i';
+			return $prefix . preg_replace( $pattern, '_', $aggregateGroupName );
 		}
 	}
 
@@ -184,6 +183,7 @@ class ApiAggregateGroups extends ApiBase {
 
 	public function getParamDescription() {
 		$action = TranslateUtils::getTokenAction( 'aggregategroups' );
+
 		return array(
 			'do' => 'What to do with aggregate message group',
 			'group' => 'Message group id',
@@ -194,7 +194,6 @@ class ApiAggregateGroups extends ApiBase {
 		);
 	}
 
-
 	public function getDescription() {
 		return 'Manage aggregate message groups. You can add and remove aggregate message' .
 			'groups and associate or dissociate message groups from them (one at a time).';
@@ -202,6 +201,7 @@ class ApiAggregateGroups extends ApiBase {
 
 	public function getPossibleErrors() {
 		$right = self::$right;
+
 		return array_merge( parent::getPossibleErrors(), array(
 			array( 'code' => 'permissiondenied', 'info' => "You must have $right right" ),
 		) );
@@ -225,25 +225,26 @@ class ApiAggregateGroups extends ApiBase {
 				$pages[$group->getId()] = $group->getTitle()->getPrefixedText();
 			}
 		}
+
 		return $pages;
 	}
 
 	public static function getToken() {
-		global $wgUser;
-		if ( !$wgUser->isAllowed( self::$right ) ) {
+		$user = RequestContext::getMain()->getUser();
+		if ( !$user->isAllowed( self::$right ) ) {
 			return false;
 		}
 
-		return $wgUser->getEditToken( self::$salt );
+		return $user->getEditToken( self::$salt );
 	}
 
 	public static function injectTokenFunction( &$list ) {
 		$list['aggregategroups'] = array( __CLASS__, 'getToken' );
+
 		return true; // Hooks must return bool
 	}
 
 	public static function getRight() {
 		return self::$right;
 	}
-
 }

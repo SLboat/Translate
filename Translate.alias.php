@@ -92,6 +92,11 @@ $specialPageAliases['as'] = array(
 	'MyLanguage' => array( 'মোৰ_ভাষা' ),
 );
 
+/** Asturian (asturianu) */
+$specialPageAliases['ast'] = array(
+	'Translate' => array( 'Traducir' ),
+);
+
 /** Azerbaijani (azərbaycanca) */
 $specialPageAliases['az'] = array(
 	'Translations' => array( 'Tərcümələr' ),
@@ -239,6 +244,20 @@ $specialPageAliases['dsb'] = array(
 $specialPageAliases['dv'] = array(
 	'Translate' => array( 'ތަރުޖަމާކުރައްވާ' ),
 	'Translations' => array( 'ތަރުޖަމާތައް' ),
+);
+
+/** Greek (Ελληνικά) */
+$specialPageAliases['el'] = array(
+	'Translate' => array( 'Μετάφραση' ),
+	'TranslationStats' => array( 'ΣτατιστικάΜετάφρασης' ),
+	'Translations' => array( 'Μεταφράσεις' ),
+	'LanguageStats' => array( 'ΣτατιστικάΓλώσσας' ),
+	'PageTranslation' => array( 'ΜετάφρασηΣελίδας' ),
+	'ImportTranslations' => array( 'ΕισαγωγήΜεταφράσεων' ),
+	'ManageMessageGroups' => array( 'ΔιαχείρισηΟμάδωνΜηνυμάτων' ),
+	'FirstSteps' => array( 'ΠρώταΒήματα' ),
+	'MyLanguage' => array( 'ΗΓλώσσαΜου' ),
+	'SearchTranslations' => array( 'ΑναζήτησηΜεταφράσεων' ),
 );
 
 /** Esperanto (Esperanto) */
@@ -465,6 +484,7 @@ $specialPageAliases['ja'] = array(
 	'PageTranslationDeletePage' => array( 'ページ翻訳削除ページ' ),
 	'AggregateGroups' => array( '集約群' ),
 	'SearchTranslations' => array( '翻訳の検索' ),
+	'TranslateSandbox' => array( '翻訳者サンドボックスの管理' ),
 );
 
 /** Georgian (ქართული) */
@@ -510,6 +530,7 @@ $specialPageAliases['ko'] = array(
 	'PageTranslationDeletePage' => array( '문서번역삭제문서' ),
 	'AggregateGroups' => array( '집계그룹' ),
 	'SearchTranslations' => array( '번역찾기' ),
+	'TranslateSandbox' => array( '번역자연습장관리', '번역연습장' ),
 );
 
 /** Karachay-Balkar (къарачай-малкъар) */
@@ -561,6 +582,7 @@ $specialPageAliases['lb'] = array(
 	'MyLanguage' => array( 'Meng_Sprooch' ),
 	'PageTranslationDeletePage' => array( 'Läschsäit_fir_Iwwersetzungen' ),
 	'SearchTranslations' => array( 'Iwwersetzunge_sichen' ),
+	'TranslateSandbox' => array( 'Iwwersetzungssandkëscht_geréieren' ),
 );
 
 /** lumbaart (lumbaart) */
@@ -619,8 +641,10 @@ $specialPageAliases['mr'] = array(
 	'TranslationStats' => array( 'भाषांतरसांख्यिकी' ),
 	'Translations' => array( 'भाषांतरणे' ),
 	'LanguageStats' => array( 'भाषासांख्यिकी' ),
-	'PageTranslation' => array( 'पृष्ठभाषांतर' ),
+	'PageTranslation' => array( 'पृष्ठभाषांतर', 'पृष्ठअनुवाद' ),
 	'ImportTranslations' => array( 'भाषांतराआयात' ),
+	'MyLanguage' => array( 'माझीभाषा' ),
+	'SearchTranslations' => array( 'अनुवाद_शोधा' ),
 );
 
 /** Malay (Bahasa Melayu) */
@@ -716,6 +740,7 @@ $specialPageAliases['nl'] = array(
 	'PageTranslationDeletePage' => array( 'PaginavertalingpaginaVerwijderen' ),
 	'AggregateGroups' => array( 'SamengevoegdeGroepen' ),
 	'SearchTranslations' => array( 'VertalingenZoeken' ),
+	'TranslateSandbox' => array( 'VertalerszandbakBeheren' ),
 );
 
 /** Norwegian Nynorsk (norsk nynorsk) */
@@ -1060,4 +1085,5 @@ $specialPageAliases['zh-hant'] = array(
 	'PageTranslationDeletePage' => array( '刪除譯文頁面' ),
 	'AggregateGroups' => array( '聚合組' ),
 	'SearchTranslations' => array( '搜尋翻譯' ),
+	'TranslateSandbox' => array( '管理翻譯者沙盒' ),
 );

@@ -38,12 +38,15 @@
 		},
 
 		loadMessages: function ( changes ) {
-			var $loader = $( '.tux-messagetable-loader' );
+			// FIXME: this should be member method
+			var $container = $( '.tux-messagelist' ),
+				$loader = $( '.tux-messagetable-loader' ),
+				$statsbar = $( '.tux-message-list-statsbar' );
 
 			changes = changes || {};
 
 			// Clear current messages
-			$( '.tux-messagelist' ).trigger( 'clear' );
+			$container.trigger( 'clear' );
 
 			// Change the properties that are provided
 			if ( changes.filter !== undefined ) {
@@ -55,6 +58,15 @@
 
 			// Reset the number of messages remaining
 			$loader.find( '.tux-messagetable-loader-count' ).text( '' );
+
+			// Reset the statsbar
+			$statsbar
+				.empty()
+				.removeData()
+				.languagestatsbar( {
+					language: $container.data( 'targetlangcode' ),
+					group: $loader.data( 'messagegroup' )
+				} );
 
 			// Reset other info and make visible
 			$loader
@@ -111,10 +123,6 @@
 				delay( function () {
 					messageTable.search( $filterInput.val() );
 				}, 300 );
-			} );
-
-			$( '.tux-message-filter-box-clear' ).on( 'click', function () {
-				$filterInput.focus().val( '' ).trigger( 'input' );
 			} );
 
 			this.$container.on( 'clear', $.proxy( messageTable.clear, messageTable ) );
@@ -345,7 +353,6 @@
 
 			if ( !query ) {
 				$result.addClass( 'hide' );
-				$( '.tux-message-filter-box-clear' ).addClass( 'hide' );
 			} else {
 				$result.removeClass( 'hide' )
 					.find( 'div' )
@@ -354,7 +361,6 @@
 					window.location.href = new mw.Uri( mw.util.wikiGetlink( 'Special:SearchTranslations' ) )
 						.extend( { query: query } );
 				} );
-				$( '.tux-message-filter-box-clear' ).removeClass( 'hide' );
 			}
 
 			this.$loader.trigger( 'appear' );

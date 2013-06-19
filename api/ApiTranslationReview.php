@@ -100,6 +100,7 @@ class ApiTranslationReview extends ApiBase {
 
 		$handle = new MessageHandle( $title );
 		wfRunHooks( 'TranslateEventTranslationReview', array( $handle ) );
+
 		return true;
 	}
 
@@ -159,6 +160,7 @@ class ApiTranslationReview extends ApiBase {
 
 	public function getParamDescription() {
 		$action = TranslateUtils::getTokenAction( 'translationreview' );
+
 		return array(
 			'revision' => 'The revision number to review',
 			'token' => "A token previously acquired with $action",
@@ -171,6 +173,7 @@ class ApiTranslationReview extends ApiBase {
 
 	public function getPossibleErrors() {
 		$right = self::$right;
+
 		return array_merge( parent::getPossibleErrors(), array(
 			array( 'code' => 'permissiondenied', 'info' => "You must have $right right" ),
 			array( 'code' => 'unknownmessage', 'info' => 'Title $1 does not belong to a message group' ),
@@ -191,21 +194,21 @@ class ApiTranslationReview extends ApiBase {
 	}
 
 	public static function getToken() {
-		global $wgUser;
-		if ( !$wgUser->isAllowed( self::$right ) ) {
+		$user = RequestContext::getMain()->getUser();
+		if ( !$user->isAllowed( self::$right ) ) {
 			return false;
 		}
 
-		return $wgUser->getEditToken( self::$salt );
+		return $user->getEditToken( self::$salt );
 	}
 
 	public static function injectTokenFunction( &$list ) {
 		$list['translationreview'] = array( __CLASS__, 'getToken' );
+
 		return true; // Hooks must return bool
 	}
 
 	public static function getRight() {
 		return self::$right;
 	}
-
 }

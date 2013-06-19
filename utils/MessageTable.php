@@ -56,11 +56,11 @@ class MessageTable {
 		MessageCollection $collection,
 		MessageGroup $group
 	) {
-
-
 		$table = new self( $collection, $group );
 		$table->setContext( $context );
+
 		wfRunHooks( 'TranslateMessageTableInit', array( &$table, $context, $collection, $group ) );
+
 		return $table;
 	}
 
@@ -108,14 +108,15 @@ class MessageTable {
 	}
 
 	public function includeAssets() {
-		global $wgOut;
-		TranslationHelpers::addModules( $wgOut );
+		TranslationHelpers::addModules( $this->context->getOutput() );
 		$pages = array();
+
 		foreach ( $this->collection->getTitles() as $title ) {
 			$pages[] = $title->getPrefixedDBKey();
 		}
+
 		$vars = array( 'trlKeys' => $pages );
-		$wgOut->addScript( Skin::makeVariablesScript( $vars ) );
+		$this->context->getOutput()->addScript( Skin::makeVariablesScript( $vars ) );
 	}
 
 	public function header() {
@@ -146,7 +147,7 @@ class MessageTable {
 	}
 
 	public function contents() {
-		$optional = wfMessage( 'translate-optional' )->escaped();
+		$optional = $this->context->msg( 'translate-optional' )->escaped();
 
 		$this->doLinkBatch();
 
@@ -157,6 +158,7 @@ class MessageTable {
 		$output = '';
 
 		$this->collection->initMessages(); // Just to be sure
+
 		/**
 		 * @var TMessage $m
 		 */
@@ -171,6 +173,7 @@ class MessageTable {
 			$translation = $m->translation();
 
 			$hasTranslation = $translation !== null;
+
 			if ( $hasTranslation ) {
 				$message = $translation;
 				$extraAttribs = self::getLanguageAttributes( $targetLang );
@@ -179,13 +182,18 @@ class MessageTable {
 				$extraAttribs = self::getLanguageAttributes( $sourceLang );
 			}
 
-			wfRunHooks( 'TranslateFormatMessageBeforeTable', array( &$message, $m, $this->group, $targetLang, &$extraAttribs ) );
+			wfRunHooks(
+				'TranslateFormatMessageBeforeTable',
+				array( &$message, $m, $this->group, $targetLang, &$extraAttribs )
+			);
 
 			// Using Html::element( a ) because Linker::link is memory hog.
 			// It takes about 20 KiB per call, and that times 5000 is quite
 			// a lot of memory.
-			global $wgLang;
-			$niceTitle = htmlspecialchars( $wgLang->truncate( $title->getPrefixedText(), -35 ) );
+			$niceTitle = htmlspecialchars( $this->context->getLanguage()->truncate(
+				$title->getPrefixedText(),
+				-35
+			) );
 			$linkAttribs = array(
 				'href' => $title->getLocalUrl( array( 'action' => 'edit' ) + $this->editLinkParams ),
 			);
@@ -241,6 +249,7 @@ class MessageTable {
 
 		$content = $this->header() . $this->contents() . '</table>';
 		$pager = $this->doStupidLinks( $offsets, $nondefaults );
+
 		if ( $offsets['count'] === 0 ) {
 			return $pager;
 		} elseif ( $offsets['count'] === $offsets['total'] ) {
@@ -267,8 +276,10 @@ class MessageTable {
 
 	protected static function getLanguageAttributes( Language $language ) {
 		global $wgTranslateDocumentationLanguageCode;
+
 		$code = $language->getCode();
 		$dir = $language->getDir();
+
 		if ( $code === $wgTranslateDocumentationLanguageCode ) {
 			// Should be good enough for now
 			$code = 'en';
@@ -278,9 +289,10 @@ class MessageTable {
 	}
 
 	protected function getReviewButton( TMessage $message ) {
-		global $wgUser;
 		$revision = $message->getProperty( 'revision' );
-		if ( !$this->reviewMode || !$wgUser->isAllowed( 'translate-messagereview' ) || !$revision ) {
+		$user = $this->context->getUser();
+
+		if ( !$this->reviewMode || !$user->isAllowed( 'translate-messagereview' ) || !$revision ) {
 			return '';
 		}
 
@@ -293,7 +305,7 @@ class MessageTable {
 		);
 
 		$reviewers = (array)$message->getProperty( 'reviewers' );
-		if ( in_array( $wgUser->getId(), $reviewers ) ) {
+		if ( in_array( $user->getId(), $reviewers ) ) {
 			$attribs['value'] = wfMessage( 'translate-messagereview-done' )->text();
 			$attribs['disabled'] = 'disabled';
 			$attribs['title'] = wfMessage( 'translate-messagereview-doit' )->text();
@@ -301,7 +313,7 @@ class MessageTable {
 			$attribs['value'] = wfMessage( 'translate-messagereview-submit' )->text();
 			$attribs['disabled'] = 'disabled';
 			$attribs['title'] = wfMessage( 'translate-messagereview-no-fuzzy' )->text();
-		} elseif ( $wgUser->getName() === $message->getProperty( 'last-translator-text' ) ) {
+		} elseif ( $user->getName() === $message->getProperty( 'last-translator-text' ) ) {
 			$attribs['value'] = wfMessage( 'translate-messagereview-submit' )->text();
 			$attribs['disabled'] = 'disabled';
 			$attribs['title'] = wfMessage( 'translate-messagereview-no-own' )->text();
@@ -309,8 +321,8 @@ class MessageTable {
 			$attribs['value'] = wfMessage( 'translate-messagereview-submit' )->text();
 		}
 
-
 		$review = Html::element( 'input', $attribs );
+
 		return $review;
 	}
 
@@ -318,18 +330,19 @@ class MessageTable {
 	protected $reviewStatusCache = array();
 
 	protected function getReviewStatus( TMessage $message ) {
-		global $wgUser;
 		if ( !$this->reviewMode ) {
 			return '';
 		}
 
 		$reviewers = (array)$message->getProperty( 'reviewers' );
 		$count = count( $reviewers );
+
 		if ( $count === 0 ) {
 			return '';
 		}
 
-		$you = in_array( $wgUser->getId(), $reviewers );
+		$userId = $this->context->getUser()->getId();
+		$you = in_array( $userId, $reviewers );
 		$key = $you ? "y$count" : "n$count";
 
 		// ->text() (and ->parse()) invokes the parser. Each call takes
@@ -345,15 +358,18 @@ class MessageTable {
 
 		$wrap = Html::rawElement( 'div', array( 'class' => 'mw-translate-messagereviewstatus' ), $msg );
 		$this->reviewStatusCache[$key] = $wrap;
+
 		return $wrap;
 	}
 
 	protected function doLinkBatch() {
 		$batch = new LinkBatch();
 		$batch->setCaller( __METHOD__ );
+
 		foreach ( $this->collection->getTitles() as $title ) {
 			$batch->addObj( $title );
 		}
+
 		$batch->execute();
 	}
 
@@ -371,6 +387,7 @@ class MessageTable {
 			$navigation = wfMessage( 'translate-page-showing-all' )->numParams( $total )->parse();
 		} else {
 			$previous = wfMessage( 'translate-prev' )->escaped();
+
 			if ( $info['backwardsOffset'] !== false ) {
 				$previous = $this->makeOffsetLink( $previous, $info['backwardsOffset'], $nondefaults );
 			}
@@ -384,13 +401,14 @@ class MessageTable {
 			$stop = $start + $info['count'] - 1;
 			$total = $info['total'];
 
-			$navigation = wfMessage( 'translate-page-showing' )->numParams( $start, $stop, $total )->parse();
+			$navigation = wfMessage( 'translate-page-showing' )
+				->numParams( $start, $stop, $total )->parse();
 			$navigation .= ' ';
-			$navigation .= wfMessage( 'translate-page-paging-links' )->rawParams( $previous, $nextious )->escaped();
+			$navigation .= wfMessage( 'translate-page-paging-links' )
+				->rawParams( $previous, $nextious )->escaped();
 		}
 
-		return
-			Html::openElement( 'fieldset' ) .
+		return Html::openElement( 'fieldset' ) .
 			Html::element( 'legend', array(), wfMessage( 'translate-page-navigation-legend' )->text() ) .
 			$navigation .
 			Html::closeElement( 'fieldset' );
@@ -411,5 +429,4 @@ class MessageTable {
 
 		return $link;
 	}
-
 }

@@ -9,7 +9,7 @@
  */
 
 $optionsWithArgs = array( 'groups' );
-require( dirname( __FILE__ ) . '/cli.inc' );
+require __DIR__ . '/cli.inc';
 
 $codes = Language::getLanguageNames( false );
 
@@ -67,6 +67,8 @@ foreach ( $groups as $g ) {
 
 		$collection->resetForNewLanguage( $code );
 		$collection->loadTranslations();
+
+		global $wgContLang;
 
 		foreach ( $collection as $key => $message ) {
 			$prob = $checker->checkMessageFast( $message, $code );

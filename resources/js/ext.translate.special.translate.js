@@ -97,27 +97,46 @@
 			} );
 
 			mw.translate.changeUrl( changes );
+			mw.translate.updateTabLinks( changes );
 			mw.translate.loadMessages( changes );
 			updateGroupWarning();
 		},
 
 		changeLanguage: function ( language ) {
-			var changes = {
-				language: language
-			};
+			var changes, targetDir, targetLangAttrib,
+				userLanguageCode = mw.config.get( 'wgUserLanguage' );
 
 			if ( !checkDirty() ) {
 				return;
 			}
 
-			$( '.ext-translate-language-selector > .uls' ).text( $.uls.data.getAutonym( language ) );
+			changes = {
+				language: language
+			};
+
+			if ( language === mw.config.get( 'wgTranslateDocumentationLanguageCode' ) ) {
+				targetLangAttrib = userLanguageCode;
+				targetDir = $.uls.data.getDir( userLanguageCode );
+			} else {
+				targetLangAttrib = language;
+				targetDir = $.uls.data.getDir( language );
+			}
+
+			// Changes to attributes must also be reflected
+			// when the element is created on the server side
+			$( '.ext-translate-language-selector > .uls' )
+				.text( $.uls.data.getAutonym( language ) )
+				.attr( {
+					lang: targetLangAttrib,
+					dir: targetDir
+				} );
 			$( '.tux-messagelist' ).data( {
 				targetlangcode: language,
-				targetlangdir: $.uls.data.getDir( language )
+				targetlangdir: targetDir
 			} );
 
 			mw.translate.changeUrl( changes );
-			$( '.tux-statsbar' ).trigger( 'refresh', language );
+			mw.translate.updateTabLinks( changes );
 			mw.translate.loadMessages();
 			updateGroupWarning();
 		},
@@ -159,6 +178,22 @@
 				// For old browsers, just reload
 				window.location.href = uri.toString();
 			}
+		},
+
+		/**
+		 * Updates the navigation tabs.
+		 * @param {Object} params Url parameters to update.
+		 * @since 2013.05
+		 */
+		updateTabLinks: function ( params ) {
+			$( '.tux-tab a' ).each( function () {
+				var $a, uri;
+
+				$a = $( this );
+				uri = new mw.Uri( $a.prop( 'href' ) );
+				uri.extend( params );
+				$a.prop( 'href', uri.toString() );
+			} );
 		}
 	} );
 
@@ -250,11 +285,6 @@
 			mw.translate.loadMessageGroups()
 		).then( function () {
 			$( '.ext-translate-msggroup-selector .grouplink' ).trigger( 'dataready.translate' );
-			$( '.tux-message-list-statsbar' ).languagestatsbar( {
-				language: targetLanguage,
-				group: $( '.tux-message-list-statsbar' ).data( 'messagegroup' )
-			} );
-
 			updateGroupWarning();
 		} );
 

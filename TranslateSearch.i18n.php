@@ -27,7 +27,7 @@ $messages['en'] = array(
 	'tux-sst-nosolr-title' => 'Search unavailable',
 	'tux-sst-nosolr-body' => 'This wiki does not have a translation search service.',
 	'tux-sst-solr-offline-title' => 'Search unavailable',
-	'tux-sst-solr-offline-body' => 'Search service is temporarily unavailable.',
+	'tux-sst-solr-offline-body' => 'The search service is temporarily unavailable.',
 
 	'tux-sst-next' => 'Next results',
 	'tux-sst-prev' => 'Previous results',
@@ -133,6 +133,13 @@ $messages['be-tarask'] = array(
 	'tux-sst-prev' => 'Папярэднія вынікі',
 );
 
+/** Bengali (বাংলা)
+ * @author Aftab1995
+ */
+$messages['bn'] = array(
+	'tux-sst-solr-offline-body' => 'অনুসন্ধান পরিষেবাটি সাময়িকভাবে অনুপলব্ধ।',
+);
+
 /** Breton (brezhoneg)
  * @author Fohanno
  */
@@ -225,6 +232,8 @@ $messages['et'] = array(
 	'tux-sst-nosolr-body' => 'Sellel vikil pole tõlkeotsimisteenust.',
 	'tux-sst-solr-offline-title' => 'Otsing pole saadaval',
 	'tux-sst-solr-offline-body' => 'Otsimisteenus pole ajutiselt saadaval.',
+	'tux-sst-next' => 'Järgmised tulemused',
+	'tux-sst-prev' => 'Eelmised tulemused',
 );
 
 /** Basque (euskara)
@@ -435,7 +444,7 @@ $messages['ksh'] = array(
 	'tux-sst-search-ph' => 'Övversäzonge söhke',
 	'tux-sst-count' => '{{PLURAL:$1|Eine|$1|Nix}} jefonge',
 	'tux-sst-facet-language' => 'Schprooche',
-	'tux-sst-facet-group' => 'Nohrechtejroppe',
+	'tux-sst-facet-group' => 'Nohreeschtejroppe',
 	'tux-sst-facet-orphan' => '(kein Jropp)',
 	'tux-sst-nosolr-title' => 'Söhke es nit müjjelesch.',
 	'tux-sst-nosolr-body' => 'En heh däm Wiki kammer nit noh Översäzonge söhke.',
@@ -527,6 +536,10 @@ $messages['ms'] = array(
 	'tux-sst-facet-orphan' => '(yatim)',
 	'tux-sst-nosolr-title' => 'Tidak boleh mencari',
 	'tux-sst-nosolr-body' => 'Wiki ini tiada ciri mencari terjemahan.',
+	'tux-sst-solr-offline-title' => 'Tidak boleh mencari',
+	'tux-sst-solr-offline-body' => 'Perkhidmatan pencarian tidak disediakan buat sementara waktu.',
+	'tux-sst-next' => 'Hasil berikutnya',
+	'tux-sst-prev' => 'Hasil terdahulu',
 );
 
 /** Dutch (Nederlands)
@@ -547,6 +560,25 @@ $messages['nl'] = array(
 	'tux-sst-solr-offline-body' => 'De zoekdienst is tijdelijk niet beschikbaar.',
 	'tux-sst-next' => 'Volgende resultaten',
 	'tux-sst-prev' => 'Vorige resultaten',
+);
+
+/** Norwegian Nynorsk (norsk nynorsk)
+ * @author Njardarlogar
+ */
+$messages['nn'] = array(
+	'searchtranslations' => 'Søk i omsetjingar',
+	'tux-sst-edit' => 'Endra omsetjing',
+	'tux-sst-search' => 'Søk',
+	'tux-sst-search-ph' => 'Søk i omsetjingar',
+	'tux-sst-count' => 'Fann {{PLURAL:$1|eitt|$1}} resultat',
+	'tux-sst-facet-language' => 'Språk',
+	'tux-sst-facet-group' => 'Meldingsgrupper',
+	'tux-sst-nosolr-title' => 'Søket er ikkje tilgjengeleg',
+	'tux-sst-nosolr-body' => 'Denne wikien har ikkje eit omsetjingssøk',
+	'tux-sst-solr-offline-title' => 'Søket er ikkje tilgjengeleg',
+	'tux-sst-solr-offline-body' => 'Søket er mellombels utilgjengeleg',
+	'tux-sst-next' => 'Dei neste resultata',
+	'tux-sst-prev' => 'Dei førre resultata',
 );
 
 /** Occitan (occitan)
@@ -575,19 +607,27 @@ $messages['pl'] = array(
 );
 
 /** Piedmontese (Piemontèis)
+ * @author Borichèt
  * @author Dragonòt
  */
 $messages['pms'] = array(
-	'searchtranslations' => 'Serca tradussion',
-	'tux-sst-edit' => 'Modìfica mëssagi',
+	'searchtranslations' => 'Arserca ëd tradussion',
+	'tux-sst-edit' => 'Modifiché la tradussion',
 	'tux-sst-search' => 'Sërca',
-	'tux-sst-search-ph' => 'Serca tradussion',
+	'tux-sst-search-ph' => 'Arserca ëd tradussion',
 	'tux-sst-count' => '{{PLURAL:$1|Un arzultà trovà|$1 arzultà trovà}}',
 	'tux-sst-facet-language' => 'Lenghe',
 	'tux-sst-facet-group' => 'Partìe ëd mëssagi',
-	'tux-sst-facet-orphan' => '(orfanel)',
-	'tux-sst-nosolr-title' => 'Serca pa disponìbil',
-	'tux-sst-nosolr-body' => "La wiki a l'ha pa un sërvissi d'arserca ëd tradussion.",
+	'tux-sst-facet-orphan' => '(orfanin)',
+	'tux-sst-nosolr-title' => 'Arserca nen disponìbil',
+	'tux-sst-nosolr-body' => "La wiki a l'ha pa un servissi d'arserca ëd tradussion.",
+);
+
+/** Brazilian Portuguese (português do Brasil)
+ * @author Luckas
+ */
+$messages['pt-br'] = array(
+	'tux-sst-edit' => 'Editar tradução',
 );
 
 /** Romanian (română)
@@ -750,6 +790,7 @@ $messages['yi'] = array(
 
 /** Simplified Chinese (中文（简体）‎)
  * @author Hydra
+ * @author Li3939108
  * @author Yfdyh000
  */
 $messages['zh-hans'] = array(
@@ -765,6 +806,8 @@ $messages['zh-hans'] = array(
 	'tux-sst-nosolr-body' => '此wiki没有翻译搜索服务。',
 	'tux-sst-solr-offline-title' => '搜索不可用',
 	'tux-sst-solr-offline-body' => '搜索服务暂时不可用。',
+	'tux-sst-next' => '下一个结果',
+	'tux-sst-prev' => '上一个结果',
 );
 
 /** Traditional Chinese (中文（繁體）‎)

@@ -46,7 +46,7 @@ Here you can choose which languages, if any, you would like to see.",
 	'translate-fs-userpage-level-3' => 'I have a good command of',
 	'translate-fs-userpage-level-2' => 'I have a moderate command of',
 	'translate-fs-userpage-level-1' => 'I know a little',
-	'translate-fs-userpage-help' => 'Please indicate your language skills and tell us something about yourself. If you know more than five languages you can add more later.',
+	'translate-fs-userpage-help' => 'Please indicate your language skills and tell something about yourself. If you know more than five languages, you can add more later.',
 	'translate-fs-userpage-submit' => 'Create your userpage',
 	'translate-fs-userpage-done' => 'Well done! You now have an user page.',
 	'translate-fs-permissions-planguage' => "Primary language:",
@@ -846,7 +846,7 @@ Hier kannst du wählen, welche Sprachen du, wenn überhaupt, angezeigt bekommen 
 	'translate-fs-userpage-level-3' => 'Ich habe gute Kenntnisse',
 	'translate-fs-userpage-level-2' => 'Ich habe mittelmäßige Kenntnisse',
 	'translate-fs-userpage-level-1' => 'Ich habe kaum Kenntnisse',
-	'translate-fs-userpage-help' => 'Bitte gib deine Sprachkenntnisse an und teile uns etwas über dich mit. Sofern du Kenntnisse zu mehr als fünf Sprachen hast, kannst du diese später angeben.',
+	'translate-fs-userpage-help' => 'Bitte gib deine Sprachkenntnisse an und erzähle etwas über dich. Sofern du Kenntnisse zu mehr als fünf Sprachen hast, kannst du diese später angeben.',
 	'translate-fs-userpage-submit' => 'Erstelle deine Benutzerseite',
 	'translate-fs-userpage-done' => 'Gut gemacht! Du hast nun eine Benutzerseite',
 	'translate-fs-permissions-planguage' => 'Hauptsprache:',
@@ -1397,7 +1397,7 @@ Ici, vous pouvez choisir quelles langues, si c'est le cas, vous aimeriez voir.",
 	'translate-fs-userpage-level-3' => "J'ai une bonne maîtrise de",
 	'translate-fs-userpage-level-2' => "J'ai une maîtrise modérée de",
 	'translate-fs-userpage-level-1' => 'Je connais un peu',
-	'translate-fs-userpage-help' => 'Veuillez indiquer vos compétences linguistiques et nous parler un peu de vous-même. Si vous connaissez plus de cinq langues, vous pourrez en ajouter plus tard.',
+	'translate-fs-userpage-help' => 'Veuillez indiquer vos compétences linguistiques et parler un peu de vous-même. Si vous connaissez plus de cinq langues, vous pourrez en ajouter plus tard.',
 	'translate-fs-userpage-submit' => 'Créer votre page utilisateur',
 	'translate-fs-userpage-done' => 'Bien joué ! Vous avez à présent une page utilisateur.',
 	'translate-fs-permissions-planguage' => 'Langue principale:',
@@ -1533,7 +1533,7 @@ Aquí pode elixir, se quere, as linguas que queira ver.',
 	'translate-fs-userpage-level-3' => 'Teño un bo dominio de',
 	'translate-fs-userpage-level-2' => 'Teño un dominio moderado de',
 	'translate-fs-userpage-level-1' => 'Sei un pouco de',
-	'translate-fs-userpage-help' => 'Indique as súas competencias lingüísticas e cóntenos algo sobre vostede. Se sabe máis de cinco linguas pódeas engadir máis adiante.',
+	'translate-fs-userpage-help' => 'Indique as súas competencias lingüísticas e conte algo sobre vostede. Se sabe máis de cinco linguas, pódeas engadir máis adiante.',
 	'translate-fs-userpage-submit' => 'Crear a súa páxina de usuario',
 	'translate-fs-userpage-done' => 'Ben feito! Agora xa ten unha páxina de usuario.',
 	'translate-fs-permissions-planguage' => 'Lingua principal:',
@@ -1630,6 +1630,70 @@ Du chunnsch derno derzue eimol im Monet e Newsletter iber.
 Wänn Du kei Newsletter witt iberchuu, chasch di im Tab „{{int:prefs-personal}}“ in [[Special:Preferences|Dyyne Yystellige]] uustrage.',
 );
 
+/** Hakka (Hak-kâ-fa)
+ * @author Anson2812
+ * @author Jetlag
+ */
+$messages['hak'] = array(
+	'firststeps' => '第一步',
+	'firststeps-desc' => '讓用戶開始維基翻譯嘅[[Special:FirstSteps|引導頁面]]',
+	'translate-fs-pagetitle-done' => '搞掂！',
+	'translate-fs-pagetitle-pending' => ' - 待定',
+	'translate-fs-pagetitle' => '入門指導 - $1',
+	'translate-fs-signup-title' => '註冊',
+	'translate-fs-settings-title' => '設定汝嘅偏好',
+	'translate-fs-userpage-title' => '建立汝嘅用戶頁',
+	'translate-fs-permissions-title' => '請求翻譯者權限',
+	'translate-fs-target-title' => '開始翻譯！',
+	'translate-fs-email-title' => '確認汝嘅電郵地址',
+	'translate-fs-intro' => "歡迎來到 {{SITENAME}} 入門指導。
+汝將會分指導如何成為一名翻譯者。
+最後你將可以翻譯 {{SITENAME}} 裏肚所有計畫个''界面訊息''.",
+	'translate-fs-selectlanguage' => '選一種語言',
+	'translate-fs-settings-planguage' => '首選語言：',
+	'translate-fs-settings-planguage-desc' => '該首選語言作為邇隻維基項目嘅用戶界面，
+並成為默認嘅翻譯目標語言。',
+	'translate-fs-settings-slanguage' => '輔助語言$1：',
+	'translate-fs-settings-slanguage-desc' => '在翻譯編輯器之內可以顯示其他語言翻譯个消息。
+汝可以在邇位選擇您想顯示个語言。',
+	'translate-fs-settings-submit' => '儲存設定',
+	'translate-fs-userpage-level-N' => '𠊎嘅母語係',
+	'translate-fs-userpage-level-5' => '𠊎可以專業嘅翻譯邇種語言',
+	'translate-fs-userpage-level-4' => '𠊎熟練到像母語者共樣流利',
+	'translate-fs-userpage-level-3' => '𠊎掌握到還算可以',
+	'translate-fs-userpage-level-2' => '𠊎掌握到一般般',
+	'translate-fs-userpage-level-1' => '𠊎稍微知一滴',
+	'translate-fs-userpage-help' => '請標明汝嘅語言能力，並作自我介紹。係讲汝知得超過五種語言，汝做得另擺添加又較多。', # Fuzzy
+	'translate-fs-userpage-submit' => '建立汝嘅用戶頁',
+	'translate-fs-userpage-done' => '當好！今下汝擁有矣一隻使用者頁面。',
+	'translate-fs-permissions-planguage' => '首選語言：',
+	'translate-fs-permissions-help' => '今下，汝需要請求參加翻譯組。
+請選擇汝想愛加入翻譯嘅首選語言。
+
+您可以在以下嘅文本框裏肚提及其他語言與其他備註。',
+	'translate-fs-permissions-pending' => '汝嘅請求已提交至[[$1]]，站點管理員會儘快查閱汝嘅請求。
+係話汝已驗證汝嘅電子郵箱，遐時邇隻請求有答覆矣，就會發送郵件分汝。',
+	'translate-fs-permissions-submit' => '發送請求',
+	'translate-fs-target-text' => '恭喜 ！
+汝今下做得開始翻譯。
+
+係話汝還係試到毋知若何做，莫驚！
+在[[Project list|項目列表]] 有汝可以貢獻嘅翻譯項目嘅概述。
+大部分嘅項目有一隻簡短嘅說明頁與“翻譯邇隻項目”鏈接，其將帶汝到一隻頁面，其中列出矣所有還吂翻譯嘅消息。
+ [[Special:LanguageStats|同一語言中所有還吂翻譯嘅訊息]]列表也係一隻好起點。
+
+係話汝開始翻譯前想了解更多，汝可以去看一下[[FAQ|常見問題]]。
+毋好彩嘅係文檔可能係舊版，如果汝尋毋到答案，莫愁，請到[[Support|幫助頁]]發問。
+
+汝也可以在[[Portal:$1|語言門戶]] 嘅[[Portal_talk:$1|talk 頁]]聯繫相同語言嘅翻譯人員在。
+請到[[Special:Preferences|偏好設定]]設定汝嘅用戶界面與愛翻譯嘅語言，以便wiki顯示最合適汝嘅鏈接。',
+	'translate-fs-email-text' => '請到[[Special:Preferences|偏好設定]]留下並確認汝嘅電郵地址。
+
+邇樣做得使其他譯者聯絡汝，汝也可收取我等嘅每月電子報。
+
+係話汝不想收到月刊，可以到[[Special:Preferences|偏好設定]]頁面嘅{{int:prefs-personal}}標籤選擇停止接收。',
+);
+
 /** Hawaiian (Hawai`i)
  * @author Kolonahe
  */
@@ -1703,7 +1767,7 @@ $messages['he'] = array(
 	'translate-fs-userpage-level-3' => 'אני יודע טוב',
 	'translate-fs-userpage-level-2' => 'אני יודע באופן בינוני',
 	'translate-fs-userpage-level-1' => 'אני יודע קצת',
-	'translate-fs-userpage-help' => 'אנא ציינו את כישורי השפה שלכם וספרו לנו כמה דברים על עצמכם. אם אתם יודעים יותר מחמש שפות, אפשר להוסיף אותן מאוחר יותר.',
+	'translate-fs-userpage-help' => 'נא לציין את כישורי השפה שלך ולספר לנו כמה דברים על עצמך. מי שיודע יותר מחמש שפות, יכול להוסיף אותן מאוחר יותר.',
 	'translate-fs-userpage-submit' => 'יצירת דף המשתמש שלך',
 	'translate-fs-userpage-done' => 'מצוין! כעת יש לך דף משתמש.',
 	'translate-fs-permissions-planguage' => 'שפה עיקרית:',
@@ -2092,7 +2156,7 @@ Qui puoi scegliere eventualmente quali lingue vuoi vedere.",
 	'translate-fs-userpage-level-3' => 'Ho una buona conoscenza di',
 	'translate-fs-userpage-level-2' => 'Ho una discreta conoscenza di',
 	'translate-fs-userpage-level-1' => "Conosco un po' di",
-	'translate-fs-userpage-help' => 'Indica le tue abilità linguistiche e dicci qualcosa di te. Se conosci più di cinque lingue puoi aggiungerne altre in seguito.',
+	'translate-fs-userpage-help' => 'Indica le tue abilità linguistiche e dicci qualcosa di te. Se conosci più di cinque lingue, puoi aggiungerne altre in seguito.',
 	'translate-fs-userpage-submit' => 'Crea la tua pagina utente',
 	'translate-fs-userpage-done' => 'Ben fatto! Ora hai una pagina utente.',
 	'translate-fs-permissions-planguage' => 'Lingua principale:',
@@ -2354,7 +2418,7 @@ $messages['ksh'] = array(
 	'translate-fs-userpage-title' => 'Metmaachersigg aanlääje',
 	'translate-fs-permissions-title' => 'Noh dem Rääsch als {{int:Group-translator-member}} froore',
 	'translate-fs-target-title' => 'Loßlääje mem Övversäze!',
-	'translate-fs-email-title' => 'De <i lang="en">e-mail</i> Adress bestätije',
+	'translate-fs-email-title' => 'De <i lang="en">e-mail</i> Adräß beschtääteje',
 	'translate-fs-intro' => 'Wellkumme bei {{GRAMMAR:Genitiv ier|{{SITENAME}}}} Hölp bei de eetsde Schredde för neu Metmaacher.
 Heh kreß De Schrett för Schrett jesaat, wi De ene Övversäzer weeß.
 Aam Engk kanns De de Täxte un Nohreeschte uß alle Projäkte övversäze, di {{GRAMMAR:em Dativ|{{SITENAME}}}} ongerstöz wääde.',
@@ -2370,7 +2434,7 @@ Aam Engk kanns De de Täxte un Nohreeschte uß alle Projäkte övversäze, di {{
 	'translate-fs-userpage-level-3' => 'Esch kann joot ömjonn met dä Schprooch:',
 	'translate-fs-userpage-level-2' => 'Esch kann di Schprooch meddelmääßesch:',
 	'translate-fs-userpage-level-1' => 'Esch kann e beßje vun dä Schprooch:',
-	'translate-fs-userpage-help' => 'Jiv Ding Shprooche aan un sach ons jät övvr Desch. Wann De mieh wi fönnef Schprooche kanns, kanns De di schpääder emmer noch derbei donn.',
+	'translate-fs-userpage-help' => 'Jiv Ding Shprooche aan, un sach ons jät övvr Desch. Wann De mieh wi fönnef Schprooche kanns, kanns De di schpääder emmer noch derbei donn.',
 	'translate-fs-userpage-submit' => 'Don en Metmaachersigg för Desch aanlääje',
 	'translate-fs-userpage-done' => 'Joot jemaat! Jäz häs De en Metmaachersigg.',
 	'translate-fs-permissions-planguage' => 'Ding Houpshprooch:',
@@ -2448,7 +2512,7 @@ Hei kënnt Dir eraussiche wat fir eng Sprooch, wann Dir dat wëllt, Dir gesi wë
 	'translate-fs-userpage-level-3' => 'Ech ka mech gutt ausdrécken op',
 	'translate-fs-userpage-level-2' => 'Ech hu mëttelméisseg Kenntnisser vu(n)',
 	'translate-fs-userpage-level-1' => 'Ech kann a bëssen',
-	'translate-fs-userpage-help' => 'Gitt w.e.g. Är Sproochkenntnisser un an erziel eis eppes iwwer Iech. Wann Dir méi wéi fënnef Sprooche kënnt da kënnt Dir déi méi spéit derbäisetzen.',
+	'translate-fs-userpage-help' => 'Gitt w.e.g. Är Sproochkenntnisser un an erzielt eppes iwwer Iech. Wann Dir méi wéi fënnef Sprooche kënnt da kënnt Dir déi méi spéit derbäisetzen.',
 	'translate-fs-userpage-submit' => 'Är Benotzersäit maachen',
 	'translate-fs-userpage-done' => 'Gutt gemaach! dir hutt elo eng Benotzersäit.',
 	'translate-fs-permissions-planguage' => 'Haaptsprooch:',
@@ -2559,7 +2623,7 @@ $messages['mk'] = array(
 	'firststeps' => 'Први чекори',
 	'firststeps-desc' => '[[Special:FirstSteps|Специјална страница]] за помош со првите чекори на вики што го користи додатокот Преведување (Translate)',
 	'translate-fs-pagetitle-done' => '- завршено!',
-	'translate-fs-pagetitle-pending' => ' - во исчекување',
+	'translate-fs-pagetitle-pending' => ' — во исчекување',
 	'translate-fs-pagetitle' => 'Помошник „Како да започнете“ - $1',
 	'translate-fs-signup-title' => 'Регистрација',
 	'translate-fs-settings-title' => 'Поставете ги вашите нагодувања',
@@ -2838,7 +2902,7 @@ Hier kunt u kiezen welke talen u wilt zien.',
 	'translate-fs-userpage-level-3' => 'Deze taal beheers ik goed',
 	'translate-fs-userpage-level-2' => 'Deze taal beheers ik gemiddeld',
 	'translate-fs-userpage-level-1' => 'Deze taal ken ik een beetje',
-	'translate-fs-userpage-help' => 'Geef uw taalvaardigheden aan en vertel ons iets over uzelf. Als u meer dan vijf talen kent, kunt u er later meer toevoegen.',
+	'translate-fs-userpage-help' => 'Geef uw taalvaardigheden aan en vertel iets over uzelf. Als u meer dan vijf talen kent, kunt u er later meer toevoegen.',
 	'translate-fs-userpage-submit' => 'Uw gebruikerspagina aanmaken',
 	'translate-fs-userpage-done' => 'Goed gedaan!
 U hebt nu een gebruikerspagina.',
@@ -3178,6 +3242,7 @@ Se não deseja receber as newsletters, pode optar por não recebê-las no separa
 
 /** Brazilian Portuguese (português do Brasil)
  * @author Giro720
+ * @author Luckas
  * @author 555
  */
 $messages['pt-br'] = array(
@@ -3209,8 +3274,8 @@ Aqui você os escolherá, se assim desejar.',
 	'translate-fs-userpage-level-3' => 'Tenho um bom domínio de',
 	'translate-fs-userpage-level-2' => 'Tenho conhecimentos moderados de',
 	'translate-fs-userpage-level-1' => 'Sei um pouco de',
-	'translate-fs-userpage-help' => 'Indique suas habilidades em idiomas e nos fale algo sobre você. Caso tenha conhecimentos em mais de cinco idiomas, será possível especificá-los em outro momento.',
-	'translate-fs-userpage-submit' => 'Criar a minha página de usuário',
+	'translate-fs-userpage-help' => 'Indique suas habilidades em idiomas e nos fale algo sobre você. Caso tenha conhecimentos em mais de cinco idiomas, será possível especificá-los em outro momento.', # Fuzzy
+	'translate-fs-userpage-submit' => 'Criar a sua página de usuário',
 	'translate-fs-userpage-done' => 'Bom trabalho! Agora você tem uma página de usuário.',
 	'translate-fs-permissions-planguage' => 'Idioma principal:',
 	'translate-fs-permissions-help' => 'Agora você precisa realizar o pedido de adição ao grupo com privilégios de tradução.
@@ -3491,8 +3556,8 @@ Tukaj lahko izberete jezike, ki bi jih radi videli, če to želite.',
 	'translate-fs-userpage-submit' => 'Ustvarite svojo uporabniško stran',
 	'translate-fs-userpage-done' => 'Dobro opravljeno! Sedaj imate uporabniško stran.',
 	'translate-fs-permissions-planguage' => 'Prvotni jezik:',
-	'translate-fs-permissions-help' => 'Sedaj morate vložiti prošnjo za priključitev k skupini prevajalcev.
-Izberite prvotni jezik, v katerega boste prevajali.
+	'translate-fs-permissions-help' => 'Zdaj morate vložiti prošnjo za priključitev k skupini prevajalcev.
+Izberite primarni jezik, v katerega boste prevajali.
 
 V spodnjem polju lahko omenite tudi druge jezike in druge pripombe.',
 	'translate-fs-permissions-pending' => 'Vašo prošnjo smo posredovali na [[$1]] in nekdo od osebja strani jo bo čim prej preveril.
@@ -3531,6 +3596,67 @@ $messages['so'] = array(
 	'translate-fs-settings-slanguage' => 'Luqada kaalmo $1:',
 	'translate-fs-settings-slanguage-desc' => 'Waxaa suutoowda in la arko fasiaada fariimaha luqadaha kale habaytna turjimidda, halkaan waxaad ka dooran kartaa luqada aad rabto inaad wax ku aragtid, hadiiba meesha laga helo.',
 	'translate-fs-settings-submit' => 'Kaydi dooqyeda',
+);
+
+/** Serbian (Cyrillic script) (српски (ћирилица)‎)
+ * @author Милан Јелисавчић
+ */
+$messages['sr-ec'] = array(
+	'firststeps' => 'Први кораци',
+	'firststeps-desc' => "[[Special:FirstSteps|Посебна страница]] за почетнике на викију који користе ''Translate'' додатак",
+	'translate-fs-pagetitle-done' => ' - урађено!',
+	'translate-fs-pagetitle-pending' => ' - на чекању',
+	'translate-fs-pagetitle' => 'Помоћник за почетнике - $1',
+	'translate-fs-signup-title' => 'Отворите налог',
+	'translate-fs-settings-title' => 'Подесите своје поставке',
+	'translate-fs-userpage-title' => 'Направите корисничку страницу',
+	'translate-fs-permissions-title' => 'Тражење преводилачке дозволе',
+	'translate-fs-target-title' => 'Почните превођење!',
+	'translate-fs-email-title' => 'Потврдите е-адресу',
+	'translate-fs-intro' => "Добродошли на {{SITENAME}} помоћник за почетнике.
+Бићете спроведени кроз поступак упознавања преводиоца корак по корак.
+На крају ћете бити у могућности да преводите ''поруке интерфејса'' свих подржаних пројеката на {{SITENAME}}.",
+	'translate-fs-selectlanguage' => 'Изаберите језик',
+	'translate-fs-settings-planguage' => 'Примарни језик:',
+	'translate-fs-settings-planguage-desc' => 'Примарни језик се удвостручује као језику интерфејса на овом викију и као подразумевани језик за циљне преводе.',
+	'translate-fs-settings-slanguage' => 'Помоћни језик $1:',
+	'translate-fs-settings-slanguage-desc' => 'Могуће је приказати преводе порука на другим језицима у уређивачу превода.
+Овде можете да изаберете које језике, ако је потребно, бисте желели да видите.',
+	'translate-fs-settings-submit' => 'Сачувај поставке',
+	'translate-fs-userpage-level-N' => 'Мој матерњи језик је',
+	'translate-fs-userpage-level-5' => 'Професионално преводим са',
+	'translate-fs-userpage-level-4' => 'Познајем као матерњи',
+	'translate-fs-userpage-level-3' => 'Добро се сналазим са',
+	'translate-fs-userpage-level-2' => 'Осредње се сналазим са',
+	'translate-fs-userpage-level-1' => 'Познајем мало',
+	'translate-fs-userpage-help' => 'Наведите своје језичке вештине и реците нешто о себи. Ако знате више од пет језика, можете их додати још касније.',
+	'translate-fs-userpage-submit' => 'Направите корисничку страницу',
+	'translate-fs-userpage-done' => 'Одлично! Сада имате корисничку страницу.',
+	'translate-fs-permissions-planguage' => 'Примарни језик:',
+	'translate-fs-permissions-help' => 'Сада треба да поставите захтев да будете додати у групу преводиоца.
+Изаберите примарни језик на који ћете преводити.
+
+Можете поменути и друге језике и друге напомене у поље за унос текста испод.',
+	'translate-fs-permissions-pending' => 'Захтев је послат на [[$1]] и неко од особља сајта ће га проверити у најкраћем могућем року. Ако сте потврдили своју е-адресу, добићете мејл са обавештењем чим се то деси.',
+	'translate-fs-permissions-submit' => 'Пошаљи захтев',
+	'translate-fs-target-text' => "Честитамо!
+Сада можете да почнете са превођењем.
+
+Не бојте се ако вам све и даље изгледа ново и збуњујуће.
+На страници [[Project list]] је дат преглед пројеката на које можете допринети преводе.
+Већина пројеката имају кратак опис странице са везом „''Преведи овај пројекат''“, која ће вас одвести на страницу на којој су наведене све непреведене поруке.
+Списак свих група порука са [[Special:LanguageStats|тренутним стањем превода за дати језик]] је такође доступна.
+
+Ако сматрате да вам је потребно више да разумете пре него што почнете са превођењем, можете прочитати [[FAQ|често постављана питања]].
+Нажалост, документација може бити понекад застарела.
+Ако постоји нешто за шта мислите да би требало да можете да урадите, али не знате како, не устручавајте се да питате на [[Support|страници подршке]].
+
+Такође можете контактирати колеге преводиоце истог језика на [[Portal_talk:$1|страници за разговор]] [[Portal:$1|портала на вашем језику]]. Ако то већ нисте урадили, [[Special:Preferences|промените језик корисничког интерфејса на језик на који желите да преводите]], тако да вики буде у стању да прикажи најбитније везе.",
+	'translate-fs-email-text' => 'Наведите адресу е-поште у [[Special:Preferences|вашим подешавањима]] и потврдите је са мејла који ће вам бити послат.
+
+Ово омогућава другим корисницима да вас контактирају путем е-поште.
+Такође ћете добијати билтене највише једном месечно.
+Ако не желите да примате новости, можете то да онемогућите на картици „{{int:prefs-personal}}“ у вашим [[Special:Preferences|подешавањима]].',
 );
 
 /** Sundanese (Basa Sunda)

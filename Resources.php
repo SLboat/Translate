@@ -21,6 +21,7 @@ $wgResourceModules['ext.translate.base'] = array(
 	'dependencies' => array(
 		'mediawiki.util',
 		'mediawiki.api',
+		'ext.translate.hooks'
 	),
 	'messages' => array(
 		'translate-js-support-unsaved-warning',
@@ -107,7 +108,6 @@ $wgResourceModules['ext.translate.loader'] = array(
 	'position' => 'top',
 ) + $resourcePaths;
 
-
 $wgResourceModules['ext.translate.groupselector'] = array(
 	'styles' => 'resources/css/ext.translate.groupselector.css',
 	'scripts' => 'resources/js/ext.translate.groupselector.js',
@@ -154,7 +154,6 @@ $wgResourceModules['ext.translate.messagetable'] = array(
 		'jquery.textchange',
 	),
 	'messages' => array(
-		'translate-messagereview-submit',
 		'translate-messagereview-progress',
 		'translate-messagereview-failure',
 		'translate-messagereview-done',
@@ -231,7 +230,6 @@ $wgResourceModules['ext.translate.quickedit'] = array(
 	'styles' => 'resources/css/ext.translate.quickedit.css',
 	'messages' => array( 'translate-js-nonext', 'translate-js-save-failed' ),
 	'dependencies' => array(
-		'ext.translate.hooks',
 		'jquery.form',
 		'jquery.ui.dialog',
 		'jquery.autosize',
@@ -344,9 +342,7 @@ $wgResourceModules['ext.translate.special.translatesandbox'] = array(
 		'mediawiki.api',
 		'jquery.uls.grid',
 		'jquery.ui.dialog',
-	),
-	'messages' => array(
-	),
+	)
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.special.translationstats'] = array(

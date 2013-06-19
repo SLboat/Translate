@@ -21,18 +21,18 @@ class ApiTranslateSandbox extends ApiBase {
 
 		$params = $this->extractRequestParams();
 		switch ( $params['do'] ) {
-		case 'create':
-			$this->doCreate();
-			break;
-		case 'delete':
-			$this->doDelete();
-			break;
-		case 'promote':
-			$this->doPromote();
-			break;
-		case 'remind':
-			$this->doRemind();
-			break;
+			case 'create':
+				$this->doCreate();
+				break;
+			case 'delete':
+				$this->doDelete();
+				break;
+			case 'promote':
+				$this->doPromote();
+				break;
+			case 'remind':
+				$this->doRemind();
+				break;
 		}
 	}
 
@@ -138,9 +138,9 @@ class ApiTranslateSandbox extends ApiBase {
 	}
 
 	public static function getToken() {
-		global $wgUser;
 		// Who designed this?!?!?!
-		return $wgUser->getEditToken( 'sandbox' );
+		$user = RequestContext::getMain()->getUser();
+		return $user->getEditToken( 'sandbox' );
 	}
 
 	public function getAllowedParams() {
@@ -167,6 +167,7 @@ class ApiTranslateSandbox extends ApiBase {
 
 	public function getParamDescription() {
 		$action = TranslateUtils::getTokenAction( 'translatesandbox' );
+
 		return array(
 			'do' => 'What to do',
 			'userid' => 'User id of the user being managed. Use 0 for creations.',
@@ -185,6 +186,7 @@ class ApiTranslateSandbox extends ApiBase {
 
 	public static function injectTokenFunction( &$list ) {
 		$list['translatesandbox'] = array( __CLASS__, 'getToken' );
+
 		return true;
 	}
 

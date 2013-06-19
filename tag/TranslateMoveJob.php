@@ -9,12 +9,12 @@
  */
 
 /**
- * Contains class with job for moving translation pages. Used together with PageTranslationMovePage class.
+ * Contains class with job for moving translation pages. Used together with
+ * PageTranslationMovePage class.
  *
  * @ingroup PageTranslation JobQueue
  */
 class TranslateMoveJob extends Job {
-
 	/**
 	 * @param $source Title
 	 * @param $target Title
@@ -22,7 +22,9 @@ class TranslateMoveJob extends Job {
 	 * @param $performer
 	 * @return TranslateMoveJob
 	 */
-	public static function newJob( Title $source, Title $target, array $params, /*User*/$performer ) {
+	public static function newJob( Title $source, Title $target, array $params,
+		/*User*/$performer
+	) {
 		$job = new self( $source );
 		$job->setUser( FuzzyBot::getUser() );
 		$job->setTarget( $target->getPrefixedText() );
@@ -32,6 +34,7 @@ class TranslateMoveJob extends Job {
 		$job->setParams( $params );
 		$job->setPerformer( $performer );
 		$job->lock();
+
 		return $job;
 	}
 
@@ -40,9 +43,8 @@ class TranslateMoveJob extends Job {
 	}
 
 	function run() {
-		global $wgUser;
-
 		// Initialization
+		$context = RequestContext::getMain();
 		$title = $this->title;
 		// Other stuff
 		$user = $this->getUser();
@@ -52,8 +54,8 @@ class TranslateMoveJob extends Job {
 		$doer = User::newFromName( $this->getPerformer() );
 
 		PageTranslationHooks::$allowTargetEdit = true;
-		$oldUser = $wgUser;
-		$wgUser = $user;
+		$oldUser = $context->getUser();
+		$context->setUser( $user );
 		self::forceRedirects( false );
 
 		// Don't check perms, don't leave a redirect
@@ -81,7 +83,7 @@ class TranslateMoveJob extends Job {
 		$key = wfMemcKey( 'translate-pt-move', $base );
 
 		$count = $cache->decr( $key );
-		$last = strval( $count ) === "0";
+		$last = strval( $count ) === '0';
 
 		if ( $last ) {
 			$cache->delete( $key );
@@ -98,7 +100,7 @@ class TranslateMoveJob extends Job {
 			$entry->publish( $logid );
 		}
 
-		$wgUser = $oldUser;
+		$context->setUser( $oldUser );
 
 		return true;
 	}
@@ -178,7 +180,6 @@ class TranslateMoveJob extends Job {
 		static $originalLevel = null;
 
 		global $wgGroupPermissions;
-		global $wgUser;
 
 		if ( $end ) {
 			if ( $suppressCount ) {
@@ -193,11 +194,14 @@ class TranslateMoveJob extends Job {
 			}
 		} else {
 			if ( !$suppressCount ) {
-				$originalLevel = isset( $wgGroupPermissions['*']['suppressredirect'] ) ? $wgGroupPermissions['*']['suppressredirect'] : null;
+				$originalLevel = isset( $wgGroupPermissions['*']['suppressredirect'] ) ?
+					$wgGroupPermissions['*']['suppressredirect'] :
+					null;
 				$wgGroupPermissions['*']['suppressredirect'] = true;
 			}
 			++$suppressCount;
 		}
-		$wgUser->clearInstanceCache();
+
+		RequestContext::getMain()->getUser()->clearInstanceCache();
 	}
 }

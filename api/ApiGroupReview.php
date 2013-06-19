@@ -74,6 +74,7 @@ class ApiGroupReview extends ApiBase {
 			'tgr_group' => $group->getId(),
 			'tgr_lang' => $code
 		);
+
 		return $dbw->selectField( $table, $field, $conds, __METHOD__ );
 	}
 
@@ -93,7 +94,6 @@ class ApiGroupReview extends ApiBase {
 
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->replace( $table, array( $index ), $row, __METHOD__ );
-
 
 		$entry = new ManualLogEntry( 'translationreview', 'group' );
 		$entry->setPerformer( $user );
@@ -151,6 +151,7 @@ class ApiGroupReview extends ApiBase {
 
 	public function getParamDescription() {
 		$action = TranslateUtils::getTokenAction( 'groupreview' );
+
 		return array(
 			'group' => 'Message group',
 			'language' => 'Language code',
@@ -165,11 +166,15 @@ class ApiGroupReview extends ApiBase {
 
 	public function getPossibleErrors() {
 		$right = self::$right;
+
 		return array_merge( parent::getPossibleErrors(), array(
 			array( 'code' => 'permissiondenied', 'info' => "You must have $right right" ),
-			array( 'code' => 'disabled', 'info' => "Message group workflows are not in use" ),
-			array( 'code' => 'sameworkflowstate', 'info' => "The requested state is identical to the current state" ),
-			array( 'code' => 'invalidstate', 'info' => "The requested state is invalid" ),
+			array( 'code' => 'disabled', 'info' => 'Message group workflows are not in use' ),
+			array(
+				'code' => 'sameworkflowstate',
+				'info' => 'The requested state is identical to the current state'
+			),
+			array( 'code' => 'invalidstate', 'info' => 'The requested state is invalid' ),
 		) );
 	}
 
@@ -177,6 +182,7 @@ class ApiGroupReview extends ApiBase {
 		$groups = MessageGroups::getAllGroups();
 		$group = key( $groups );
 		$group = rawurlencode( $group );
+
 		return array(
 			"api.php?action=groupreview&group=$group&language=de&state=ready&token=foo",
 		);
@@ -187,21 +193,21 @@ class ApiGroupReview extends ApiBase {
 	}
 
 	public static function getToken() {
-		global $wgUser;
-		if ( !$wgUser->isAllowed( self::$right ) ) {
+		$user = RequestContext::getMain()->getUser();
+		if ( !$user->isAllowed( self::$right ) ) {
 			return false;
 		}
 
-		return $wgUser->getEditToken( self::$salt );
+		return $user->getEditToken( self::$salt );
 	}
 
 	public static function injectTokenFunction( &$list ) {
 		$list['groupreview'] = array( __CLASS__, 'getToken' );
+
 		return true; // Hooks must return bool
 	}
 
 	public static function getRight() {
 		return self::$right;
 	}
-
 }

@@ -19,10 +19,11 @@ $messages['en'] = array(
 	'tsb-reminder-title-generic' => 'Complete your introduction to become a verified translator',
 	'tsb-reminder-content-generic' => 'Hi $1,
 
-You recently signed up to {{SITENAME}}. You are only few steps away from unlocking
-free translation and extra translation helpers.
+Thanks for registering with {{SITENAME}}. If you complete your test
+translations, the administrators can soon grant you full translation
+access.
 
-Please log in to $2 and make some more translations.',
+Please come to $2 and make some more translations.',
 );
 
 /** Message documentation (Message documentation)
@@ -40,6 +41,20 @@ Followed by a list of the pending requests.',
 * $2 - url to the website',
 );
 
+/** Afrikaans (Afrikaans)
+ * @author Naudefj
+ */
+$messages['af'] = array(
+	'translatesandbox' => 'Bestuur vertaler-sandput',
+	'tsb-filter-pending' => 'Uitstaande versoeke',
+	'tsb-reminder-title-generic' => "Voltooi u bekendstelling om 'n geverifieerde vertaler te word",
+	'tsb-reminder-content-generic' => "Hallo $1,
+
+Dankie dat u op {{SITENAME}} geregistreer het. As u u toesvertalings voltooi, sal die administrateurs spoedig volle regte aan u toeken. 
+
+Gaan asseblief na $2 om 'n paar vertalings te maak.",
+);
+
 /** Asturian (asturianu)
  * @author Xuacu
  */
@@ -52,7 +67,7 @@ $messages['ast'] = array(
 Rexistróse de recién en {{SITENAME}}. Tá a sólo unos pasos de desbloquiar la
 traducción llibre y les ayudes a la traducción estra.
 
-Anicie sesión en $2 y faiga delles traducciones más.',
+Anicie sesión en $2 y faiga delles traducciones más.', # Fuzzy
 );
 
 /** Bengali (বাংলা)
@@ -66,7 +81,7 @@ $messages['bn'] = array(
 
 আপনি সম্প্রতি {{SITENAME}}-এ সাইন আপ করেছেন। বিনামূল্যে অনুবাদ এবং অতিরিক্ত অনুবাদ সাহায্যকারী খুলতে আপনি মাত্র কয়েক ধাপ দূরে।
 
-$2-এ লগ ইন করুন এবং আরো কিছু অনুবাদ করুন।',
+$2-এ লগ ইন করুন এবং আরো কিছু অনুবাদ করুন।', # Fuzzy
 );
 
 /** Breton (brezhoneg)
@@ -86,10 +101,10 @@ $messages['de'] = array(
 	'tsb-reminder-title-generic' => 'Vervollständige deine Einführung, um ein verifizierter Übersetzer zu werden.',
 	'tsb-reminder-content-generic' => 'Hallo $1,
 
-du hast dich kürzlich auf {{SITENAME}} registriert. Du bist nur ein paar Schritte von
-freien Übersetzungen und zusätzlichen Übersetzungshelfern entfernt.
+vielen Dank für deine Registrierung auf {{SITENAME}}. Wenn du deine Testübersetzungen
+vervollständigst, werden dir bald die Administratoren einen vollen Übersetzungszugriff gewähren.
 
-Bitte melde dich unter $2 an und erstelle einige weitere Übersetzungen.',
+Bitte besuche $2 und erstelle einige weitere Übersetzungen.',
 );
 
 /** French (français)
@@ -101,9 +116,9 @@ $messages['fr'] = array(
 	'tsb-reminder-title-generic' => 'Complétez votre présentation pour devenir un traducteur vérifié',
 	'tsb-reminder-content-generic' => 'Bonjour $1,
 
-Vous venez de vous inscrire sur {{SITENAME}}. Vous n’êtes plus qu’à quelques pas de débloquer la traduction libre et les aides de traduction supplémentaires.
+Merci de vous être inscrit sur {{SITENAME}}. Si vous achevez vos traductions de test, les administrateurs pourront bientôt vous accorder un plein accès aux traductions.
 
-Veuillez vous connecter sur $2 et faire quelques traductions de plus.',
+Veuillez venir sur $2 et faire quelques traductions de plus.',
 );
 
 /** Galician (galego)
@@ -115,10 +130,11 @@ $messages['gl'] = array(
 	'tsb-reminder-title-generic' => 'Complete a súa introdución para se converter nun tradutor verificado',
 	'tsb-reminder-content-generic' => 'Boas, $1:
 
-Rexistrouse recentemente en {{SITENAME}}. Está a uns pasos de desbloquear a
-tradución libre e as axudas de tradución adicionais.
+Grazas por rexistrarse en {{SITENAME}}. Se completa as traducións
+de proba, os adminitradores poderán concederlle axiña acceso completo á
+tradución.
 
-Acceda ao sistema en $2 e faga algunha tradución máis.',
+Acceda ao sistema en $2 e faga algunhas traducións máis.',
 );
 
 /** Hebrew (עברית)
@@ -130,9 +146,12 @@ $messages['he'] = array(
 	'tsb-reminder-title-generic' => 'נא להשלים את ההיכרות שלך כדי לקבל אישור מלא לתרגם',
 	'tsb-reminder-content-generic' => 'שלום $1,
 
-לאחרונה נרשמת לאתר {{SITENAME}}. נשארו לך רק צעדים בודדים כדי לאפשר תרגום חופשי ועזרי תרגום נוספים.
+תודה שנרשמת לאתר {{SITENAME}}. עם השלמת תרגומי הבדיקה שלך
+המנהלים ייתנו לך גישה מלאה
+לתרגום.
 
-נא להיכנס אל $2 ולעשות עוד כמה תרגומים.',
+נשאר רק לבוא אל $2 ולעשות עוד כמה
+תרגומים.',
 );
 
 /** Italian (italiano)
@@ -142,6 +161,11 @@ $messages['it'] = array(
 	'translatesandbox' => 'Gestire la sandbox di traduzione',
 	'tsb-filter-pending' => 'Richieste in sospeso',
 	'tsb-reminder-title-generic' => "Completa l'introduzione per diventare un traduttore verificato",
+	'tsb-reminder-content-generic' => "Ciao $1,
+
+Grazie per esserti registrato su {{SITENAME}}. Una volta che avrai completato i test di traduzione, gli amministratori potranno concederti in breve tempo l'accesso completo da traduttore.
+
+Vieni su $2 e fai alcune altre traduzioni.",
 );
 
 /** Japanese (日本語)
@@ -162,7 +186,16 @@ $messages['ksh'] = array(
 	'tsb-reminder-content-generic' => 'Daach $1,
 Do has Desch köözlesch {{ucfirst:{{GRAMMAR:em|{{ucfirst:{{SITENAME}}}}}}}} aanjemälldt. Do bes jraad koot vör em Freischallde vun extra Hölp för et Övversäzze.
 
-Bes es u jood un donn Desch $2 enlogge un maach e paa Övversäzonge.', # Fuzzy
+Bes esu jood un donn Desch op $2 enlogge un maach e paa Övversäzonge.', # Fuzzy
+);
+
+/** Luxembourgish (Lëtzebuergesch)
+ * @author Robby
+ */
+$messages['lb'] = array(
+	'translatesandbox' => 'Iwwersetzer-Sandkëscht geréieren',
+	'tsb-filter-pending' => 'Ufroen am Suspens',
+	'tsb-reminder-title-generic' => 'Kompletéiert Är Virstellung fir e verifizéierten Iwwersetzer ze ginn',
 );
 
 /** Macedonian (македонски)
@@ -174,9 +207,9 @@ $messages['mk'] = array(
 	'tsb-reminder-title-generic' => 'Пополнете го вашето претставување и станете овластен преведувач',
 	'tsb-reminder-content-generic' => 'Здраво $1,
 
-Неодамна се зачленивте на {{SITENAME}}. Сега сте на само неколку чекори до слободно преведување со дополнителна помош.
+Ви благодариме што се регистриравте на {{SITENAME}}. Пополнете ги пробните преводи, и администраторите набргу ќе ви доделат статус на преведувач.
 
-Најавете се на $2 и направете уште некои преводи.',
+Појдете на $2 и направете уште некои преводи.',
 );
 
 /** Dutch (Nederlands)
@@ -186,6 +219,11 @@ $messages['nl'] = array(
 	'translatesandbox' => 'Vertalersszandbak beheren',
 	'tsb-filter-pending' => 'Aanvragen in behandeling',
 	'tsb-reminder-title-generic' => 'Voltooi uw introductie om vertaler te worden',
+	'tsb-reminder-content-generic' => 'Hallo $1,
+
+Bedankt voor het registreren bij {{SITENAME}}. Als u uw testvertalingen afrondt, kunnen de beheerders u snel volledige vertaaltoegang geven.
+
+Kon alstublieft naar $2 en maak nog wat meer vertalingen.',
 );
 
 /** Romanian (română)
@@ -234,4 +272,9 @@ $messages['zh-hant'] = array(
 	'translatesandbox' => '管理翻譯沙盒',
 	'tsb-filter-pending' => '未解決的請求',
 	'tsb-reminder-title-generic' => '完成介紹後成為核實的翻譯者',
+	'tsb-reminder-content-generic' => '$1：
+
+感謝您註冊 {{SITENAME}}。完成翻譯測試後，管理員會授予您完整翻譯權限。
+
+請來 $2 做更多的翻譯。',
 );

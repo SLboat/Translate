@@ -31,9 +31,7 @@ class StatsTable {
 	protected $extraColumns = array();
 
 	public function __construct() {
-		global $wgLang;
-
-		$this->lang = $wgLang;
+		$this->lang = RequestContext::getMain()->getLanguage();
 		$this->translate = SpecialPage::getTitleFor( 'Translate' );
 	}
 
@@ -63,7 +61,9 @@ class StatsTable {
 	}
 
 	public function getBackgroundColor( $subset, $total, $fuzzy = false ) {
-		$v = @round( 255 * $subset / $total );
+		wfSuppressWarnings();
+		$v = round( 255 * $subset / $total );
+		wfRestoreWarnings();
 
 		if ( $fuzzy ) {
 			// Weigh fuzzy with factor 20.
@@ -192,6 +192,7 @@ class StatsTable {
 		$out .= "\n\t\t" . $this->element( $this->formatPercentage( $fuzzyRatio, 'ceil' ),
 			$this->getBackgroundColor( $fuzzy, $total, true ),
 			sprintf( '%1.5f', $fuzzyRatio ) );
+
 		return $out;
 	}
 
@@ -308,7 +309,6 @@ class StatsTable {
 				break;
 			}
 		}
-
 
 		$group = MessageGroups::getGroup( $groupId );
 		$languages = $group->getTranslatableLanguages();

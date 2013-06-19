@@ -25,7 +25,7 @@ define( 'TRANSLATE_VERSION', '2013-04-29' );
 $wgExtensionCredits['specialpage'][] = array(
 	'path' => __FILE__,
 	'name' => 'Translate',
-	'version' => '[https://www.mediawiki.org/wiki/MLEB MLEB 2013.04]',
+	'version' => '[https://www.mediawiki.org/wiki/MLEB MLEB 2013.05]',
 	'author' => array( 'Niklas Laxström', 'Siebrand Mazeland' ),
 	'descriptionmsg' => 'translate-desc',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:Translate',
@@ -35,8 +35,8 @@ $wgExtensionCredits['specialpage'][] = array(
  * @cond file_level_code
  * Setup class autoloading.
  */
-$dir = dirname( __FILE__ );
-require_once( "$dir/_autoload.php" );
+$dir = __DIR__;
+require_once "$dir/_autoload.php";
 /** @endcond */
 
 /**
@@ -121,13 +121,10 @@ $wgHooks['ApiTokensGetTokenTypes'][] = 'ApiHardMessages::injectTokenFunction';
 $wgHooks['ApiTokensGetTokenTypes'][] = 'ApiTranslateSandbox::injectTokenFunction';
 // Register hooks.
 $wgHooks['EditPage::showEditForm:initial'][] = 'TranslateEditAddons::addTools';
-$wgHooks['SkinTemplateTabs'][] = 'TranslateEditAddons::addNavigationTabs';
-// Same for Vector skin
 $wgHooks['SkinTemplateNavigation'][] = 'TranslateEditAddons::addNavigationTabs';
 $wgHooks['AlternateEdit'][] = 'TranslateEditAddons::intro';
 $wgHooks['EditPageBeforeEditButtons'][] = 'TranslateEditAddons::buttonHack';
 $wgHooks['EditPage::showEditForm:fields'][] = 'TranslateEditAddons::keepFields';
-$wgHooks['SkinTemplateTabs'][] = 'TranslateEditAddons::tabs';
 $wgHooks['LanguageGetTranslatedLanguageNames'][] = 'TranslateHooks::translateMessageDocumentationLanguage';
 $wgHooks['TranslateSupportedLanguages'][] = 'TranslateHooks::translateMessageDocumentationLanguage';
 $wgHooks['ArticlePrepareTextForEdit'][] = 'TranslateEditAddons::disablePreSaveTransform';
@@ -213,7 +210,7 @@ $wgJobClasses['MessageGroupStatesUpdaterJob'] = 'MessageGroupStatesUpdaterJob';
 $wgJobClasses['TTMServerMessageUpdateJob'] = 'TTMServerMessageUpdateJob';
 $wgJobClasses['TranslateSandboxReminderJob'] = 'TranslateSandboxReminderJob';
 
-require( "$dir/Resources.php" );
+require "$dir/Resources.php";
 
 # == Configuration variables ==
 
@@ -282,7 +279,7 @@ $wgTranslateTranslationServices['TTMServer'] = array(
 );
 $wgTranslateTranslationServices['Microsoft'] = array(
 	'url' => 'http://api.microsofttranslator.com/V2/Http.svc/Translate',
-	'key' => null, //到localsetting里去设置
+	'key' => null,
 	'timeout' => 3,
 	'type' => 'microsoft',
 );

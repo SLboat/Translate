@@ -30,6 +30,7 @@ class TranslateDeleteJob extends Job {
 		$msg = $job->getFull() ? 'pt-deletepage-full-logreason' : 'pt-deletepage-lang-logreason';
 		$job->setSummary( wfMessage( $msg, $base )->inContentLanguage()->text() );
 		$job->setPerformer( $performer );
+
 		return $job;
 	}
 
@@ -38,9 +39,8 @@ class TranslateDeleteJob extends Job {
 	}
 
 	function run() {
-		global $wgUser;
-
 		// Initialization
+		$context = RequestContext::getMain();
 		$title = $this->title;
 		// Other stuff
 		$user = $this->getUser();
@@ -49,8 +49,8 @@ class TranslateDeleteJob extends Job {
 		$doer = User::newFromName( $this->getPerformer() );
 
 		PageTranslationHooks::$allowTargetEdit = true;
-		$oldUser = $wgUser;
-		$wgUser = $user;
+		$oldUser = $context->getUser();
+		$context->setUser( $user );
 
 		$error = '';
 		$article = new Article( $title, 0 );
@@ -93,7 +93,7 @@ class TranslateDeleteJob extends Job {
 			$title->invalidateCache();
 		}
 
-		$wgUser = $oldUser;
+		$context->setUser( $oldUser );
 
 		return true;
 	}
@@ -155,5 +155,4 @@ class TranslateDeleteJob extends Job {
 	public function getUser() {
 		return User::newFromName( $this->params['user'], false );
 	}
-
 }

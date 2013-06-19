@@ -34,7 +34,10 @@ class SpecialPageTranslation extends SpecialPage {
 		$action = $request->getVal( 'do' );
 		$out = $this->getOutput();
 
-		TranslateUtils::addSpecialHelpLink( $out, 'Help:Extension:Translate/Page_translation_example' );
+		TranslateUtils::addSpecialHelpLink(
+			$out,
+			'Help:Extension:Translate/Page_translation_example'
+		);
 
 		// No specific page or invalid input
 		$title = Title::newFromText( $target );
@@ -61,6 +64,7 @@ class SpecialPageTranslation extends SpecialPage {
 		// We are processing some specific page
 		if ( !$title->exists() ) {
 			$out->addWikiMsg( 'tpt-nosuchpage', $title->getPrefixedText() );
+
 			return;
 		}
 
@@ -125,6 +129,7 @@ class SpecialPageTranslation extends SpecialPage {
 			$target = $title->getFullUrl( array( 'oldid' => $revision ) );
 			$link = "<span class='plainlinks'>[$target $revision]</span>";
 			$out->addWikiMsg( 'tpt-oldrevision', $title->getPrefixedText(), $link );
+
 			return;
 		}
 
@@ -207,6 +212,7 @@ class SpecialPageTranslation extends SpecialPage {
 			$tag = RevTag::typeToTag( $r->rt_type );
 			$pages[$r->page_id][$tag] = intval( $r->rt_revision );
 		}
+
 		return $pages;
 	}
 
@@ -246,6 +252,7 @@ class SpecialPageTranslation extends SpecialPage {
 				unset( $out['active'][$index] );
 			}
 		}
+
 		return $out;
 	}
 
@@ -256,6 +263,7 @@ class SpecialPageTranslation extends SpecialPage {
 		$allpages = $this->buildPageArray( $res );
 		if ( !count( $allpages ) ) {
 			$out->addWikiMsg( 'tpt-list-nopages' );
+
 			return;
 		}
 		$types = $this->classifyPages( $allpages );
@@ -396,6 +404,7 @@ class SpecialPageTranslation extends SpecialPage {
 		}
 
 		$flattened = $this->getLanguage()->semicolonList( $actions );
+
 		return Html::rawElement(
 			'span',
 			array( 'class' => 'mw-tpt-actions' ),
@@ -409,14 +418,11 @@ class SpecialPageTranslation extends SpecialPage {
 	 * @return array
 	 */
 	public function checkInput( TranslatablePage $page, &$error = false ) {
-		$request = $this->getRequest();
-
 		$usedNames = array();
-
 		$highest = intval( TranslateMetadata::get( $page->getMessageGroupId(), 'maxid' ) );
-
 		$parse = $page->getParse();
 		$sections = $parse->getSectionsForSave( $highest );
+
 		foreach ( $sections as $s ) {
 			// We need to do checks for both new and existing sections.
 			// Someone might have tampered with the page source adding
@@ -501,7 +507,11 @@ class SpecialPageTranslation extends SpecialPage {
 
 			# For changed text, the language is set by $diff->setTextLanguage()
 			$lang = $s->type === 'changed' ? null : $wgContLang;
-			$out->addHTML( MessageWebImporter::makeSectionElement( $name, $s->type, $text, $lang ) );
+			$out->addHTML( MessageWebImporter::makeSectionElement(
+				$name,
+				$s->type,
+				$text, $lang
+			) );
 		}
 
 		$deletedSections = $page->getParse()->getDeletedSections();
@@ -526,7 +536,10 @@ class SpecialPageTranslation extends SpecialPage {
 		// Display template changes if applicable
 		if ( $page->getMarkedTag() !== false ) {
 			$newTemplate = $page->getParse()->getTemplatePretty();
-			$oldPage = TranslatablePage::newFromRevision( $page->getTitle(), $page->getMarkedTag() );
+			$oldPage = TranslatablePage::newFromRevision(
+				$page->getTitle(),
+				$page->getMarkedTag()
+			);
 			$oldTemplate = $oldPage->getParse()->getTemplatePretty();
 
 			if ( $oldTemplate !== $newTemplate ) {
@@ -597,9 +610,15 @@ class SpecialPageTranslation extends SpecialPage {
 
 		$this->getOutput()->addHTML(
 			"<table>" .
-				"<tr><td class='mw-label'>$hLangs[0]</td><td class='mw-input'>$hLangs[1]$langSelector[1]</td></tr>" .
+				"<tr>" .
+				"<td class='mw-label'>$hLangs[0]</td>" .
+				"<td class='mw-input'>$hLangs[1]$langSelector[1]</td>" .
+				"</tr>" .
 				"<tr><td></td><td class='mw-inout'>$hForce</td></tr>" .
-				"<tr><td class='mw-label'>$hReason[0]</td><td class='mw-input'>$hReason[1]</td></tr>" .
+				"<tr>" .
+				"<td class='mw-label'>$hReason[0]</td>" .
+				"<td class='mw-input'>$hReason[1]</td>" .
+				"</tr>" .
 				"</table>"
 		);
 	}
@@ -701,6 +720,7 @@ class SpecialPageTranslation extends SpecialPage {
 		// Clear more caches
 		$page->getTitle()->invalidateCache();
 		MessageIndexRebuildJob::newJob()->run();
+
 		return false;
 	}
 
@@ -709,7 +729,9 @@ class SpecialPageTranslation extends SpecialPage {
 	 * @param TranslatablePage $page
 	 * @param User $user
 	 */
-	protected function handlePriorityLanguages( WebRequest $request, TranslatablePage $page, User $user ) {
+	protected function handlePriorityLanguages( WebRequest $request, TranslatablePage $page,
+		User $user
+	) {
 		// new priority languages
 		$npLangs = rtrim( trim( $request->getVal( 'prioritylangs' ) ), ',' );
 		$npForce = $request->getCheck( 'forcelimit' ) ? 'on' : 'off';
