@@ -1,3 +1,19 @@
+## a little small mod ##
+
+the org extention is on: http://www.mediawiki.org/wiki/Extension:Translate
+
+i use chinese so the other just not work for me.i see translate.net is work fine with bing api,but the source not,even trunk,so i try to fix it by my self,here is what i do:
+
+http://see.sl088.com/id/3kv
+
+you just need mod one file in it: /Translate/webservices/MicrosoftWebService?.php
+
+and add this three line to localsetting.ini
+
+$wgTranslateTranslationServices['Microsoft']['key'] = "no need anymore" ; //just for need it,dont fit anything $wgTranslateTranslationServices['Microsoft']['clientid'] = "you_ms_id" ; //your appid
+
+$wgTranslateTranslationServices['Microsoft']['clientSecret'] = "yousercrtinhere=" ; //you sercret
+
 == Copying ==
 See http://www.gnu.org/licenses/gpl2.html
 
