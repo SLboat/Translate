@@ -35,7 +35,7 @@ abstract class TranslationWebService {
 			'yandex' => 'YandexWebService',
 			'ttmserver' => 'RemoteTTMServerWebService',
 		);
-
+		# 超时时间的默认值哦。。。
 		if ( !isset( $config['timeout'] ) ) {
 			$config['timeout'] = 3;
 		}
@@ -75,7 +75,7 @@ abstract class TranslationWebService {
 			$results = array();
 
 			// Try to use the source language when possible.
-			$supported = $this->getSupportedLanguagePairs();
+			$supported = $this->getSupportedLanguagePairs(); #获得支持的语言列表，通过请求具体的dopairs()
 			if ( isset( $supported[$from][$to] ) && isset( $translations[$from] ) ) {
 				// Delete all the other languages.
 				// Use the unmapped code to avoid double mapping
