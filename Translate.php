@@ -25,7 +25,7 @@ define( 'TRANSLATE_VERSION', '2013-04-29' );
 $wgExtensionCredits['specialpage'][] = array(
 	'path' => __FILE__,
 	'name' => 'Translate',
-	'version' => '[https://www.mediawiki.org/wiki/MLEB MLEB 2013.05]',
+	'version' => '[https://www.mediawiki.org/wiki/MLEB MLEB 2013.06]',
 	'author' => array( 'Niklas Laxström', 'Siebrand Mazeland' ),
 	'descriptionmsg' => 'translate-desc',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:Translate',
@@ -604,13 +604,6 @@ $wgTranslateTestTTMServer = null;
  * transition time.
  */
 $wgTranslateUseTux = true;
-
-/**
- * Whether to allow uploading gettext files through URLs on
- * Special:ImportTranslations. Default is false.
- * @since 2013-04-26
- */
-$wgTranslateAllowImportFromUrl = false;
 
 # </source>
 

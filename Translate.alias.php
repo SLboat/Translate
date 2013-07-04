@@ -177,6 +177,15 @@ $specialPageAliases['bxr'] = array(
 	'MyLanguage' => array( 'Минии_хэлэн' ),
 );
 
+/** Chechen (нохчийн) */
+$specialPageAliases['ce'] = array(
+	'Translate' => array( 'Гоч_де' ),
+	'Magic' => array( 'Шордина_гочдар' ),
+	'TranslationStats' => array( 'Гочдаран_статистика' ),
+	'Translations' => array( 'Гоч_дарш' ),
+	'LanguageStats' => array( 'Меттан_статистика' ),
+);
+
 /** Cebuano (Cebuano) */
 $specialPageAliases['ceb'] = array(
 	'Translate' => array( 'Hubara' ),
@@ -561,8 +570,8 @@ $specialPageAliases['kw'] = array(
 	'Translations' => array( 'Treylyansow' ),
 	'LanguageStats' => array( 'StatystygyonYeth' ),
 	'PageTranslation' => array( 'TreylyansFolennow' ),
-	'ImportTranslations' => array( 'YmperthyTreylyansow' ),
-	'SupportedLanguages' => array( 'YethowScoodhys' ),
+	'ImportTranslations' => array( 'YmperthiTreylyansow' ),
+	'SupportedLanguages' => array( 'YethowSkoodhys' ),
 	'MyLanguage' => array( 'OwYeth' ),
 );
 
@@ -1007,6 +1016,7 @@ $specialPageAliases['uk'] = array(
 	'SupportedLanguages' => array( 'Підтримувані_мови' ),
 	'MyLanguage' => array( 'Моя_мова' ),
 	'PageTranslationDeletePage' => array( 'Вилучення_перекладабельної_сторінки' ),
+	'AggregateGroups' => array( 'Агреговані_групи' ),
 	'SearchTranslations' => array( 'Пошук_перекладів' ),
 );
 
