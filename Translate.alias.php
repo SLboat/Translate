@@ -184,6 +184,16 @@ $specialPageAliases['ce'] = array(
 	'TranslationStats' => array( 'Гочдаран_статистика' ),
 	'Translations' => array( 'Гоч_дарш' ),
 	'LanguageStats' => array( 'Меттан_статистика' ),
+	'MessageGroupStats' => array( 'Хаамийн_тобашан_статистика' ),
+	'PageTranslation' => array( 'АгӀонаш_гоч_яр' ),
+	'ImportTranslations' => array( 'Гоч_йинарш_импорт_яр' ),
+	'ManageMessageGroups' => array( 'Хаамийн_тобашан_урхалла_дар' ),
+	'FirstSteps' => array( 'Дуьххьарлера_гӀулчаш' ),
+	'SupportedLanguages' => array( 'Ловш_долу_меттанаш' ),
+	'MyLanguage' => array( 'Сан_мотт' ),
+	'PageTranslationDeletePage' => array( 'Гоч_еш_йолу_агӀо_дӀаяккхар' ),
+	'AggregateGroups' => array( 'Агрегированни_тобанаш' ),
+	'SearchTranslations' => array( 'Гоч_йинарш_лахар' ),
 );
 
 /** Cebuano (Cebuano) */
@@ -226,18 +236,19 @@ $specialPageAliases['de'] = array(
 $specialPageAliases['diq'] = array(
 	'Translate' => array( 'Açarnayış' ),
 	'Magic' => array( 'AçarnayışoHerayen' ),
-	'TranslationStats' => array( 'İstatistikêAçarnayışi' ),
+	'TranslationStats' => array( 'İstatistikéAçarnayışi' ),
 	'Translations' => array( 'Açarneri' ),
 	'LanguageStats' => array( 'Zıwanİst' ),
-	'MessageGroupStats' => array( 'İstatistikêGrubandêMesacan' ),
-	'PageTranslation' => array( 'PelaAçarnayış' ),
+	'MessageGroupStats' => array( 'İstatistikéGrubandéMesacan' ),
+	'PageTranslation' => array( 'PeraAçarnayış' ),
 	'ImportTranslations' => array( 'AçarnayışaZerrefi' ),
-	'ManageMessageGroups' => array( 'GrubanêMesacanİdareke' ),
-	'FirstSteps' => array( 'GameSıfteyêni' ),
+	'ManageMessageGroups' => array( 'GrubanéMesacanİdareke' ),
+	'FirstSteps' => array( 'GameSıfteyéni' ),
 	'SupportedLanguages' => array( 'ZıwanêkeDestegnênê' ),
 	'MyLanguage' => array( 'ZıwaneMe' ),
-	'PageTranslationDeletePage' => array( 'PelaAçarnayışêPelaBesternayışi' ),
-	'AggregateGroups' => array( 'GrubêAggregate' ),
+	'PageTranslationDeletePage' => array( 'PelaAçarnayışéPelaBesternayışi' ),
+	'AggregateGroups' => array( 'GrubéAggregate' ),
+	'SearchTranslations' => array( 'AçarnayışaCıgeyre' ),
 );
 
 /** Lower Sorbian (dolnoserbski) */
@@ -560,6 +571,7 @@ $specialPageAliases['ksh'] = array(
 $specialPageAliases['ku-latn'] = array(
 	'Translate' => array( 'Wergerîne' ),
 	'Translations' => array( 'Werger' ),
+	'MyLanguage' => array( 'Zimanê_Min' ),
 );
 
 /** Cornish (kernowek) */
@@ -723,13 +735,16 @@ $specialPageAliases['nds-nl'] = array(
 	'TranslationStats' => array( 'Vertaalstaotistieken' ),
 	'Translations' => array( 'Vertalingen' ),
 	'LanguageStats' => array( 'Taalstaotistieken' ),
-	'PageTranslation' => array( 'Paginavertaling' ),
+	'PageTranslation' => array( 'Ziedvertaling' ),
 	'ImportTranslations' => array( 'Vertalingen_invoeren' ),
 	'ManageMessageGroups' => array( 'Berichtengroepen_beheren' ),
 	'FirstSteps' => array( 'Eerste_stappen' ),
 	'SupportedLanguages' => array( 'Ondersteunde_talen' ),
 	'MyLanguage' => array( 'Mien_taal' ),
-	'PageTranslationDeletePage' => array( 'Paginavertaling_pagina_vortdoon' ),
+	'PageTranslationDeletePage' => array( 'Ziedvertaling_pagina_vortdoon' ),
+	'AggregateGroups' => array( 'Samen-evoegden_groepen' ),
+	'SearchTranslations' => array( 'Vertalingen_zeuken' ),
+	'TranslateSandbox' => array( 'Vertalers_zaandkule_beheren' ),
 );
 
 /** Dutch (Nederlands) */
@@ -775,7 +790,7 @@ $specialPageAliases['or'] = array(
 $specialPageAliases['pa'] = array(
 	'Translate' => array( 'ਉਲਥਾ' ),
 	'Magic' => array( 'ਉੱਚੇ_ਦਰਜੇ_ਦਾ_ਉਲਥਾ', 'ਜਾਦੂ' ),
-	'PageTranslation' => array( 'ਪੰਨਾ_ਉਲਥਾ' ),
+	'PageTranslation' => array( 'ਸਫ਼ਾ_ਉਲਥਾ' ),
 	'MyLanguage' => array( 'ਮੇਰੀ_ਭਾਸ਼ਾ' ),
 );
 
@@ -1069,12 +1084,12 @@ $specialPageAliases['zh-hans'] = array(
 	'MessageGroupStats' => array( '信息组状态' ),
 	'PageTranslation' => array( '页面翻译' ),
 	'ImportTranslations' => array( '导入翻译' ),
-	'ManageMessageGroups' => array( '消息组管理' ),
-	'FirstSteps' => array( '首几步' ),
-	'SupportedLanguages' => array( '支持语言' ),
+	'ManageMessageGroups' => array( '信息组管理' ),
+	'FirstSteps' => array( '入门教程' ),
+	'SupportedLanguages' => array( '支持的语言' ),
 	'MyLanguage' => array( '我的语言' ),
-	'PageTranslationDeletePage' => array( '页面译文删除页面' ),
-	'AggregateGroups' => array( '合计组' ),
+	'PageTranslationDeletePage' => array( '页面翻译删除页面' ),
+	'AggregateGroups' => array( '信息组总计' ),
 	'SearchTranslations' => array( '搜索翻译' ),
 );
 

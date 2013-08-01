@@ -1,9 +1,7 @@
-== Translate 2013.06 ==
-Released at 2013-06-29.
+== Translate 2013.07 ==
+Released at 2013-07-31.
 
-* The option to hide the MediaWiki sidebar while translating was added
-* Translations identical to the current translation are not suggested any more from translation memory
-* Suggestion in the source language is no more shown in the "in other languages" section
-* Edit section links are not shown anymore for translation pages
-* Only local files can now be upload using Special:ImportTranslations
-* Groups that are not marked as a priority for the current language are not shown in Special:LanguageStats
+===Noteworthy changes===
+* Groups are sorted alphabetically in the Special:Translate export tab.
+* Support for Yandex Translate API v1.5.
+* Edit summaries for automated edits are written in the content language (bug 52142).

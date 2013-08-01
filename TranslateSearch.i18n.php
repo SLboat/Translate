@@ -165,6 +165,22 @@ $messages['br'] = array(
 	'tux-sst-facet-orphan' => '(emzivad)',
 );
 
+/** Chechen (нохчийн)
+ * @author Умар
+ */
+$messages['ce'] = array(
+	'tux-sst-search' => 'Лаха',
+	'tux-sst-facet-language' => 'Меттанаш',
+);
+
+/** Church Slavic (словѣ́ньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ)
+ * @author ОйЛ
+ */
+$messages['cu'] = array(
+	'tux-sst-search' => 'ищи',
+	'tux-sst-facet-language' => 'ѩꙁꙑци',
+);
+
 /** Danish (dansk)
  * @author Byrial
  */
@@ -446,6 +462,15 @@ $messages['ko'] = array(
 	'tux-sst-nosolr-body' => '이 위키는 번역 찾기 서비스가 없습니다.',
 	'tux-sst-solr-offline-title' => '찾기를 사용할 수 없음',
 	'tux-sst-solr-offline-body' => '찾기 서비스를 일시적으로 사용할 수 없습니다.',
+	'tux-sst-next' => '다음 결과',
+	'tux-sst-prev' => '이전 결과',
+);
+
+/** Karachay-Balkar (къарачай-малкъар)
+ * @author Iltever
+ */
+$messages['krc'] = array(
+	'tux-sst-facet-language' => 'Тилле',
 );
 
 /** Colognian (Ripoarisch)
@@ -610,9 +635,16 @@ $messages['oc'] = array(
 
 /** Polish (polski)
  * @author Chrumps
+ * @author Woytecr
  */
 $messages['pl'] = array(
+	'searchtranslations' => 'Szukaj tłumaczenia',
+	'tux-sst-edit' => 'Edytuj tłumaczenie',
+	'tux-sst-search' => 'Szukaj',
+	'tux-sst-search-ph' => 'Szukaj tłumaczenia',
+	'tux-sst-count' => 'Znaleziono {{PLURAL:$1|jeden wynik|$1 wyników}}',
 	'tux-sst-facet-language' => 'Języki',
+	'tux-sst-facet-group' => 'Grupa komunikatów',
 	'tux-sst-nosolr-title' => 'Wyszukiwanie nie jest dostępne',
 	'tux-sst-solr-offline-title' => 'Wyszukiwanie nie jest dostępne',
 	'tux-sst-solr-offline-body' => 'Wyszukiwanie jest chwilowo niedostępne',
@@ -686,18 +718,23 @@ $messages['roa-tara'] = array(
 
 /** Russian (русский)
  * @author Kaganer
+ * @author Lockal
  */
 $messages['ru'] = array(
 	'searchtranslations' => 'Поиск переводов',
 	'tux-sst-edit' => 'Редактировать перевод',
 	'tux-sst-search' => 'Найти',
 	'tux-sst-search-ph' => 'Поиск переводов',
-	'tux-sst-count' => '{{PLURAL:$1|Найден один результат|Найден $1 результат|Найдены $1 результата|Найдено $1 результатов}}',
+	'tux-sst-count' => '{{PLURAL:$1|Найден $1 результат|Найдены $1 результата|Найдено $1 результатов}}',
 	'tux-sst-facet-language' => 'Языки',
 	'tux-sst-facet-group' => 'Группы сообщений',
 	'tux-sst-facet-orphan' => '(сирота)',
 	'tux-sst-nosolr-title' => 'Поиск недоступен',
 	'tux-sst-nosolr-body' => 'В этой вики отсутствует сервис поиска переводов.',
+	'tux-sst-solr-offline-title' => 'Поиск недоступен',
+	'tux-sst-solr-offline-body' => 'Служба поиска временно недоступна.',
+	'tux-sst-next' => 'Следующие результаты',
+	'tux-sst-prev' => 'Предыдущие результаты',
 );
 
 /** Serbian (Cyrillic script) (српски (ћирилица)‎)
@@ -731,10 +768,13 @@ $messages['sv'] = array(
 	'tux-sst-count' => '{{PLURAL:$1|Ett|$1}} resultat hittades',
 	'tux-sst-facet-language' => 'Språk',
 	'tux-sst-facet-group' => 'Meddelandegrupper',
+	'tux-sst-facet-orphan' => '(föräldralös)',
 	'tux-sst-nosolr-title' => 'Sökning är inte tillgänglig',
 	'tux-sst-nosolr-body' => 'Denna wiki har inte en tjänst för att söka efter översättningar.',
 	'tux-sst-solr-offline-title' => 'Sökning är inte tillgänglig',
 	'tux-sst-solr-offline-body' => 'Söktjänsten är inte tillgänglig för tillfället.',
+	'tux-sst-next' => 'Nästa resultat',
+	'tux-sst-prev' => 'Föregående resultat',
 );
 
 /** Turkish (Türkçe)

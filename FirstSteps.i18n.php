@@ -647,6 +647,16 @@ $messages['ca'] = array(
 	'translate-fs-pagetitle-done' => ' - fet!',
 );
 
+/** Chechen (нохчийн)
+ * @author Умар
+ */
+$messages['ce'] = array(
+	'translate-fs-settings-planguage' => 'Коьрта мотт:',
+	'translate-fs-settings-slanguage' => 'ГӀоьнан мотт $1:',
+	'translate-fs-userpage-level-N' => 'Сан дай мотт',
+	'translate-fs-permissions-planguage' => 'Коьрта мотт:',
+);
+
 /** Sorani Kurdish (کوردی)
  * @author Muhammed taha
  */
@@ -700,7 +710,7 @@ Zde si můžete zvolit, které jazyky, pokud vůbec nějaké, chcete vidět.',
 	'translate-fs-userpage-level-3' => 'Mám dobrou znalost jazyka',
 	'translate-fs-userpage-level-2' => 'Mám průměrnou znalost jazyka',
 	'translate-fs-userpage-level-1' => 'Umím trochu jazyk',
-	'translate-fs-userpage-help' => 'Uveďte své jazykové znalosti a řekněte nám něco o sobě. Pokud umíte víc než pět jazyků, budete později moci přidat další.', # Fuzzy
+	'translate-fs-userpage-help' => 'Uveďte své jazykové znalosti a řekněte něco o sobě. Pokud umíte víc než pět jazyků, budete později moci přidat další.',
 	'translate-fs-userpage-submit' => 'Založte si uživatelskou stránku',
 	'translate-fs-userpage-done' => 'Výtečně! Teď máte svou uživatelskou stránku.',
 	'translate-fs-permissions-planguage' => 'Primární jazyk:',
@@ -2355,7 +2365,7 @@ $messages['km'] = array(
  */
 $messages['ko'] = array(
 	'firststeps' => '첫걸음',
-	'firststeps-desc' => '[[Special:FirstSteps|특수 문서]]로 Translate 확장기능을 사용해 기여를 시작할 수 있도록 합니다.',
+	'firststeps-desc' => '번역 확장 기능을 사용해 기여를 시작하기 위한 [[Special:FirstSteps|특수 문서]]',
 	'translate-fs-pagetitle-done' => '- 완료!',
 	'translate-fs-pagetitle-pending' => '- 처리 대기 중',
 	'translate-fs-pagetitle' => '시작 마법사 - $1',
@@ -2373,7 +2383,8 @@ $messages['ko'] = array(
 	'translate-fs-settings-planguage-desc' => '모어는 여기 웹사이트에서 인터페이스 언어이자
 번역할 때 기본 도착어가 됩니다.',
 	'translate-fs-settings-slanguage' => '보조 언어 $1:',
-	'translate-fs-settings-slanguage-desc' => '번역 편집기에서 다른 언어로 된 메시지의 번역을 나타낼 수도 있습니다. 여기서 보고 싶은 언어를 선택할 수 있습니다.',
+	'translate-fs-settings-slanguage-desc' => '번역 편집기에서 다른 언어로 된 메시지의 번역을 나타낼 수도 있습니다.
+여기서 보고 싶은 언어를 선택할 수 있습니다.',
 	'translate-fs-settings-submit' => '환경 설정 저장하기',
 	'translate-fs-userpage-level-N' => '이 언어는 내 모어입니다.',
 	'translate-fs-userpage-level-5' => '나는 전문 번역가입니다.',
@@ -2381,11 +2392,12 @@ $messages['ko'] = array(
 	'translate-fs-userpage-level-3' => '나는 이 언어를 잘 구사합니다.',
 	'translate-fs-userpage-level-2' => '저는 이 언어를 보통 수준으로 구사합니다.',
 	'translate-fs-userpage-level-1' => '나는 이 언어를 거의 모릅니다.',
-	'translate-fs-userpage-help' => '자신의 언어 능력을 밝히고 우리에게 자신을 소개하십시오. 언어를 여섯 가지 이상 안다면 나중에 첨가할 수 있습니다.', # Fuzzy
+	'translate-fs-userpage-help' => '자신의 언어 능력을 밝히고 자신을 소개하세요. 언어를 여섯 가지 이상 안다면 나중에 첨가할 수 있습니다.',
 	'translate-fs-userpage-submit' => '내 사용자 문서 만들기',
 	'translate-fs-userpage-done' => '잘 했습니다! 이제 내 사용자 문서가 생겼습니다.',
 	'translate-fs-permissions-planguage' => '모어:',
-	'translate-fs-permissions-help' => '지금 번역자 그룹에 추가되도록 요청할 필요가 있습니다. 번역 모어를 선택하십시오.
+	'translate-fs-permissions-help' => '지금 번역자 그룹에 추가되도록 요청할 필요가 있습니다.
+번역 모어를 선택하세요.
 
 아래 상자에서 다른 언어 및 의견을 말할 수 있습니다.',
 	'translate-fs-permissions-pending' => '요청이 [[$1]]로 제출되었으며 여기 웹사이트 직원이 되도록 빨리 그 요청을 검토할 것입니다.
@@ -2597,6 +2609,14 @@ $messages['lv'] = array(
 	'firststeps' => 'Pirmie soļi',
 	'translate-fs-selectlanguage' => 'Izvēlēties valodu',
 	'translate-fs-settings-planguage' => 'Galvenā valoda:',
+);
+
+/** Literary Chinese (文言)
+ * @author Yanteng3
+ */
+$messages['lzh'] = array(
+	'translate-fs-email-title' => '惠考郵驛',
+	'translate-fs-settings-submit' => '存註',
 );
 
 /** Malagasy (Malagasy)
@@ -3005,6 +3025,34 @@ $messages['oc'] = array(
 	'translate-fs-pagetitle-pending' => '- en cors',
 );
 
+/** Punjabi (ਪੰਜਾਬੀ)
+ * @author Babanwalia
+ */
+$messages['pa'] = array(
+	'firststeps' => 'ਪਹਿਲੇ ਕਦਮ',
+	'translate-fs-pagetitle-done' => ' - ਹੋ ਗਿਆ!',
+	'translate-fs-pagetitle-pending' => ' - ਲਟਕਿਆ ਹੋਇਆ',
+	'translate-fs-signup-title' => 'ਸਾਈਨ ਅੱਪ',
+	'translate-fs-settings-title' => 'ਆਪਣੀਆਂ ਪਸੰਦਾਂ ਚੁਣੋ',
+	'translate-fs-userpage-title' => 'ਆਪਣਾ ਵਰਤੋਂਕਾਰ ਸਫ਼ਾ ਬਣਾਓ',
+	'translate-fs-permissions-title' => 'ਅਨੁਵਾਦਕ ਇਜਾਜ਼ਤਾਂ ਲਈ ਬੇਨਤੀ ਕਰੋ',
+	'translate-fs-target-title' => 'ਅਨੁਵਾਦ ਸ਼ੁਰੂ ਕਰੋ!',
+	'translate-fs-email-title' => 'ਆਪਣਾ ਈਮੇਲ ਪਤਾ ਤਸਦੀਕ ਕਰਾਓ',
+	'translate-fs-selectlanguage' => 'ਇੱਕ ਭਾਸ਼ਾ ਚੁਣੋ',
+	'translate-fs-settings-planguage' => 'ਮੁਢਲੀ ਭਾਸ਼ਾ:',
+	'translate-fs-settings-slanguage' => 'ਸਹਾਇਕ ਭਾਸ਼ਾ $1:',
+	'translate-fs-settings-submit' => 'ਪਸੰਦਾਂ ਸਾਂਭੋ',
+	'translate-fs-userpage-level-N' => 'ਮੇਰੀ ਮਾਂ ਬੋਲੀ ਹੈ',
+	'translate-fs-userpage-level-4' => 'ਮੈਂ ਇਹਨੂੰ ਮਾਂ ਬੋਲੀ ਵਾਂਗ ਜਾਣਦਾ ਹਾਂ',
+	'translate-fs-userpage-level-3' => 'ਮੈਂ ਚੰਗੀ ਤਰ੍ਹਾਂ ਜਾਣਦਾ ਹਾਂ',
+	'translate-fs-userpage-level-2' => 'ਮੈਂ ਠੀਕ-ਠਾਕ ਜਾਣਦਾ ਹਾਂ',
+	'translate-fs-userpage-level-1' => 'ਮੈਂ ਥੋੜ੍ਹੀ ਥੋੜ੍ਹੀ ਜਾਣਦਾ ਹਾਂ',
+	'translate-fs-userpage-submit' => 'ਆਪਣਾ ਵਰਤੋਂਕਾਰ ਸਫ਼ਾ ਬਣਾਓ',
+	'translate-fs-userpage-done' => 'ਸ਼ਾਬਾਸ਼! ਹੁਣ ਤੁਹਾਡੇ ਕੋਲ ਇੱਕ ਵਰਤੋਂਕਾਰ ਸਫ਼ਾ ਹੈ।',
+	'translate-fs-permissions-planguage' => 'ਮੁਢਲੀ ਭਾਸ਼ਾ:',
+	'translate-fs-permissions-submit' => 'ਬੇਨਤੀ ਭੇਜੋ',
+);
+
 /** Deitsch (Deitsch)
  * @author Xqt
  */
@@ -3233,6 +3281,7 @@ $messages['ps'] = array(
 /** Portuguese (português)
  * @author Giro720
  * @author Hamilton Abreu
+ * @author Luckas
  * @author Malafaya
  * @author SandroHc
  */
@@ -3250,7 +3299,7 @@ $messages['pt'] = array(
 	'translate-fs-email-title' => 'Confirme o seu endereço de correio electrónico',
 	'translate-fs-intro' => "Bem-vindo ao assistente de iniciação da {{SITENAME}}.
 Será conduzido passo a passo através do processo necessário para se tornar um tradutor.
-No fim, será capaz de traduzir as ''mensagens da interface'' de todos os projectos suportados na {{SITENAME}}.",
+No fim, será capaz de traduzir as ''mensagens da interface'' de todos os projetos suportados na {{SITENAME}}.",
 	'translate-fs-selectlanguage' => 'Escolha uma língua',
 	'translate-fs-settings-planguage' => 'Idioma principal:',
 	'translate-fs-settings-slanguage' => 'Idioma de ajuda $1:',
@@ -3272,12 +3321,12 @@ Você receberá uma notificação por e-mail quando isso acontecer se confirmar/
 Agora pode começar a traduzir.
 
 Não se amedronte se tudo lhe parece ainda novo e confuso.
-Na [[Project list|lista de projectos]] há um resumo dos projectos de tradução em que pode colaborar.
-A maioria dos projectos tem uma página de descrição breve com um link «Traduza este projecto», que o leva a uma página com todas as mensagens ainda por traduzir.
+Na [[Project list|lista de projetos]] há um resumo dos projetos de tradução em que pode colaborar.
+A maioria dos projetos tem uma página de descrição breve com um link «Traduza este projeto», que o leva a uma página com todas as mensagens ainda por traduzir.
 Também está disponível uma lista de todos os grupos de mensagens com o [[Special:LanguageStats|estado presente de tradução para uma língua]].
 
 Se acredita que precisa de compreender o processo melhor antes de começar a traduzir, pode ler as [[FAQ|perguntas frequentes]].
-Infelizmente a documentação pode, por vezes, estar desactualizada.
+Infelizmente a documentação pode, por vezes, estar desatualizada.
 Se há alguma coisa que acha que devia poder fazer, mas não consegue descobrir como, não hesite em perguntar na [[Support|página de suporte]].
 
 Pode também contactar os outros tradutores da mesma língua na [[Portal_talk:$1|página de discussão]] do [[Portal:$1|portal da sua língua]].
@@ -3460,6 +3509,25 @@ Tu puè scrivere otre lènghe e otre segnalaziune jndr'à buatte de teste aqquà
 	'translate-fs-permissions-pending' => "'A richiesta toje ha state confermate sus a [[$1]] e quaccheotre da 'a squadre d'u site adda verificà quanne pò.
 Cer tu conferme l'indirizze email tune, tu è 'na notifiche cu 'a mail aprrime possibbile.",
 	'translate-fs-permissions-submit' => "Manne 'na richieste",
+	'translate-fs-target-text' => "Comblimende!
+Tu puè accumenzà a traducere.
+
+No te pigghià 'u sckande ce angore te sinde nuève e confuse.
+Jndr'à l'[[Project list|elenghe de le pruggette]] stè 'na panorameche de le pruggette ca puè traducere.
+Assaije de le pruggette onne 'na pàgene de descrizione corte cu 'nu collegamende \"''Traduce stu proggette''\", ca te porte sus a 'na pàgene ca elenghe tutte le messàgge none tradotte.
+'N'elenghe de tutte le gruppe de messàgge cu 'u [[Special:LanguageStats|state de mò de le traduziune pe lènghe]] jè ppure disponibbile.
+
+Ce tu sinde ca è abbesògne de capì megghie apprime de accumenzà a traducere, tu puè leggere le [[FAQ|domande cchiù frequende]].
+Sfortunatamende 'a documendazione certe vote pò essere vecchie.
+Ce stè quacchecose ca tu pinze ca avissa riuscì a fà, ma non ge iacche accumme fà, nò te fà probbleme a cercà a 'a [[Support|pàgene d'aijute]].
+
+Tu puè pure condattà le tradutture d'a stessa lènga toje sus a [[Portal_talk:\$1|pàgene de le 'ngazzaminde]] d'u [[Portal:\$1|portale d'a lènga toje]].
+Ce non g'è fatte accussì, [[Special:Preferences|cange l'inderfacce d'a lènghe, jndr'à lènghe ca vuè ccu traducere]], accussì 'a uicchi te face 'ndrucà le collegaminde cchiù 'mbortande pe te.",
+	'translate-fs-email-text' => "Pe piacere mitte l'indirizze email tune jndr'à [[Special:Preferences|le preferenze tune]] e confermale da l'email ca t'arrive.
+
+Quiste permette a le otre utinde de condattarte cu l'email.
+Tu puè pure ricevere le newsletter 'na vote a 'u mese.
+Ce tu non ge vuè ricevere le newsletter, tu puè luà 'a scelte jndr'à schede \"{{int:prefs-personal}}\" de le [[Special:Preferences|preferenze tune]].",
 );
 
 /** Russian (русский)

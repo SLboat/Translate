@@ -25,7 +25,7 @@ define( 'TRANSLATE_VERSION', '2013-04-29' );
 $wgExtensionCredits['specialpage'][] = array(
 	'path' => __FILE__,
 	'name' => 'Translate',
-	'version' => '[https://www.mediawiki.org/wiki/MLEB MLEB 2013.06]',
+	'version' => '[https://www.mediawiki.org/wiki/MLEB MLEB 2013.07]',
 	'author' => array( 'Niklas Laxström', 'Siebrand Mazeland' ),
 	'descriptionmsg' => 'translate-desc',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:Translate',
@@ -40,6 +40,7 @@ require_once "$dir/_autoload.php";
 /** @endcond */
 
 /**
+ * Registering various resources
  * @cond file_level_code
  */
 
@@ -211,6 +212,8 @@ $wgJobClasses['TTMServerMessageUpdateJob'] = 'TTMServerMessageUpdateJob';
 $wgJobClasses['TranslateSandboxReminderJob'] = 'TranslateSandboxReminderJob';
 
 require "$dir/Resources.php";
+/** @endcond */
+
 
 # == Configuration variables ==
 
@@ -291,8 +294,9 @@ $wgTranslateTranslationServices['Apertium'] = array(
 	'type' => 'apertium',
 );
 $wgTranslateTranslationServices['Yandex'] = array(
-	'url' => 'http://translate.yandex.net/api/v1/tr.json/translate',
-	'pairs' => 'http://translate.yandex.net/api/v1/tr.json/getLangs',
+	'url' => 'https://translate.yandex.net/api/v1.5/tr.json/translate',
+	'key' => null,
+	'pairs' => 'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
 	'timeout' => 3,
 	'langorder' => array( 'en', 'ru', 'uk', 'de', 'fr', 'pl', 'it', 'es', 'tr' ),
 	'langlimit' => 1,
@@ -426,7 +430,7 @@ $wgTranslateAuthorBlacklist[] = array( 'black', '/^.*;.*;.*Bot$/Ui' );
 
 /**
  * List of namespace that contain messages. No talk namespaces.
- * @see http://translatewiki.net/wiki/Translating:Group_configuration
+ * @see https://www.mediawiki.org/wiki/Help:Extension:Translate/Group_configuration
  */
 $wgTranslateMessageNamespaces = array( NS_MEDIAWIKI );
 
@@ -465,7 +469,7 @@ $wgTranslateGroupFiles = array();
  * If the value is false, the workflow states feature is disabled.
  * State name can be up to 32 characters maximum.
  * Example:
- * $wgTranslateWorkflowStates["groupid"] = array(
+ * $wgTranslateWorkflowStates = array(
  *      'new' => array( 'color' => 'FF0000' ), // red
  *      'needs_proofreading' => array( 'color' => '0000FF' ), // blue
  *      'ready' => array( 'color' => 'FFFF00' ), // yellow
@@ -474,9 +478,6 @@ $wgTranslateGroupFiles = array();
  *          'right' => 'centralnotice-admin',
  *      ),
  * );
- * If there is a default workflowstate for all groups, define it like this:
- *  $wgTranslateWorkflowStates["default"] = array( // configuration )
- *
  */
 $wgTranslateWorkflowStates = false;
 
@@ -562,14 +563,14 @@ $wgTranslateYamlLibrary = 'spyc';
 /**
  * Whether to allow users to sign up via a sandbox. Sandboxed users cannot do
  * much until approved and thus they can be get rid of easily.
- * @since 2013-04
+ * @since 2013.04
  */
 $wgTranslateUseSandbox = false;
 
 /**
  * To which group the translators are promoted. If left at false, they will just
  * be removed from sandbox and become normal users.
- * @since 2013-04
+ * @since 2013.04
  */
 $wgTranslateSandboxPromotedGroup = false;
 

@@ -4,7 +4,7 @@
  *
  * @file
  * @author Niklas Laxström
- * @license GPL2+
+ * @license GPL-2.0+
  */
 
 /**
@@ -13,6 +13,10 @@
  * @ingroup FFS
  */
 class XliffFFS extends SimpleFFS {
+	public function getFileExtensions() {
+		return array( '.xlf', '.xliff', '.xml' );
+	}
+
 	public function readFromVariable( $data, $element = 'target' ) {
 
 		$messages = array();

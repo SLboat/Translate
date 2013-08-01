@@ -3,7 +3,7 @@
  * Translations for the sandbox feature.
  *
  * @file
- * @license GPL2+
+ * @license GPL-2.0+
  */
 
 $messages = array();
@@ -176,6 +176,22 @@ $messages['ja'] = array(
 	'tsb-filter-pending' => '保留中の申請',
 );
 
+/** Korean (한국어)
+ * @author 아라
+ */
+$messages['ko'] = array(
+	'translatesandbox' => '번역자 연습장 관리',
+	'tsb-filter-pending' => '보류 중인 요청',
+	'tsb-reminder-title-generic' => '검증된 번역자가 되려면 소개를 완료하세요',
+	'tsb-reminder-content-generic' => '$1님 안녕하세요,
+
+{{SITENAME}}에 등록해주셔서 감사합니다. 테스트 번역을
+완료하면, 관리자는 곧 전체 번역 접근 권한을 부여할 수
+있습니다.
+
+$2에 와서 조금 더 번역을 해주세요.',
+);
+
 /** Colognian (Ripoarisch)
  * @author Purodha
  */
@@ -210,6 +226,20 @@ $messages['mk'] = array(
 Ви благодариме што се регистриравте на {{SITENAME}}. Пополнете ги пробните преводи, и администраторите набргу ќе ви доделат статус на преведувач.
 
 Појдете на $2 и направете уште некои преводи.',
+);
+
+/** Malay (Bahasa Melayu)
+ * @author Anakmalaysia
+ */
+$messages['ms'] = array(
+	'translatesandbox' => 'Uruskan kotak pasir penterjemah',
+	'tsb-filter-pending' => 'Permohonan yang menunggu',
+	'tsb-reminder-title-generic' => 'Lengkapkan pengenalan anda untuk menjadi seorang penterjemah yang sah',
+	'tsb-reminder-content-generic' => '$1,
+
+Terima kasih kerana mendaftar untuk {{SITENAME}}. Sekiranya anda melengkapkan ujian penterjemahan ini, anda akan menerima akses penterjemah sepenuhnya dari pihak penyelia.
+
+Sila ke $2 untuk membuat lebih banyak kerja terjemahan.',
 );
 
 /** Dutch (Nederlands)
@@ -249,6 +279,20 @@ Tu t'è reggistrate da picche sus a {{SITENAME}}. A fà angore quacche otre pass
 Pe piacere tràse jndr'à $2 e fà angore quacche otre traduzione.", # Fuzzy
 );
 
+/** Swedish (svenska)
+ * @author WikiPhoenix
+ */
+$messages['sv'] = array(
+	'translatesandbox' => 'Hantera översättarsandlåda',
+	'tsb-filter-pending' => 'Väntande förfrågningar',
+	'tsb-reminder-title-generic' => 'Slutför din introduktion för att bli en verifierad översättare',
+	'tsb-reminder-content-generic' => 'Hej $1,
+
+Tack för din registrering på {{SITENAME}}. Om du slutför dina testöversättningar kan administratörerna snart ge dig full behörighet till att översätta.
+
+Var god kom till $2 och gör några fler översättningar.',
+);
+
 /** Telugu (తెలుగు)
  * @author Veeven
  */
@@ -259,10 +303,18 @@ $messages['te'] = array(
 
 /** Ukrainian (українська)
  * @author Base
+ * @author Ата
  */
 $messages['uk'] = array(
 	'translatesandbox' => 'Керування грамайданчиком перекладачів',
 	'tsb-filter-pending' => 'Запити в очікуванні',
+	'tsb-reminder-title-generic' => 'Завершіть своє представлення, щоб стати перевіреним перекладачем',
+	'tsb-reminder-content-generic' => 'Привіт, $1!
+
+Дякуємо за реєстрацію у проекті {{SITENAME}}. Якщо Ви завершите свої тестові 
+переклади, адміністратори зможуть скоро надати Вам повні права на переклад.
+
+Будь ласка, перейдіть на $2 і зробіть ще декілька перекладів.',
 );
 
 /** Traditional Chinese (中文（繁體）‎)
