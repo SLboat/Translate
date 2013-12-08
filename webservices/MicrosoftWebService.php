@@ -30,7 +30,7 @@ class MicrosoftWebService extends TranslationWebService
             'zh-hans' => 'zh-CHS',
             'zh-cn' => 'zh-CHS'
         );
-        wfErrorLog('查询了映射代码：'.$code."\n", '/tmp/wm.log' ); //调试信息
+        #wfErrorLog('查询了映射代码：'.$code."\n", '/tmp/wm.log' ); //调试信息
         return isset($map[$code]) ? $map[$code] : $code;
     }
     
@@ -56,18 +56,18 @@ class MicrosoftWebService extends TranslationWebService
             'client_id' => $clientID,
             'client_secret' => $clientSecret
         );
-
-        wfErrorLog('工厂构造'.serialize($options), '/tmp/wm.log' ); //调试信息
+        # 可能用的上再次转录 $url .= wfArrayToCgi($params);
+        #wfErrorLog('工厂构造'.serialize($options), '/tmp/wm.log' ); //调试信息
 
         $req = MWHttpRequest::factory($authUrl, $options);
 
-        wfErrorLog('开始请求\n', '/tmp/wm.log' ); //调试信息        
+        #wfErrorLog('开始请求\n', '/tmp/wm.log' ); //调试信息        
 
         $status = $req->execute(); //看起来死在这里,问题是选项啥的
-        wfErrorLog('请求送出去了\n', '/tmp/wm.log' ); //调试信息
+        #wfErrorLog('请求送出去了\n', '/tmp/wm.log' ); //调试信息
 
         if (!$status->isOK()) {
-            wfErrorLog('获得token死了咯\n', '/tmp/wm.log' ); //调试信息
+            #wfErrorLog('获得token死了咯\n', '/tmp/wm.log' ); //调试信息
             
             $error = $req->getContent();
             // Most likely a timeout or other general error
@@ -75,13 +75,13 @@ class MicrosoftWebService extends TranslationWebService
             throw new TranslationWebServiceException( $exception );
         }
         $ret = $req->getContent();
-        wfErrorLog('获得了内容：'.$ret, '/tmp/wm.log' ); //调试信息
+        #wfErrorLog('获得了内容：'.$ret, '/tmp/wm.log' ); //调试信息
         
         $objResponse = json_decode($ret);
         if ($objResponse->error) { //抛出异常啥的
             throw new TranslationWebServiceException($objResponse->error_description); //抛给它去
         }
-        wfErrorLog("得到的最终token：".$objResponse->access_token, '/tmp/wm.log' ); //调试信息
+        #wfErrorLog("得到的最终token：".$objResponse->access_token, '/tmp/wm.log' ); //调试信息
         return $objResponse->access_token;
         
     }
@@ -94,7 +94,7 @@ class MicrosoftWebService extends TranslationWebService
      */
     protected function doPairs()
     {
-        wfErrorLog('开始配对信息', '/tmp/wm.log' ); //调试信息0
+        #wfErrorLog('开始配对信息', '/tmp/wm.log' ); //调试信息0
         //判断下数据是否齐全
         if (!isset($this->config['clientid']) || !isset($this->config['clientSecret'])) { //抛出异常啥的
             throw new TranslationWebServiceException('clientid or clientSecret is not set'); //抛出来后可能就死亡了
@@ -122,13 +122,13 @@ class MicrosoftWebService extends TranslationWebService
         $status = $req->execute();
         wfProfileOut('TranslateWebServiceRequest-' . $this->service . '-pairs');
         
-        wfErrorLog('验证号'.  $accessToken."\n", '/tmp/wm.log' ); //调试信息
+        #wfErrorLog('验证号'.  $accessToken."\n", '/tmp/wm.log' ); //调试信息
         
         if (!$status->isOK()) {
                        
             $error = $req->getContent();
 
-			wfErrorLog('获取翻译语言支持死了咯 >'.$error, '/tmp/wm.log' ); //调试信息，粗略的
+			#wfErrorLog('获取翻译语言支持死了咯 >'.$error, '/tmp/wm.log' ); //调试信息，粗略的
 
             // Most likely a timeout or other general error	
             throw new TranslationWebServiceException('Http::get failed:' . serialize($error) . serialize($status));
@@ -136,7 +136,7 @@ class MicrosoftWebService extends TranslationWebService
 
         $xml = simplexml_load_string($req->getContent());
         
-		wfErrorLog('取回支持语言：'.$req->getContent(), '/tmp/wm.log' ); //调试信息，可以清理
+		#wfErrorLog('取回支持语言：'.$req->getContent(), '/tmp/wm.log' ); //调试信息，可以清理
 
         $languages = array();
         foreach ($xml->string as $language) {
@@ -148,7 +148,7 @@ class MicrosoftWebService extends TranslationWebService
         $pairs = array();
         foreach ($languages as $from) {
             foreach ($languages as $to) {
-                //wfErrorLog('写入支持语言：'.$from.":".$to,"/tmp/wm.log");
+                #wfErrorLog('写入支持语言：'.$from.":".$to,"/tmp/wm.log");
                 if ($from != $to){ #不给写入完全一样的语言代码
                     $pairs[$from][$to] = true;
                 }
@@ -166,7 +166,7 @@ class MicrosoftWebService extends TranslationWebService
             //真奇怪呢，看起来出错就跳死了
         }
 
-        wfErrorLog("准备翻译咯\n", '/tmp/wm.log' ); //调试信息
+        #wfErrorLog("准备翻译咯\n", '/tmp/wm.log' ); //调试信息
 
         /* 获得token开始 */
         $clientID     = $this->config['clientid']; //客户ID
@@ -194,7 +194,7 @@ class MicrosoftWebService extends TranslationWebService
 		//转录参数到地址
         $url .= wfArrayToCgi($params);
         
-        wfErrorLog("本次翻译地址:".$url."\n", '/tmp/wm.log' ); //调试信息
+        #wfErrorLog("本次翻译地址:".$url."\n", '/tmp/wm.log' ); //调试信息
         
         $req = MWHttpRequest::factory($url, $options);
         //设置头部验证
@@ -205,7 +205,7 @@ class MicrosoftWebService extends TranslationWebService
         wfProfileOut('TranslateWebServiceRequest-' . $this->service);
         
         if (!$status->isOK()) {
-            wfErrorLog('死了咯\n', '/tmp/wm.log' ); //调试信息
+            #wfErrorLog('死了咯\n', '/tmp/wm.log' ); //调试信息
             
             $error = $req->getContent();
             // Most likely a timeout or other general error
@@ -220,7 +220,7 @@ class MicrosoftWebService extends TranslationWebService
         
         $text = str_replace('! N!', '!N!', $text); //替换返回来的换行符号乱码，被转为空格
 
-		wfErrorLog('返回字符串'.$text, '/tmp/wm.log' ); //调试信息
+		#wfErrorLog('返回字符串'.$text, '/tmp/wm.log' ); //调试信息
 
         return $this->unwrapUntranslatable($text);
     }
