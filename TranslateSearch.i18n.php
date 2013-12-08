@@ -3,7 +3,7 @@
  * Translations for the TranslationSearch special page.
  *
  * @file
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 $messages = array();
@@ -46,7 +46,8 @@ $messages['qqq'] = array(
 {{Identical|Search}}',
 	'tux-sst-search-ph' => 'Placeholder text in input field.
 {{Identical|Search translation}}',
-	'tux-sst-count' => '$1 is the number of search results',
+	'tux-sst-count' => 'Parameters:
+* $1 - the number of search results',
 	'tux-sst-facet-language' => 'Label for a facet in [[Special:TranslationSearch]].
 {{Identical|Language}}',
 	'tux-sst-facet-group' => 'Label for a facet in [[Special:TranslationSearch]].
@@ -133,6 +134,14 @@ $messages['be-tarask'] = array(
 	'tux-sst-prev' => 'Папярэднія вынікі',
 );
 
+/** Bulgarian (български)
+ * @author DCLXVI
+ */
+$messages['bg'] = array(
+	'tux-sst-search' => 'Търсене',
+	'tux-sst-facet-language' => 'Езици',
+);
+
 /** Bengali (বাংলা)
  * @author Aftab1995
  * @author Nasir8891
@@ -165,12 +174,60 @@ $messages['br'] = array(
 	'tux-sst-facet-orphan' => '(emzivad)',
 );
 
+/** Catalan (català)
+ * @author Toniher
+ */
+$messages['ca'] = array(
+	'searchtranslations' => 'Cerca a les traduccions',
+	'tux-sst-edit' => 'Edita la traducció',
+	'tux-sst-search' => 'Cerca',
+	'tux-sst-search-ph' => 'Cerca a les traduccions',
+	'tux-sst-count' => "{{PLURAL:$1|S'ha trobat $1 resultat|S'han trobat $1 resultats}}",
+	'tux-sst-facet-language' => 'Llengües',
+	'tux-sst-facet-group' => 'Grups de missatges',
+	'tux-sst-facet-orphan' => '(orfe)',
+	'tux-sst-nosolr-title' => 'Cerca no disponible',
+	'tux-sst-nosolr-body' => 'Aquest wiki no té un servei de cerca de les traduccions.',
+	'tux-sst-solr-offline-title' => 'Cerca no disponible',
+	'tux-sst-solr-offline-body' => 'El servei de cerca no està disponible temporalment.',
+	'tux-sst-next' => 'Resultats següents',
+	'tux-sst-prev' => 'Resultats anteriors',
+);
+
 /** Chechen (нохчийн)
  * @author Умар
  */
 $messages['ce'] = array(
+	'searchtranslations' => 'Гоч лахар',
+	'tux-sst-edit' => 'Таде гочдар',
 	'tux-sst-search' => 'Лаха',
+	'tux-sst-search-ph' => 'Гоч лахар',
+	'tux-sst-count' => '{{PLURAL:$1|Карина $1 хилам|Карина $1 хиламаш}}',
 	'tux-sst-facet-language' => 'Меттанаш',
+	'tux-sst-facet-group' => 'Хаамийн тоба',
+	'tux-sst-next' => 'ТӀехьа догӀург',
+	'tux-sst-prev' => 'Хьалхо хиларг',
+);
+
+/** Czech (česky)
+ * @author Littledogboy
+ * @author Mormegil
+ */
+$messages['cs'] = array(
+	'searchtranslations' => 'Hledání v překladech',
+	'tux-sst-edit' => 'Editovat překlad',
+	'tux-sst-search' => 'Hledat',
+	'tux-sst-search-ph' => 'Hledat v překladech',
+	'tux-sst-count' => '{{PLURAL:$1|Nalezen jeden výsledek|Nalezeny $1 výsledky|Nalezeno $1 výsledků}}',
+	'tux-sst-facet-language' => 'Jazyky',
+	'tux-sst-facet-group' => 'Skupiny zpráv',
+	'tux-sst-facet-orphan' => '(sirotek)',
+	'tux-sst-nosolr-title' => 'Hledání není dostupné',
+	'tux-sst-nosolr-body' => 'Tato wiki nedisponuje službou pro vyhledávání překladů.',
+	'tux-sst-solr-offline-title' => 'Hledání není dostupné',
+	'tux-sst-solr-offline-body' => 'Služba pro hledání je dočasně nedostupná.',
+	'tux-sst-next' => 'Další výsledky',
+	'tux-sst-prev' => 'Předchozí výsledky',
 );
 
 /** Church Slavic (словѣ́ньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ)
@@ -244,6 +301,20 @@ $messages['dsb'] = array(
 	'tux-sst-nosolr-body' => 'Toś ten wiki njama słužbu za pytanje pśełožkow.',
 	'tux-sst-solr-offline-title' => 'Pytanje njestoj k dispoziciji',
 	'tux-sst-solr-offline-body' => 'Pytańska słužba njestoj tuchylu k dispoziciji.',
+);
+
+/** Spanish (español)
+ * @author Ovruni
+ */
+$messages['es'] = array(
+	'tux-sst-edit' => 'Editar traducción',
+	'tux-sst-search' => 'Buscar',
+	'tux-sst-search-ph' => 'Buscar traducciones',
+	'tux-sst-count' => '{{PLURAL:$1|Un resultado encontrado|$1 resultados encontrados}}',
+	'tux-sst-facet-language' => 'Idiomas',
+	'tux-sst-facet-group' => 'Grupos de mensajes',
+	'tux-sst-next' => 'Resultados siguientes',
+	'tux-sst-prev' => 'Resultados anteriores',
 );
 
 /** Estonian (eesti)
@@ -333,6 +404,26 @@ $messages['gl'] = array(
 	'tux-sst-solr-offline-body' => 'O servizo de procura non está dispoñible temporalmente.',
 	'tux-sst-next' => 'Resultados seguintes',
 	'tux-sst-prev' => 'Resultados anteriores',
+);
+
+/** Gujarati (ગુજરાતી)
+ * @author Ashok modhvadia
+ */
+$messages['gu'] = array(
+	'searchtranslations' => 'ભાષાંતરો શોધો',
+	'tux-sst-edit' => 'ભાષાંતરો સંપાદિત કરો',
+	'tux-sst-search' => 'શોધો',
+	'tux-sst-search-ph' => 'ભાષાંતરો શોધો',
+	'tux-sst-count' => '{{PLURAL:$1|એક પરિણામ મળ્યુ|$1 પરિણામો મળ્યા}}',
+	'tux-sst-facet-language' => 'ભાષાઓ',
+	'tux-sst-facet-group' => 'સંદેશ જૂથો',
+	'tux-sst-facet-orphan' => '(અનાથ)',
+	'tux-sst-nosolr-title' => 'શોધ ઉપલબ્ધ નથી',
+	'tux-sst-nosolr-body' => 'આ વિકિ પર ભાષાંતર શોધ સેવા ઉપલબ્ધ નથી.',
+	'tux-sst-solr-offline-title' => 'શોધ ઉપલબ્ધ નથી',
+	'tux-sst-solr-offline-body' => 'આ શોધ સેવા હાલ ઉપલબ્ધ નથી.',
+	'tux-sst-next' => 'પછીનાં પરિણામો',
+	'tux-sst-prev' => 'આગલાં પરિણામો',
 );
 
 /** Hebrew (עברית)
@@ -527,6 +618,23 @@ $messages['lb'] = array(
 	'tux-sst-prev' => 'Vireg Resultater',
 );
 
+/** لوری (لوری)
+ * @author Mogoeilor
+ */
+$messages['lrc'] = array(
+	'searchtranslations' => 'پی جوری لرسنيا',
+	'tux-sst-edit' => 'ويرايشت لرسن',
+	'tux-sst-search' => 'پی جوری',
+	'tux-sst-search-ph' => 'پی جوری لرسنيا',
+	'tux-sst-facet-language' => 'زونيا',
+	'tux-sst-facet-group' => 'پيغوم گرويا',
+	'tux-sst-facet-orphan' => '(يتيم)',
+	'tux-sst-nosolr-title' => 'پی جوری د دسرس نئ',
+	'tux-sst-solr-offline-title' => 'پی جوری د دسرس نئ',
+	'tux-sst-next' => 'نتيجيا نيايی',
+	'tux-sst-prev' => 'نتيجيا دمايی',
+);
+
 /** Latvian (latviešu)
  * @author Papuass
  */
@@ -625,7 +733,7 @@ $messages['nn'] = array(
  */
 $messages['oc'] = array(
 	'searchtranslations' => 'Recèrca de traduccions',
-	'tux-sst-edit' => 'Modificar lo messatge', # Fuzzy
+	'tux-sst-edit' => 'Modificar la traduccion',
 	'tux-sst-search' => 'Recercar',
 	'tux-sst-facet-language' => 'Lengas',
 	'tux-sst-facet-group' => 'Gropes de messatge',
@@ -669,11 +777,25 @@ $messages['pms'] = array(
 	'tux-sst-nosolr-body' => "La wiki a l'ha pa un servissi d'arserca ëd tradussion.",
 );
 
+/** Portuguese (português)
+ * @author Luckas
+ */
+$messages['pt'] = array(
+	'tux-sst-search' => 'Pesquisar',
+);
+
 /** Brazilian Portuguese (português do Brasil)
  * @author Luckas
  */
 $messages['pt-br'] = array(
 	'tux-sst-edit' => 'Editar tradução',
+);
+
+/** Quechua (Runa Simi)
+ * @author AlimanRuna
+ */
+$messages['qu'] = array(
+	'tux-sst-facet-language' => 'Rimaykuna',
 );
 
 /** Romanian (română)
@@ -735,6 +857,16 @@ $messages['ru'] = array(
 	'tux-sst-solr-offline-body' => 'Служба поиска временно недоступна.',
 	'tux-sst-next' => 'Следующие результаты',
 	'tux-sst-prev' => 'Предыдущие результаты',
+);
+
+/** Slovak (slovenčina)
+ * @author Sudo77(new)
+ */
+$messages['sk'] = array(
+	'tux-sst-search' => 'Hľadať',
+	'tux-sst-facet-language' => 'Jazyky',
+	'tux-sst-next' => 'Ďalšie výsledky',
+	'tux-sst-prev' => 'Predchádzajúce výsledky',
 );
 
 /** Serbian (Cyrillic script) (српски (ћирилица)‎)
@@ -812,6 +944,13 @@ $messages['uk'] = array(
 	'tux-sst-prev' => 'Попередні результати',
 );
 
+/** Uzbek (oʻzbekcha)
+ * @author CoderSI
+ */
+$messages['uz'] = array(
+	'tux-sst-facet-language' => 'Tillar',
+);
+
 /** Vietnamese (Tiếng Việt)
  * @author Minh Nguyen
  */
@@ -865,6 +1004,7 @@ $messages['zh-hans'] = array(
 );
 
 /** Traditional Chinese (中文（繁體）‎)
+ * @author Cwlin0416
  * @author Simon Shek
  */
 $messages['zh-hant'] = array(
@@ -874,7 +1014,7 @@ $messages['zh-hant'] = array(
 	'tux-sst-search-ph' => '搜尋翻譯',
 	'tux-sst-count' => '{{PLURAL:$1|找到一個結果|找到$1個結果}}',
 	'tux-sst-facet-language' => '語言',
-	'tux-sst-facet-group' => '訊息組',
+	'tux-sst-facet-group' => '訊息群組',
 	'tux-sst-facet-orphan' => '（孤立）',
 	'tux-sst-nosolr-title' => '無法使用搜尋',
 	'tux-sst-nosolr-body' => '此wiki沒有翻譯搜尋。',

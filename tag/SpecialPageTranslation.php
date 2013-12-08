@@ -6,7 +6,7 @@
  * @author Niklas Laxström
  * @author Siebrand Mazeland
  * @copyright Copyright © 2008-2013 Niklas Laxström, Siebrand Mazeland
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -172,6 +172,15 @@ class SpecialPageTranslation extends SpecialPage {
 			array( 'group' => $page->getMessageGroupId() ) );
 
 		$this->getOutput()->addWikiMsg( 'tpt-saveok', $titleText, $num, $link );
+		// If TranslationNotifications is installed, and the user can notify
+		// translators, add a convenience link.
+		if ( method_exists( 'SpecialNotifyTranslators', 'execute' ) &&
+			$this->getUser()->isAllowed( SpecialNotifyTranslators::$right )
+		) {
+			$link = SpecialPage::getTitleFor( 'NotifyTranslators' )->getFullUrl(
+				array( 'tpage' => $page->getTitle()->getArticleID() ) );
+			$this->getOutput()->addWikiMsg( 'tpt-offer-notify', $link );
+		}
 	}
 
 	public function loadPagesFromDB() {
@@ -461,10 +470,10 @@ class SpecialPageTranslation extends SpecialPage {
 
 		$out->addHTML(
 			Xml::openElement( 'form', $formParams ) .
-				Html::hidden( 'title', $this->getTitle()->getPrefixedText() ) .
-				Html::hidden( 'revision', $page->getRevision() ) .
-				Html::hidden( 'target', $page->getTitle()->getPrefixedtext() ) .
-				Html::hidden( 'token', $this->getUser()->getEditToken() )
+			Html::hidden( 'title', $this->getTitle()->getPrefixedText() ) .
+			Html::hidden( 'revision', $page->getRevision() ) .
+			Html::hidden( 'target', $page->getTitle()->getPrefixedtext() ) .
+			Html::hidden( 'token', $this->getUser()->getEditToken() )
 		);
 
 		$out->wrapWikiMsg( '==$1==', 'tpt-sections-oldnew' );
@@ -566,7 +575,7 @@ class SpecialPageTranslation extends SpecialPage {
 
 		$out->addHTML(
 			Xml::submitButton( $this->msg( 'tpt-submit' )->text() ) .
-				Xml::closeElement( 'form' )
+			Xml::closeElement( 'form' )
 		);
 	}
 
@@ -610,16 +619,16 @@ class SpecialPageTranslation extends SpecialPage {
 
 		$this->getOutput()->addHTML(
 			"<table>" .
-				"<tr>" .
-				"<td class='mw-label'>$hLangs[0]</td>" .
-				"<td class='mw-input'>$hLangs[1]$langSelector[1]</td>" .
-				"</tr>" .
-				"<tr><td></td><td class='mw-inout'>$hForce</td></tr>" .
-				"<tr>" .
-				"<td class='mw-label'>$hReason[0]</td>" .
-				"<td class='mw-input'>$hReason[1]</td>" .
-				"</tr>" .
-				"</table>"
+			"<tr>" .
+			"<td class='mw-label'>$hLangs[0]</td>" .
+			"<td class='mw-input'>$hLangs[1]$langSelector[1]</td>" .
+			"</tr>" .
+			"<tr><td></td><td class='mw-inout'>$hForce</td></tr>" .
+			"<tr>" .
+			"<td class='mw-label'>$hReason[0]</td>" .
+			"<td class='mw-input'>$hReason[1]</td>" .
+			"</tr>" .
+			"</table>"
 		);
 	}
 
@@ -705,7 +714,7 @@ class SpecialPageTranslation extends SpecialPage {
 		Job::batchInsert( $jobs );
 
 		// Logging
-		$this->handlePriorityLanguages( $this->getRequest(), $page, $this->getUser() );
+		$this->handlePriorityLanguages( $this->getRequest(), $page );
 
 		$entry = new ManualLogEntry( 'pagetranslation', 'mark' );
 		$entry->setPerformer( $this->getUser() );
@@ -727,11 +736,8 @@ class SpecialPageTranslation extends SpecialPage {
 	/**
 	 * @param WebRequest $request
 	 * @param TranslatablePage $page
-	 * @param User $user
 	 */
-	protected function handlePriorityLanguages( WebRequest $request, TranslatablePage $page,
-		User $user
-	) {
+	protected function handlePriorityLanguages( WebRequest $request, TranslatablePage $page ) {
 		// new priority languages
 		$npLangs = rtrim( trim( $request->getVal( 'prioritylangs' ) ), ',' );
 		$npForce = $request->getCheck( 'forcelimit' ) ? 'on' : 'off';

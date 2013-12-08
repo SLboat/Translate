@@ -5,7 +5,7 @@
  * @file
  * @author Niklas Laxström
  * @copyright Copyright © 2008-2013, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -143,6 +143,8 @@ class PremadeMediawikiExtensionGroups {
 			'miscMWChecks',
 		);
 
+		$conf['INSERTABLES']['class'] = 'MediaWikiInsertablesSuggester';
+
 		if ( isset( $info['optional'] ) ) {
 			$conf['TAGS']['optional'] = $info['optional'];
 		}
@@ -156,7 +158,10 @@ class PremadeMediawikiExtensionGroups {
 	protected function parseFile() {
 		$defines = file_get_contents( $this->definitionFile );
 		$linefeed = '(\r\n|\n)';
-		$sections = array_map( 'trim', preg_split( "/$linefeed{2,}/", $defines, -1, PREG_SPLIT_NO_EMPTY ) );
+		$sections = array_map(
+			'trim',
+			preg_split( "/$linefeed{2,}/", $defines, -1, PREG_SPLIT_NO_EMPTY )
+		);
 		$groups = array();
 
 		foreach ( $sections as $section ) {
@@ -195,9 +200,14 @@ class PremadeMediawikiExtensionGroups {
 							$newgroup[$key] = array_merge( $newgroup[$key], $values );
 							break;
 						case 'prefix':
-							list( $prefix, $messages ) = array_map( 'trim', explode( '|', $value, 2 ) );
+							list( $prefix, $messages ) = array_map(
+								'trim',
+								explode( '|', $value, 2 )
+							);
 							if ( isset( $newgroup['prefix'] ) && $newgroup['prefix'] !== $prefix ) {
-								throw new MWException( "Only one prefix supported: {$newgroup['prefix']} !== $prefix" );
+								throw new MWException(
+									"Only one prefix supported: {$newgroup['prefix']} !== $prefix"
+								);
 							}
 							$newgroup['prefix'] = $prefix;
 
@@ -267,7 +277,17 @@ class PremadeMediawikiExtensionGroups {
 				'url' => $url,
 			);
 
-			$copyvars = array( 'ignored', 'optional', 'var', 'desc', 'prefix', 'mangle', 'magicfile', 'aliasfile' );
+			$copyvars = array(
+				'ignored',
+				'optional',
+				'var',
+				'desc',
+				'prefix',
+				'mangle',
+				'magicfile',
+				'aliasfile'
+			);
+
 			foreach ( $copyvars as $var ) {
 				if ( isset( $g[$var] ) ) {
 					$newgroup[$var] = $g[$var];
@@ -300,7 +320,10 @@ class PremadeMediawikiExtensionGroups {
 			$wgAutoloadClasses['TxtDef'] = "$prefix/$postfix";
 			$tmp = TxtDef::loadFromFile( "$prefix/Configure/settings/Settings-ext.txt" );
 
-			return array_combine( array_map( array( __CLASS__, 'foldId' ), array_keys( $tmp ) ), array_values( $tmp ) );
+			return array_combine(
+				array_map( array( __CLASS__, 'foldId' ), array_keys( $tmp ) ),
+				array_values( $tmp )
+			);
 		}
 
 		return array();

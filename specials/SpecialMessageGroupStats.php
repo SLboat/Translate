@@ -6,7 +6,7 @@
  * @author Niklas Laxström
  * @author Siebrand Mazeland
  * @copyright Copyright © 2011-2013 Niklas Laxström, Siebrand Mazeland
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -58,7 +58,10 @@ class SpecialMessageGroupStats extends SpecialLanguageStats {
 
 	/// Overwritten from SpecialLanguageStats
 	protected function invalidTarget() {
-		$this->getOutput()->wrapWikiMsg( "<div class='error'>$1</div>", array( 'translate-mgs-invalid-group', $this->target ) );
+		$this->getOutput()->wrapWikiMsg(
+			"<div class='error'>$1</div>",
+			array( 'translate-mgs-invalid-group', $this->target )
+		);
 	}
 
 	/// Overwritten from SpecialLanguageStats
@@ -93,13 +96,23 @@ class SpecialMessageGroupStats extends SpecialLanguageStats {
 
 		$out .= Html::openElement( 'tr' );
 		$out .= Html::openElement( 'td', array( 'colspan' => 2 ) );
-		$out .= Xml::checkLabel( $this->msg( 'translate-mgs-nocomplete' )->text(), 'suppresscomplete', 'suppresscomplete', $this->noComplete );
+		$out .= Xml::checkLabel(
+			$this->msg( 'translate-mgs-nocomplete' )->text(),
+			'suppresscomplete',
+			'suppresscomplete',
+			$this->noComplete
+		);
 		$out .= Html::closeElement( 'td' );
 		$out .= Html::closeElement( 'tr' );
 
 		$out .= Html::openElement( 'tr' );
 		$out .= Html::openElement( 'td', array( 'colspan' => 2 ) );
-		$out .= Xml::checkLabel( $this->msg( 'translate-mgs-noempty' )->text(), 'suppressempty', 'suppressempty', $this->noEmpty );
+		$out .= Xml::checkLabel(
+			$this->msg( 'translate-mgs-noempty' )->text(),
+			'suppressempty',
+			'suppressempty',
+			$this->noEmpty
+		);
 		$out .= Html::closeElement( 'td' );
 		$out .= Html::closeElement( 'tr' );
 
@@ -172,8 +185,9 @@ class SpecialMessageGroupStats extends SpecialLanguageStats {
 	}
 
 	/**
-	 * Filter an array of languages based on whether a priority set of languages present for the passed group.
-	 * If priority languages are present, to that list add languages with more than 0% translation.
+	 * Filter an array of languages based on whether a priority set of
+	 * languages present for the passed group. If priority languages are
+	 * present, to that list add languages with more than 0% translation.
 	 * @param $languages Array of Languages to be filtered
 	 * @param $group
 	 * @param $cache
@@ -266,7 +280,14 @@ class SpecialMessageGroupStats extends SpecialLanguageStats {
 		return Html::rawElement( 'td', array(), $link );
 	}
 
+	// @codingStandardsIgnoreStart PHP CodeSniffer warns "Useless method overriding
+	// detected", but that's not the case.
+	/**
+	 * @param string $field
+	 * @param string $filter
+	 * @return array
+	 */
 	protected function getWorkflowStates( $field = 'tgr_lang', $filter = 'tgr_group' ) {
 		return parent::getWorkflowStates( $field, $filter );
-	}
+	} // @codingStandardsIgnoreEnd
 }

@@ -50,7 +50,7 @@
 	font-size: 16px;
 	padding: 5px 5px 30px 5px;
 	height: 100px;
-	min-height: 100px;
+	min-height: 150px;
 	overflow-y: auto;
 	position: relative;
 	z-index: 100;
@@ -154,7 +154,7 @@
 	margin-right: 5px;
 }
 
-.infocolumn-block .infocolumn .message-desc-editor textarea {
+.tux-textarea-documentation {
 	height: 100px;
 	overflow: auto;
 }
@@ -229,7 +229,7 @@
 
 .tux-message-editor .help {
 	font-size: 16px;
-	padding: 10px 5px
+	padding: 10px 5px;
 }
 
 .tux-message-editor .help a {
@@ -302,10 +302,6 @@
 	position: absolute;
 	right: 100%;
 	top: 0;
-}
-
-.tm-suggestion .use-this-translation {
-	font-size: 12px;
 }
 
 .tux-editor-request-right {

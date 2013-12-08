@@ -6,7 +6,7 @@
  * @author Niklas Laxström
  * @author Siebrand Mazeland
  * @copyright Copyright © 2010-2013, Niklas Laxström, Siebrand Mazeland
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -28,7 +28,9 @@ class TranslationStats {
 	 * @return \array Array of key value pairs code (string)/percentage
 	 * (float) or array of codes, depending on $simple
 	 */
-	public static function getPercentageTranslated( $group, $languages, $threshold = false, $simple = false ) {
+	public static function getPercentageTranslated( $group, $languages, $threshold = false,
+		$simple = false
+	) {
 		$stats = array();
 
 		$g = MessageGroups::singleton()->getGroup( $group );

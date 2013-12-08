@@ -23,7 +23,7 @@
 
 			$messageDescEditor
 				.removeClass( 'hide' )
-				.find( 'textarea' )
+				.find( '.tux-textarea-documentation' )
 					.focus();
 
 			// So that the link won't be followed
@@ -53,7 +53,7 @@
 		saveDocumentation: function () {
 			var translateEditor = this,
 				api = new mw.Api(),
-				newDocumentation = translateEditor.$editor.find( '.infocolumn-block textarea' ).val();
+				newDocumentation = translateEditor.$editor.find( '.tux-textarea-documentation' ).val();
 
 			api.post( {
 				action: 'edit',
@@ -61,7 +61,7 @@
 					.replace( /\/[a-z\-]+$/, '/' + mw.config.get( 'wgTranslateDocumentationLanguageCode' ) ),
 				text: newDocumentation,
 				token: mw.user.tokens.get( 'editToken' )
-			} ).done(function ( response ) {
+			} ).done( function ( response ) {
 				var $messageDesc = translateEditor.$editor.find( '.infocolumn-block .message-desc' );
 
 				if ( response.edit.result === 'Success' ) {
@@ -80,10 +80,12 @@
 
 					translateEditor.hideDocumentationEditor();
 				} else {
-					mw.log( 'Problem saving documentation' );
+					mw.notify( 'Error saving message documentation' );
+					mw.log( 'Error saving documentation', response );
 				}
 			} ).fail( function ( errorCode, results ) {
-				mw.log( 'Error saving documentation ' + errorCode + ' ' + results.error.info );
+				mw.notify( 'Error saving message documentation' );
+				mw.log( 'Error saving documentation', errorCode, results );
 			} );
 		},
 
@@ -134,7 +136,7 @@
 					.addClass( 'mw-content-' + documentationDir )
 					.html( documentation.html );
 
-				this.$editor.find( '.message-desc-editor textarea' )
+				this.$editor.find( '.tux-textarea-documentation' )
 					.attr( {
 						lang: documentation.language,
 						dir: documentationDir
@@ -210,7 +212,7 @@
 			var translateEditor = this,
 				$translationTextarea;
 
-			$translationTextarea = this.$editor.find( 'textarea' );
+			$translationTextarea = this.$editor.find( '.tux-textarea-translation' );
 
 			$.each( translations, function ( index ) {
 				var $otherLanguage,
@@ -223,30 +225,19 @@
 					.addClass( 'row in-other-language' )
 					.append(
 						$( '<div>' )
-						.addClass( 'row in-other-language-top' )
-						.append(
-							$( '<div>' )
-								.addClass( 'nine columns' )
-								.attr( {
-									lang: translation.language,
-									dir: translationDir
-								} )
-								.text( translation.value ),
-							$( '<div>' )
-								.addClass( 'three columns language text-right' )
-								.attr( {
-									lang: translation.language,
-									dir: translationDir
-								} )
-								.text( $.uls.data.getAutonym( translation.language ) )
-						),
+							.addClass( 'nine columns suggestiontext' )
+							.attr( {
+								lang: translation.language,
+								dir: translationDir
+							} )
+							.text( translation.value ),
 						$( '<div>' )
-						.addClass( 'row in-other-language-bottom' )
-						.append(
-							$( '<a>' )
-								.addClass( 'nine columns use-this-translation' )
-								.text( mw.msg( 'tux-editor-use-this-translation' ) )
-						)
+							.addClass( 'three columns language text-right' )
+							.attr( {
+								lang: translation.language,
+								dir: translationDir
+							} )
+							.text( $.uls.data.getAutonym( translation.language ) )
 					);
 
 				$otherLanguage.on( 'click',
@@ -276,7 +267,7 @@
 			this.$editor.find( '.tm-suggestions-title' )
 				.removeClass( 'hide' )
 				.after( $tmSuggestions );
-			$translationTextarea = this.$editor.find( 'textarea' );
+			$translationTextarea = this.$editor.find( '.tux-textarea-translation' );
 
 			$.each( suggestions, function ( index, translation ) {
 				var $translation,
@@ -314,24 +305,17 @@
 					.addClass( 'row tm-suggestion' )
 					.append(
 						$( '<div>' )
-							.addClass( 'row tm-suggestion-top' )
-							.append(
-								$( '<div>' )
-									.addClass( 'nine columns suggestiontext' )
-									.text( translation.target ),
-								$( '<div>' )
-									.addClass( 'three columns quality text-right' )
-									.text( mw.msg( 'tux-editor-tm-match',
-										Math.round( translation.quality * 100 ) ) )
-							),
+							.addClass( 'nine columns suggestiontext' )
+							.text( translation.target ),
 						$( '<div>' )
-							.addClass( 'row tm-suggestion-bottom' )
+							.addClass( 'three columns quality text-right' )
+							.text( mw.msg( 'tux-editor-tm-match',
+								Math.round( translation.quality * 100 ) ) ),
+						$( '<div>' )
+							.addClass( 'row text-right' )
 							.append(
 								$( '<a>' )
-									.addClass( 'nine columns use-this-translation' )
-									.text( mw.msg( 'tux-editor-use-this-translation' ) ),
-								$( '<a>' )
-									.addClass( 'three columns n-uses text-right' )
+									.addClass( 'n-uses' )
 									.data( 'n', 1 )
 							)
 					);
@@ -365,7 +349,7 @@
 			this.$editor.find( '.tm-suggestions-title' )
 				.removeClass( 'hide' )
 				.after( $mtSuggestions );
-			$translationTextarea = this.$editor.find( 'textarea' );
+			$translationTextarea = this.$editor.find( '.tux-textarea-translation' );
 
 			$.each( suggestions, function ( index, translation ) {
 				var $translation;
@@ -374,22 +358,11 @@
 					.addClass( 'row tm-suggestion' )
 					.append(
 						$( '<div>' )
-							.addClass( 'row tm-suggestion-top' )
-							.append(
-								$( '<div>' )
-									.addClass( 'nine columns suggestiontext end' )
-									.text( translation.target )
-							),
+							.addClass( 'nine columns suggestiontext' )
+							.text( translation.target ),
 						$( '<div>' )
-							.addClass( 'row tm-suggestion-bottom' )
-							.append(
-								$( '<a>' )
-									.addClass( 'nine columns use-this-translation' )
-									.text( mw.msg( 'tux-editor-use-this-translation' ) ),
-								$( '<span>' )
-									.addClass( 'three columns service text-right' )
-									.text( translation.service )
-							)
+							.addClass( 'three columns text-right service' )
+							.text( translation.service )
 					);
 
 				$translation.on( 'click',
@@ -440,6 +413,34 @@
 		},
 
 		/**
+		 * Adds buttons for quickly inserting insertables.
+		 * @param {object} insertables A insertables object as returned by API.
+		 */
+		addInsertables: function ( insertables ) {
+			var i,
+				count = insertables.length,
+				$buttonArea = this.$editor.find( '.tux-editor-insert-buttons' ),
+				$textarea = this.$editor.find( '.tux-textarea-translation' );
+
+			for ( i = 0; i < count; i++ ) {
+				$( '<button>' )
+					.addClass( 'insertable' )
+					.text( insertables[i].display )
+					.data( 'iid', i )
+					.appendTo( $buttonArea );
+			}
+
+			$buttonArea.on( 'click', '.insertable', function () {
+				var data = insertables[$( this ).data( 'iid' )];
+				$textarea.textSelection( 'encapsulateSelection', {
+					pre: data.pre,
+					post: data.post
+				} );
+				$textarea.focus().trigger( 'input' );
+			} );
+		},
+
+		/**
 		 * Loads and shows the translation helpers.
 		 */
 		showTranslationHelpers: function () {
@@ -467,6 +468,7 @@
 				translateEditor.showMachineTranslations( result.helpers.mt );
 				translateEditor.showSupportOptions( result.helpers.support );
 				translateEditor.addDefinitionDiff( result.helpers.definitiondiff );
+				translateEditor.addInsertables( result.helpers.insertables );
 
 				// Load the possible warnings as soon as possible, do not wait
 				// for the user to make changes. Otherwise users might try confirming
@@ -479,9 +481,10 @@
 				}
 
 				mw.translateHooks.run( 'showTranslationHelpers', result.helpers, translateEditor.$editor );
+				mw.translateHooks.run( 'afterRegisterFeatures', translateEditor.$editor );
 
 			} ).fail( function ( errorCode, results ) {
-				mw.log( 'Error loading translation aids ' + errorCode + results.error.info );
+				mw.log( 'Error loading translation aids', errorCode, results );
 			} );
 		}
 	};

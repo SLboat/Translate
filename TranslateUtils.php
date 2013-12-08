@@ -5,7 +5,7 @@
  * @file
  * @author Niklas Laxström
  * @copyright Copyright © 2007-2013 Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -16,23 +16,23 @@ class TranslateUtils {
 	 * Does quick normalisation of message name so that in can be looked from the
 	 * database.
 	 * @param string $message Name of the message
-	 * @param string $code Language code in lower case and with dash as delimieter
+	 * @param string $code Language code in lower case and with dash as delimiter
+	 * @param int $ns Namespace constant
 	 * @return string The normalised title as a string.
 	 */
-	public static function title( $message, $code ) {
-		global $wgContLang;
-
+	public static function title( $message, $code, $ns = NS_MEDIAWIKI ) {
 		// Cache some amount of titles for speed.
 		static $cache = array();
+		$key = $ns . ':' . $message;
 
-		if ( !isset( $cache[$message] ) ) {
-			$cache[$message] = $wgContLang->ucfirst( $message );
+		if ( !isset( $cache[$key] ) ) {
+			$cache[$key] = Title::capitalize( $message, $ns );
 		}
 
 		if ( $code ) {
-			return $cache[$message] . '/' . $code;
+			return $cache[$key] . '/' . $code;
 		} else {
-			return $cache[$message];
+			return $cache[$key];
 		}
 	}
 
@@ -58,7 +58,7 @@ class TranslateUtils {
 	 * @return string|null The contents or null.
 	 */
 	public static function getMessageContent( $key, $language, $namespace = NS_MEDIAWIKI ) {
-		$title = self::title( $key, $language );
+		$title = self::title( $key, $language, $namespace );
 		$data = self::getContents( array( $title ), $namespace );
 
 		return isset( $data[$title][0] ) ? $data[$title][0] : null;
@@ -392,7 +392,8 @@ class TranslateUtils {
 	public static function getPlaceholder() {
 		static $i = 0;
 
-		return "\x7fUNIQ" . dechex( mt_rand( 0, 0x7fffffff ) ) . dechex( mt_rand( 0, 0x7fffffff ) ) . '-' . $i++;
+		return "\x7fUNIQ" . dechex( mt_rand( 0, 0x7fffffff ) ) .
+			dechex( mt_rand( 0, 0x7fffffff ) ) . '-' . $i++;
 	}
 
 	/**
@@ -425,5 +426,21 @@ class TranslateUtils {
 		$formats['raster'] = $file->createThumb( $size, $size );
 
 		return $formats;
+	}
+
+	/**
+	 * Parses list of language codes to an array.
+	 * @param string $codes Comma separated list of language codes. "*" for all.
+	 * @return string[] Language codes.
+	 */
+	public static function parseLanguageCodes( $codes ) {
+		$langs = array_map( 'trim', explode( ',', $codes ) );
+		if ( $langs[0] === '*' ) {
+			$languages = Language::fetchLanguageNames();
+			ksort( $languages );
+			$langs = array_keys( $languages );
+		}
+
+		return $langs;
 	}
 }

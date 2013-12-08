@@ -28,6 +28,11 @@ $wgResourceModules['ext.translate.base'] = array(
 	),
 ) + $resourcePaths;
 
+$wgResourceModules['ext.translate.dropdownmenu'] = array(
+	'styles' => 'resources/css/ext.translate.dropdownmenu.css',
+	'scripts' => 'resources/js/ext.translate.dropdownmenu.js',
+) + $resourcePaths;
+
 $wgResourceModules['ext.translate.editor'] = array(
 	'scripts' => array(
 		'resources/js/ext.translate.editor.js',
@@ -42,6 +47,7 @@ $wgResourceModules['ext.translate.editor'] = array(
 	),
 	'dependencies' => array(
 		'ext.translate.base',
+		'ext.translate.storage',
 		'ext.translate.hooks',
 		'ext.translate.dropdownmenu',
 		'jquery.uls.grid',
@@ -56,6 +62,7 @@ $wgResourceModules['ext.translate.editor'] = array(
 		'jquery.tipsy',
 		'jquery.textchange',
 		'jquery.autosize',
+		'jquery.textSelection',
 	),
 	'messages' => array(
 		'tux-status-translated',
@@ -81,7 +88,6 @@ $wgResourceModules['ext.translate.editor'] = array(
 		'tux-warnings-more',
 		'tux-warnings-hide',
 		'tux-editor-save-failed',
-		'tux-editor-use-this-translation',
 		'tux-editor-n-uses',
 		'tux-editor-doc-editor-placeholder',
 		'tux-editor-doc-editor-save',
@@ -100,11 +106,6 @@ $wgResourceModules['ext.translate.editor'] = array(
 		'tux-editor-message-tools-translations',
 		'tux-editor-loading',
 	),
-	'position' => 'top',
-) + $resourcePaths;
-
-$wgResourceModules['ext.translate.loader'] = array(
-	'styles' => 'resources/css/ext.translate.loader.css',
 	'position' => 'top',
 ) + $resourcePaths;
 
@@ -136,6 +137,11 @@ $wgResourceModules['ext.translate.helplink'] = array(
 
 $wgResourceModules['ext.translate.hooks'] = array(
 	'scripts' => 'resources/js/ext.translate.hooks.js',
+	'position' => 'top',
+) + $resourcePaths;
+
+$wgResourceModules['ext.translate.loader'] = array(
+	'styles' => 'resources/css/ext.translate.loader.css',
 	'position' => 'top',
 ) + $resourcePaths;
 
@@ -197,21 +203,6 @@ $wgResourceModules['ext.translate.messagetable'] = array(
 	),
 ) + $resourcePaths;
 
-$wgResourceModules['ext.translate.pagetranslation.uls'] = array(
-	'scripts' => 'resources/js/ext.translate.pagetranslation.uls.js',
-	'dependencies' => array(
-		'ext.uls.init',
-		'mediawiki.util',
-	),
-) + $resourcePaths;
-
-$wgResourceModules['ext.translate.parsers'] = array(
-	'scripts' => 'resources/js/ext.translate.parsers.js',
-	'dependencies' => array(
-		'mediawiki.util',
-	),
-) + $resourcePaths;
-
 $wgResourceModules['ext.translate.messagewebimporter'] = array(
 	'styles' => 'resources/css/ext.translate.messagewebimporter.css',
 	'position' => 'top',
@@ -231,6 +222,21 @@ $wgResourceModules['ext.translate.navitoggle'] = array(
 	),
 	'skinStyles' => array(
 		'vector' => 'resources/css/ext.translate.navitoggle.css',
+	),
+) + $resourcePaths;
+
+$wgResourceModules['ext.translate.pagetranslation.uls'] = array(
+	'scripts' => 'resources/js/ext.translate.pagetranslation.uls.js',
+	'dependencies' => array(
+		'ext.uls.init',
+		'mediawiki.util',
+	),
+) + $resourcePaths;
+
+$wgResourceModules['ext.translate.parsers'] = array(
+	'scripts' => 'resources/js/ext.translate.parsers.js',
+	'dependencies' => array(
+		'mediawiki.util',
 	),
 ) + $resourcePaths;
 
@@ -254,7 +260,11 @@ $wgResourceModules['ext.translate.special.aggregategroups'] = array(
 	'scripts' => 'resources/js/ext.translate.special.aggregategroups.js',
 	'styles' => 'resources/css/ext.translate.special.aggregategroups.css',
 	'position' => 'top',
-	'dependencies' => array( 'mediawiki.util' ),
+	'dependencies' => array(
+		'mediawiki.util',
+		'jquery.async',
+		'jquery.chosen'
+	),
 	'messages' => array(
 		'tpt-aggregategroup-remove-confirm',
 	),
@@ -349,10 +359,37 @@ $wgResourceModules['ext.translate.special.translatesandbox'] = array(
 	'styles' => 'resources/css/ext.translate.special.translatesandbox.css',
 	'position' => 'top',
 	'dependencies' => array(
+		'ext.translate.translationstashstorage',
 		'mediawiki.api',
 		'jquery.uls.grid',
 		'jquery.ui.dialog',
-	)
+	),
+	'messages' => array(
+		'tsb-accept-button-label',
+		'tsb-reject-button-label',
+		'tsb-reminder-link-text',
+		'tsb-translations-source',
+		'tsb-translations-user',
+		'tsb-translations-current',
+	),
+) + $resourcePaths;
+
+$wgResourceModules['ext.translate.special.translationstash'] = array(
+	'scripts' => 'resources/js/ext.translate.special.translationstash.js',
+	'styles' => 'resources/css/ext.translate.special.translationstash.css',
+	'position' => 'top',
+	'dependencies' => array(
+		'ext.translate.editor',
+		'ext.translate.messagetable',
+		'ext.translate.translationstashstorage',
+		'mediawiki.language',
+	),
+	'messages' => array(
+		'translate-translationstash-translations',
+		'translate-translationstash-skip-button-label',
+		'tsb-limit-reached-title',
+		'tsb-limit-reached-body',
+	),
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.special.translationstats'] = array(
@@ -372,9 +409,18 @@ $wgResourceModules['ext.translate.statsbar'] = array(
 	'position' => 'top',
 ) + $resourcePaths;
 
+$wgResourceModules['ext.translate.storage'] = array(
+	'scripts' => 'resources/js/ext.translate.storage.js',
+) + $resourcePaths;
+
+
 $wgResourceModules['ext.translate.tabgroup'] = array(
 	'styles' => 'resources/css/ext.translate.tabgroup.css',
 	'position' => 'top',
+) + $resourcePaths;
+
+$wgResourceModules['ext.translate.translationstashstorage'] = array(
+	'scripts' => 'resources/js/ext.translate.translationstashstorage.js',
 ) + $resourcePaths;
 
 $wgResourceModules['ext.translate.workflowselector'] = array(
@@ -387,11 +433,6 @@ $wgResourceModules['ext.translate.workflowselector'] = array(
 	'dependencies' => array(
 		'ext.translate.dropdownmenu',
 	),
-) + $resourcePaths;
-
-$wgResourceModules['ext.translate.dropdownmenu'] = array(
-	'styles' => 'resources/css/ext.translate.dropdownmenu.css',
-	'scripts' => 'resources/js/ext.translate.dropdownmenu.js',
 ) + $resourcePaths;
 
 // Third party module
@@ -408,3 +449,14 @@ $wgResourceModules['jquery.textchange'] = array(
 $wgResourceModules['jquery.ui.position.custom'] = array(
 	'scripts' => 'resources/js/jquery.ui.position.js',
 ) + $resourcePaths;
+
+$wgHooks['ResourceLoaderTestModules'][] =
+	// Dependencies must be arrays here
+	function ( array &$modules ) use ( $resourcePaths ) {
+		$modules['qunit']['ext.translate.parsers.test'] = array(
+			'scripts' => array( 'tests/qunit/ext.translate.parsers.test.js' ),
+			'dependencies' => array( 'ext.translate.parsers' ),
+		) + $resourcePaths;
+
+		return true;
+	};

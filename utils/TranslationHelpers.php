@@ -6,7 +6,7 @@
  * @file
  * @author Niklas Laxström
  * @copyright Copyright © 2010-2013 Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -399,11 +399,10 @@ class TranslationHelpers {
 	}
 
 	/**
-	 * @param $async bool
 	 * @return string
 	 * @throws MWException
 	 */
-	public function getSuggestionBox( $async = false ) {
+	public function getSuggestionBox() {
 		global $wgTranslateTranslationServices;
 
 		$handlers = array(
@@ -854,9 +853,9 @@ class TranslationHelpers {
 			&& $title->isSpecialPage()
 			&& ( $alias === 'Translate' );
 
-		$formattedChecks = $tux
-			? FormatJson::encode( array() )
-			: Html::element( 'div', array( 'class' => 'mw-translate-messagechecks' ) );
+		$formattedChecks = $tux ?
+			FormatJson::encode( array() ) :
+			Html::element( 'div', array( 'class' => 'mw-translate-messagechecks' ) );
 
 		$page = $this->handle->getKey();
 		$translation = $this->getTranslation();
@@ -871,7 +870,9 @@ class TranslationHelpers {
 			return null;
 		}
 
-		$checker = $this->group->getChecker();
+		// We need to get the primary group of the message. It may differ from
+		// the supplied group (aggregate groups, dynamic groups).
+		$checker = $this->handle->getGroup()->getChecker();
 		if ( !$checker ) {
 			return null;
 		}

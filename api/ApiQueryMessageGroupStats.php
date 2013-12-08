@@ -6,7 +6,7 @@
  * @author Tim Gerundt
  * @copyright Copyright © 2012-2013, Tim Gerundt
  * @copyright Copyright © 2012-2013, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -24,6 +24,8 @@ class ApiQueryMessageGroupStats extends ApiStatsQuery {
 		$group = MessageGroups::getGroup( $params['group'] );
 		if ( !$group ) {
 			$this->dieUsageMsg( array( 'missingparam', 'mcgroup' ) );
+		} elseif ( MessageGroups::isDynamic( $group ) ) {
+			$this->dieUsage( 'Dynamic message groups are not supported here', 'invalidparam' );
 		}
 
 		return MessageGroupStats::forGroup( $group->getId() );
@@ -62,7 +64,8 @@ class ApiQueryMessageGroupStats extends ApiStatsQuery {
 		$group = 'page-Example';
 
 		return array(
-			"api.php?action=query&meta=messagegroupstats&mgsgroup=$group List of translation completion statistics for group $group",
+			"api.php?action=query&meta=messagegroupstats&mgsgroup=$group List of " .
+				"translation completion statistics for group $group",
 		);
 	}
 }

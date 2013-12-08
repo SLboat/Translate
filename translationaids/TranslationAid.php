@@ -5,7 +5,7 @@
  * @file
  * @author Niklas Laxström
  * @copyright Copyright © 2013, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -135,6 +135,7 @@ abstract class TranslationAid {
 			'ttmserver' => 'TTMServerAid',
 			'support' => 'SupportAid',
 			'gettext' => 'GettextDocumentationAid',
+			'insertables' => 'InsertablesAid',
 		);
 
 		return $types;

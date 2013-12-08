@@ -5,7 +5,7 @@
  * @file
  * @author Niklas Laxström
  * @copyright Copyright © 2008-2013, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /** @cond file_level_code */
@@ -49,6 +49,7 @@ $wgAutoloadClasses['SpecialTranslate'] = "$dir/specials/SpecialTranslate.php";
 $wgAutoloadClasses['SpecialTranslateSandbox'] = "$dir/specials/SpecialTranslateSandbox.php";
 $wgAutoloadClasses['SpecialTranslationStats'] = "$dir/specials/SpecialTranslationStats.php";
 $wgAutoloadClasses['SpecialTranslations'] = "$dir/specials/SpecialTranslations.php";
+$wgAutoloadClasses['SpecialTranslationStash'] = "$dir/specials/SpecialTranslationStash.php";
 /**@}*/
 
 /**
@@ -117,7 +118,7 @@ $wgAutoloadClasses['TuxMessageTable'] = "$dir/utils/TuxMessageTable.php";
  * @{
  */
 $wgAutoloadClasses['PremadeMediawikiExtensionGroups'] = "$dir/ffs/MediaWikiExtensions.php";
-$wgAutoloadClasses['PremadeToolserverTextdomains'] = "$dir/ffs/ToolserverTextdomains.php";
+$wgAutoloadClasses['PremadeIntuitionTextdomains'] = "$dir/ffs/IntuitionTextdomains.php";
 /**@}*/
 
 /**
@@ -141,8 +142,10 @@ $wgAutoloadClasses['PageTranslationHooks'] = "$dir/tag/PageTranslationHooks.php"
 $wgAutoloadClasses['PageTranslationLogFormatter'] = "$dir/tag/PageTranslationLogFormatter.php";
 $wgAutoloadClasses['TranslateRenderJob'] = "$dir/tag/TranslateRenderJob.php";
 $wgAutoloadClasses['SpecialPageTranslation'] = "$dir/tag/SpecialPageTranslation.php";
-$wgAutoloadClasses['SpecialPageTranslationDeletePage'] = "$dir/tag/SpecialPageTranslationDeletePage.php";
-$wgAutoloadClasses['SpecialPageTranslationMovePage'] = "$dir/tag/SpecialPageTranslationMovePage.php";
+$wgAutoloadClasses['SpecialPageTranslationDeletePage'] =
+	"$dir/tag/SpecialPageTranslationDeletePage.php";
+$wgAutoloadClasses['SpecialPageTranslationMovePage'] =
+	"$dir/tag/SpecialPageTranslationMovePage.php";
 $wgAutoloadClasses['TPException'] = "$dir/tag/TPException.php";
 $wgAutoloadClasses['TPParse'] = "$dir/tag/TPParse.php";
 $wgAutoloadClasses['TPSection'] = "$dir/tag/TPSection.php";
@@ -194,18 +197,19 @@ $wgAutoloadClasses['YamlFFS'] = "$dir/ffs/YamlFFS.php";
  */
 $wgAutoloadClasses['ApiAggregateGroups'] = "$dir/api/ApiAggregateGroups.php";
 $wgAutoloadClasses['ApiGroupReview'] = "$dir/api/ApiGroupReview.php";
+$wgAutoloadClasses['ApiHardMessages'] = "$dir/api/ApiHardMessages.php";
 $wgAutoloadClasses['ApiQueryLanguageStats'] = "$dir/api/ApiQueryLanguageStats.php";
 $wgAutoloadClasses['ApiQueryMessageCollection'] = "$dir/api/ApiQueryMessageCollection.php";
 $wgAutoloadClasses['ApiQueryMessageGroupStats'] = "$dir/api/ApiQueryMessageGroupStats.php";
 $wgAutoloadClasses['ApiQueryMessageGroups'] = "$dir/api/ApiQueryMessageGroups.php";
 $wgAutoloadClasses['ApiQueryMessageTranslations'] = "$dir/api/ApiQueryMessageTranslations.php";
+$wgAutoloadClasses['ApiStatsQuery'] = "$dir/api/ApiStatsQuery.php";
 $wgAutoloadClasses['ApiTTMServer'] = "$dir/api/ApiTTMServer.php";
 $wgAutoloadClasses['ApiTranslateSandbox'] = "$dir/api/ApiTranslateSandbox.php";
 $wgAutoloadClasses['ApiTranslateUser'] = "$dir/api/ApiTranslateUser.php";
-$wgAutoloadClasses['ApiTranslationReview'] = "$dir/api/ApiTranslationReview.php";
 $wgAutoloadClasses['ApiTranslationAids'] = "$dir/api/ApiQueryTranslationAids.php";
-$wgAutoloadClasses['ApiStatsQuery'] = "$dir/api/ApiStatsQuery.php";
-$wgAutoloadClasses['ApiHardMessages'] = "$dir/api/ApiHardMessages.php";
+$wgAutoloadClasses['ApiTranslationReview'] = "$dir/api/ApiTranslationReview.php";
+$wgAutoloadClasses['ApiTranslationStash'] = "$dir/api/ApiTranslationStash.php";
 /**@}*/
 
 /**
@@ -234,26 +238,41 @@ $wgAutoloadClasses['CoreMessageGroup'] = "$dir/messagegroups/CoreMessageGroup.ph
 $wgAutoloadClasses['CoreMostUsedMessageGroup'] = "$dir/messagegroups/CoreMostUsedMessageGroup.php";
 $wgAutoloadClasses['FileBasedMessageGroup'] = "$dir/messagegroups/FileBasedMessageGroup.php";
 $wgAutoloadClasses['MediaWikiMessageGroup'] = "$dir/messagegroups/MediaWikiMessageGroup.php";
-$wgAutoloadClasses['MediaWikiExtensionMessageGroup'] = "$dir/messagegroups/MediaWikiExtensionMessageGroup.php";
+$wgAutoloadClasses['MediaWikiExtensionMessageGroup'] =
+	"$dir/messagegroups/MediaWikiExtensionMessageGroup.php";
 $wgAutoloadClasses['MessageGroup'] = "$dir/messagegroups/MessageGroup.php";
 $wgAutoloadClasses['MessageGroupBase'] = "$dir/messagegroups/MessageGroupBase.php";
 $wgAutoloadClasses['MessageGroupOld'] = "$dir/messagegroups/MessageGroupOld.php";
 $wgAutoloadClasses['RecentMessageGroup'] = "$dir/messagegroups/RecentMessageGroup.php";
-$wgAutoloadClasses['RecentAdditionsMessageGroup'] = "$dir/messagegroups/RecentAdditionsMessageGroup.php";
-$wgAutoloadClasses['SingleFileBasedMessageGroup'] = "$dir/messagegroups/SingleFileBasedMessageGroup.php";
+$wgAutoloadClasses['RecentAdditionsMessageGroup'] =
+	"$dir/messagegroups/RecentAdditionsMessageGroup.php";
+$wgAutoloadClasses['SandboxMessageGroup'] = "$dir/messagegroups/SandboxMessageGroup.php";
+$wgAutoloadClasses['SingleFileBasedMessageGroup'] =
+	"$dir/messagegroups/SingleFileBasedMessageGroup.php";
 $wgAutoloadClasses['WikiMessageGroup'] = "$dir/messagegroups/WikiMessageGroup.php";
 $wgAutoloadClasses['WikiPageMessageGroup'] = "$dir/messagegroups/WikiPageMessageGroup.php";
-$wgAutoloadClasses['WorkflowStatesMessageGroup'] = "$dir/messagegroups/WorkflowStatesMessageGroup.php";
+$wgAutoloadClasses['WorkflowStatesMessageGroup'] =
+	"$dir/messagegroups/WorkflowStatesMessageGroup.php";
+/**@}*/
+
+/**
+ * @name   "Stash"
+ * @{
+ */
+$wgAutoloadClasses['StashedTranslation'] = "$dir/stash/StashedTranslation.php";
+$wgAutoloadClasses['TranslationStashStorage'] = "$dir/stash/TranslationStashStorage.php";
 /**@}*/
 
 /**
  * @name   "Test classes"
  * @{
  */
-$wgAutoloadClasses['MockFileBasedMessageGroup'] = "$dir/tests/MockFileBasedMessageGroup.php";
-$wgAutoloadClasses['MockMessageCollectionForExport'] = "$dir/tests/MockMessageCollectionForExport.php";
-$wgAutoloadClasses['MockSuperUser'] = "$dir/tests/MockSuperUser.php";
-$wgAutoloadClasses['MockWikiMessageGroup'] = "$dir/tests/MockWikiMessageGroup.php";
+$wgAutoloadClasses['MockFileBasedMessageGroup'] =
+	"$dir/tests/phpunit/MockFileBasedMessageGroup.php";
+$wgAutoloadClasses['MockMessageCollectionForExport'] =
+	"$dir/tests/phpunit/MockMessageCollectionForExport.php";
+$wgAutoloadClasses['MockSuperUser'] = "$dir/tests/phpunit/MockSuperUser.php";
+$wgAutoloadClasses['MockWikiMessageGroup'] = "$dir/tests/phpunit/MockWikiMessageGroup.php";
 /**@}*/
 
 /**
@@ -264,12 +283,14 @@ $wgAutoloadClasses['CurrentTranslationAid'] = "$dir/translationaids/CurrentTrans
 $wgAutoloadClasses['DocumentationAid'] = "$dir/translationaids/DocumentationAid.php";
 $wgAutoloadClasses['GettextDocumentationAid'] = "$dir/translationaids/GettextDocumentationAid.php";
 $wgAutoloadClasses['InOtherLanguagesAid'] = "$dir/translationaids/InOtherLanguagesAid.php";
+$wgAutoloadClasses['InsertablesAid'] = "$dir/translationaids/InsertablesAid.php";
 $wgAutoloadClasses['MachineTranslationAid'] = "$dir/translationaids/MachineTranslationAid.php";
 $wgAutoloadClasses['MessageDefinitionAid'] = "$dir/translationaids/MessageDefinitionAid.php";
 $wgAutoloadClasses['SupportAid'] = "$dir/translationaids/SupportAid.php";
 $wgAutoloadClasses['TTMServerAid'] = "$dir/translationaids/TTMServerAid.php";
 $wgAutoloadClasses['TranslationAid'] = "$dir/translationaids/TranslationAid.php";
-$wgAutoloadClasses['UnsupportedTranslationAid'] = "$dir/translationaids/UnsupportedTranslationAid.php";
+$wgAutoloadClasses['UnsupportedTranslationAid'] =
+	"$dir/translationaids/UnsupportedTranslationAid.php";
 $wgAutoloadClasses['UpdatedDefinitionAid'] = "$dir/translationaids/UpdatedDefinitionAid.php";
 /**@}*/
 
@@ -281,6 +302,17 @@ $wgAutoloadClasses['ApertiumWebService'] = "$dir/webservices/ApertiumWebService.
 $wgAutoloadClasses['MicrosoftWebService'] = "$dir/webservices/MicrosoftWebService.php";
 $wgAutoloadClasses['RemoteTTMServerWebService'] = "$dir/webservices/RemoteTTMServerWebService.php";
 $wgAutoloadClasses['TranslationWebService'] = "$dir/webservices/TranslationWebService.php";
-$wgAutoloadClasses['TranslationWebServiceException'] = "$dir/webservices/TranslationWebServiceException.php";
+$wgAutoloadClasses['TranslationWebServiceException'] =
+	"$dir/webservices/TranslationWebServiceException.php";
 $wgAutoloadClasses['YandexWebService'] = "$dir/webservices/YandexWebService.php";
+/**@}*/
+
+/**
+ * @name   "Insertables"
+ * @{
+ */
+$wgAutoloadClasses['Insertable'] = "$dir/insertables/Insertable.php";
+$wgAutoloadClasses['InsertablesSuggester'] = "$dir/insertables/InsertablesSuggester.php";
+$wgAutoloadClasses['MediaWikiInsertablesSuggester'] =
+	"$dir/insertables/MediaWikiInsertablesSuggester.php";
 /**@}*/

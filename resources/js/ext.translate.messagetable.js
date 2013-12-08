@@ -134,7 +134,7 @@
 				one: false
 			} );
 
-			this.$actionBar.find( 'button.tux-proofread-button' ).on( 'click', function () {
+			this.$actionBar.find( 'button.proofread-mode-button' ).on( 'click', function () {
 				messageTable.switchMode( 'proofread' );
 			} );
 
@@ -151,38 +151,22 @@
 		 * Clear the message table
 		 */
 		clear: function () {
-			$( '.tux-messagelist' ).empty();
+			this.$container.empty();
+			$( '.translate-tipsy' ).remove();
 			this.messages = [];
 			// Any ongoing loading process will notice this and will reject results.
 			this.loading = false;
 		},
 
 		add: function ( message ) {
-			var $message;
-
 			// Prepare the message for display
 			mw.translateHooks.run( 'formatMessageBeforeTable', message );
 
 			if ( this.mode === 'translate' ) {
 				this.addTranslate( message );
-
-				return;
-			}
-
-			if ( this.mode === 'proofread' ) {
-				$message = this.addProofread( message );
-
-				if ( !this.firstProofreadTipShown ) {
-					if ( $message.find( '.tux-proofread-action' ).length ) {
-						$message.find( '.tux-proofread-action' ).tipsy( 'show' );
-						this.firstProofreadTipShown = true;
-					}
-				}
-
-				return;
-			}
-
-			if ( this.mode === 'page' ) {
+			} else if ( this.mode === 'proofread' ) {
+				this.addProofread( message );
+			} else if ( this.mode === 'page' ) {
 				this.addPageModeMessage( message );
 			}
 		},
@@ -194,7 +178,7 @@
 			var $message, targetLanguage, targetLanguageDir, sourceLanguage, sourceLanguageDir,
 				status,
 				statusMsg = '',
-				statusClass = '',
+				statusClass,
 				$messageWrapper;
 
 			sourceLanguage = this.$container.data( 'sourcelangcode' );
@@ -268,7 +252,9 @@
 						.append(
 							$( '<a>' )
 								.attr( {
-									'title': mw.msg( 'translate-edit-title', message.key )
+									title: mw.msg( 'translate-edit-title', message.key ),
+									href: ( new mw.Uri( mw.util.wikiGetlink( message.title ) ) )
+										.extend( { action: 'edit' } )
 								} )
 								.text( mw.msg( 'tux-edit' ) )
 						)
@@ -287,8 +273,9 @@
 		 * Add a message to the message table for proofreading.
 		 */
 		addProofread: function ( message ) {
-			var $message = $( '<div>' )
-				.addClass( 'row tux-message-proofread' );
+			var icon, $message;
+
+			$message = $( '<div>' ).addClass( 'row tux-message-proofread' );
 
 			this.$container.append( $message );
 			$message.proofread( {
@@ -297,7 +284,28 @@
 				targetlangcode: this.$container.data( 'targetlangcode' )
 			} );
 
-			return $message;
+			// Add autotipsy to first available proofread action icon
+			if ( this.firstProofreadTipShown ) {
+				return;
+			}
+
+			icon = $message.find( '.tux-proofread-action' );
+			if ( icon.length === 0 ) {
+				return;
+			}
+
+			this.firstProofreadTipShown = true;
+			icon.addClass( 'autotipsy' );
+
+			// Selectors are not cached in case the element no longer exists
+			setTimeout( function () {
+				var icon = $( '.autotipsy' );
+				if ( icon.length ) { icon.tipsy( 'show' ); }
+			}, 1000 );
+			setTimeout( function () {
+				var icon = $( '.autotipsy' );
+				if ( icon.length ) { icon.tipsy( 'hide' ); }
+			}, 4000 );
 		},
 
 		addPageModeMessage: function ( message ) {
@@ -480,7 +488,7 @@
 					messageTable.updateLastMessage();
 				} )
 				.fail( function ( errorCode, response ) {
-					if ( response.error.code === 'mctranslate-language-disabled' ) {
+					if ( response.error && response.error.code === 'mctranslate-language-disabled' ) {
 						$( '.tux-editor-header .group-warning' )
 							.text( mw.msg( 'translate-language-disabled' ) )
 							.show();
@@ -622,7 +630,6 @@
 			var messageTable = this,
 				filter = messageTable.$loader.data( 'filter' ),
 				userId = mw.config.get( 'wgUserId' ),
-				$proofreadAction,
 				$tuxTabUntranslated,
 				$tuxTabUnproofread,
 				$controlOwnButton,
@@ -633,7 +640,7 @@
 				messageTable.$actionBar.find( '.translate-mode-button' ).addClass( 'down' );
 			}
 			if ( mode === 'proofread' ) {
-				messageTable.$actionBar.find( '.tux-proofread-button' ).addClass( 'down' );
+				messageTable.$actionBar.find( '.proofread-mode-button' ).addClass( 'down' );
 			}
 			if ( mode === 'page' ) {
 				messageTable.$actionBar.find( '.page-mode-button' ).addClass( 'down' );
@@ -641,19 +648,12 @@
 
 			messageTable.firstProofreadTipShown = false;
 
-			// "Accept message" tipsies may still be shown
-			if ( messageTable.mode === 'proofread' ) {
-				$proofreadAction = messageTable.$container.find( '.tux-proofread-action' );
-
-				if ( $proofreadAction.length ) {
-					$proofreadAction.tipsy( 'hide' );
-				}
-			}
-
 			messageTable.mode = mode;
 			mw.translate.changeUrl( { action: messageTable.mode } );
 
+			// Emulate clear without clearing loaded messages
 			messageTable.$container.empty();
+			$( '.translate-tipsy' ).remove();
 
 			$tuxTabUntranslated = $( '.tux-message-selector > .tux-tab-untranslated' );
 			$tuxTabUnproofread = $( '.tux-message-selector > .tux-tab-unproofread' );
@@ -826,4 +826,3 @@
 		return value.replace( /[\-\[\]{}()*+?.,\\\^$\|#\s]/g, '\\$&' );
 	}
 }( jQuery, mediaWiki ) );
-

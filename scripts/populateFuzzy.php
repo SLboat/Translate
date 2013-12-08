@@ -4,7 +4,7 @@
  *
  * @author Niklas Laxstrom
  * @copyright Copyright © 2009-2013, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  * @file
  */
 
@@ -22,7 +22,12 @@ class PopulateFuzzy extends Maintenance {
 	public function __construct() {
 		parent::__construct();
 		$this->mDescription = 'A script to populate fuzzy tags to revtag table.';
-		$this->addOption( 'namespace', 'Namepace name or id', /*required*/false, /*has arg*/true );
+		$this->addOption(
+			'namespace',
+			'(optional) Namepace name or id',
+			/*required*/false,
+			/*has arg*/true
+		);
 	}
 
 	public function execute() {

@@ -4,7 +4,7 @@
  *
  * @file
  * @copyright Copyright © 2012-2013, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -68,8 +68,10 @@ abstract class ApiStatsQuery extends ApiQueryBase {
 
 	public function getParamDescription() {
 		return array(
-			'offset' => 'If not all stats are calculated, you will get a query-continue parameter for offset you can use to get more.',
-			'timelimit' => 'Maximum time to spend calculating missing statistics. If zero, only the cached results from the beginning are returned.',
+			'offset' => 'If not all stats are calculated, you will get a query-continue ' .
+				'parameter for offset you can use to get more.',
+			'timelimit' => 'Maximum time to spend calculating missing statistics. If ' .
+				'zero, only the cached results from the beginning are returned.',
 		);
 	}
 

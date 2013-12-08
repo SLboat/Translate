@@ -5,7 +5,7 @@
  * @file
  * @author Niklas Laxström
  * @copyright Copyright © 2008-2013, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -33,6 +33,7 @@ class PageTranslationHooks {
 				$text = $parse->getTranslationPageText( null );
 			} catch ( TPException $e ) {
 				// Show ugly preview without processed <translate> tags
+				wfDebug( 'TPException caught; expected' );
 			}
 		}
 
@@ -232,7 +233,8 @@ class PageTranslationHooks {
 
 		$languages = array();
 		foreach ( $status as $code => $percent ) {
-			$name = TranslateUtils::getLanguageName( $code, $userLangCode );
+			// Get autonyms
+			$name = TranslateUtils::getLanguageName( $code, $code );
 			$name = htmlspecialchars( $name ); // Unlikely, but better safe
 
 			/* Percentages are too accurate and take more
@@ -252,8 +254,8 @@ class PageTranslationHooks {
 
 			$percentImage = Xml::element( 'img', array(
 				'src' => TranslateUtils::assetPath( "resources/images/prog-$image.png" ),
-				'alt' => "$percent%", // @todo i18n missing.
-				'title' => "$percent%", // @todo i18n missing.
+				'alt' => wfMessage( 'percent', $percent )->text(),
+				'title' => wfMessage( 'percent', $percent )->text(),
 				'width' => '9',
 				'height' => '9',
 			) );
@@ -321,7 +323,7 @@ class PageTranslationHooks {
 			wfMessage( 'tpt-languages-legend' )->escaped()
 		);
 		$out .= Html::rawElement( 'td',
-			array( 'class' => 'mw-pt-languages-list' ),
+			array( 'class' => 'mw-pt-languages-list autonym' ),
 			$languages
 		);
 		$out .= Html::closeElement( 'tr' );
@@ -602,7 +604,8 @@ class PageTranslationHooks {
 				$result = array(
 					'tpt-target-page',
 					$page->getTitle()->getPrefixedText(),
-					$page->getTranslationUrl( $code )
+					// This url shouldn't get cached
+					wfExpandUrl( $page->getTranslationUrl( $code ) )
 				);
 
 				return false;
@@ -742,7 +745,9 @@ class PageTranslationHooks {
 			$per = $pers[$code] * 100;
 		}
 		$titleText = $page->getTitle()->getPrefixedText();
-		$url = $page->getTranslationUrl( $code );
+
+		// This url might get cached
+		$url = wfExpandUrl( $page->getTranslationUrl( $code ), PROTO_RELATIVE );
 
 		// Output
 		$wrap = '<div class="mw-translate-page-info">$1</div>';
@@ -858,5 +863,29 @@ class PageTranslationHooks {
 		$context->getOutput()->addHtml( $output );
 
 		return false;
+	}
+
+	/**
+	 * Converts the edit tab (if exists) for translation pages to translate tab.
+	 * Hook: SkinTemplateNavigation
+	 * @since 2013.06
+	 */
+	static function translateTab( Skin $skin, array &$tabs ) {
+		$title = $skin->getTitle();
+		// Set display title
+		$page = TranslatablePage::isTranslationPage( $title );
+		if ( !$page ) {
+			return true;
+		}
+
+		$handle = new MessageHandle( $title );
+		$code = $handle->getCode();
+
+		if ( isset( $tabs['views']['edit'] ) ) {
+			$tabs['views']['edit']['text'] = $skin->msg( 'tpt-tab-translate' )->text();
+			$tabs['views']['edit']['href'] = $page->getTranslationUrl( $code );
+		}
+
+		return true;
 	}
 }

@@ -7,30 +7,30 @@
  *
  * @author Niklas Laxstrom
  * @copyright Copyright © 2008-2011, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  * @file
  */
 
-require __DIR__ . '/cli.inc';
+// Standard boilerplate to define $IP
+if ( getenv( 'MW_INSTALL_PATH' ) !== false ) {
+	$IP = getenv( 'MW_INSTALL_PATH' );
+} else {
+	$dir = __DIR__;
+	$IP = "$dir/../../..";
+}
+require_once "$IP/maintenance/Maintenance.php";
 
-function showUsage() {
-	STDERR( <<<EOT
-Message index creation command line script
+class CreateMessageIndex extends Maintenance {
+	public function __construct() {
+		parent::__construct();
+		$this->mDescription = 'Creates or updates a message index.';
+	}
 
-Usage: php createMessageIndex.php [options...]
-
-Options:
-  --help            Show this help text
-  --quiet           Only output errors
-
-EOT
-	);
-	exit( 1 );
+	public function execute() {
+		MessageGroups::clearCache();
+		MessageIndex::singleton()->rebuild();
+	}
 }
 
-if ( isset( $options['help'] ) ) {
-	showUsage();
-}
-
-MessageGroups::clearCache();
-MessageIndex::singleton()->rebuild();
+$maintClass = 'CreateMessageIndex';
+require_once DO_MAINTENANCE;

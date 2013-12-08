@@ -4,7 +4,7 @@
  *
  * @file
  * @copyright Copyright © 2012-2013, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -54,7 +54,8 @@ class ApiQueryLanguageStats extends ApiStatsQuery {
 
 	protected function getExamples() {
 		return array(
-			"api.php?action=query&meta=languagestats&lslanguage=fi List of translation completion statistics for language fi",
+			"api.php?action=query&meta=languagestats&lslanguage=fi List of translation " .
+				"completion statistics for language fi",
 		);
 	}
 }

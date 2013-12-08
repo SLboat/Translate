@@ -6,7 +6,7 @@
  * @author Niklas Laxström
  * @author Siebrand Mazeland
  * @copyright Copyright © 2010-2013 Niklas Laxström, Siebrand Mazeland
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -34,9 +34,10 @@ class SpecialMyLanguage extends UnlistedSpecialPage {
 	}
 
 	/**
-	 * Assuming the user's interface language is fi
-	 * Given input Page, it returns Page/fi if it exists, otherwise Page
-	 * Given input Page/de, it returns Page/fi if it exists, otherwise Page/de if it exists, otherwise Page
+	 * Assuming the user's interface language is fi. Given input Page, it
+	 * returns Page/fi if it exists, otherwise Page. Given input Page/de,
+	 * it returns Page/fi if it exists, otherwise Page/de if it exists,
+	 * otherwise Page.
 	 * @param $par
 	 * @return Title|null
 	 */
@@ -83,7 +84,9 @@ class SpecialMyLanguage extends UnlistedSpecialPage {
 	 * @param $ret
 	 * @return bool
 	 */
-	public static function linkfix( $dummy, $target, &$html, &$customAttribs, &$query, &$options, &$ret ) {
+	public static function linkfix( $dummy, $target, &$html, &$customAttribs,
+		&$query, &$options, &$ret
+	) {
 		if ( $target->getNamespace() == NS_SPECIAL ) {
 			list( $name, $subpage ) = SpecialPageFactory::resolveAlias( $target->getDBkey() );
 			if ( $name === 'MyLanguage' ) {

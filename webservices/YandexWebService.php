@@ -5,7 +5,7 @@
  * @file
  * @author Niklas Laxström
  * @copyright Copyright © 2010-2013 Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -16,6 +16,9 @@
  */
 class YandexWebService extends TranslationWebService {
 	protected function mapCode( $code ) {
+		if ( $code === 'be-tarask' ) {
+			$code = 'be';
+		}
 		return $code;
 	}
 
@@ -24,7 +27,6 @@ class YandexWebService extends TranslationWebService {
 			throw new TranslationWebServiceException( 'API key is not set' );
 		}
 
-		$service = $this->service;
 		$pairs = array();
 
 		$params = array(

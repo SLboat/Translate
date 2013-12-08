@@ -5,7 +5,7 @@
  * @file
  * @author Niklas Laxstrom
  * @copyright Copyright © 2008-2013, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -90,8 +90,7 @@ abstract class MessageIndex {
 
 		if ( $recursion > 0 ) {
 			$msg = __METHOD__ . ': trying to recurse - building the index first time?';
-			STDERR( $msg );
-			wfDebug( "$msg\n" );
+			wfWarn( $msg );
 
 			return array();
 		}
@@ -102,8 +101,6 @@ abstract class MessageIndex {
 		$new = $old = array();
 		$old = $this->retrieve();
 		$postponed = array();
-
-		STDOUT( "Working with ", 'main' );
 
 		/**
 		 * @var MessageGroup $g
@@ -185,7 +182,7 @@ abstract class MessageIndex {
 	 * @param bool $ignore
 	 */
 	protected function checkAndAdd( &$hugearray, MessageGroup $g, $ignore = false ) {
-		if ( $g instanceof MessageGroupBase ) {
+		if ( method_exists( $g, 'getKeys' ) ) {
 			$keys = $g->getKeys();
 		} else {
 			$messages = $g->getDefinitions();
@@ -199,8 +196,6 @@ abstract class MessageIndex {
 
 		$id = $g->getId();
 
-		STDOUT( "$id ", 'main' );
-
 		$namespace = $g->getNamespace();
 
 		foreach ( $keys as $key ) {
@@ -211,7 +206,7 @@ abstract class MessageIndex {
 			if ( isset( $hugearray[$key] ) ) {
 				if ( !$ignore ) {
 					$to = implode( ', ', (array)$hugearray[$key] );
-					STDERR( "Key $key already belongs to $to, conflict with $id" );
+					wfWarn( "Key $key already belongs to $to, conflict with $id" );
 				}
 
 				if ( is_array( $hugearray[$key] ) ) {

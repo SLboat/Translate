@@ -6,7 +6,7 @@
  * @author Niklas Laxström
  * @author Siebrand Mazeland
  * @copyright Copyright © 2006-2013 Niklas Laxström, Siebrand Mazeland
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -247,7 +247,7 @@ class SpecialTranslate extends SpecialPage {
 			/* str  */'taction'  => 'translate',
 			/* str  */'task'     => $isBeta ? 'custom' : 'untranslated',
 			/* str  */'language' => $this->getLanguage()->getCode(),
-			/* str  */'group'    => $isBeta ? '!additions': '',
+			/* str  */'group'    => $isBeta ? '!additions' : '',
 			/* str  */'offset'   => '', // Used to be int, now str
 			/* int  */'limit'    => $isBeta ? 0 : 100,
 			/* int  */'optional' => '0',

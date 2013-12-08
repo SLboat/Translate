@@ -10,15 +10,11 @@
 	function doApiAction( options ) {
 		var api = new mw.Api();
 
-		options = $.extend( {}, {
-			action: 'translatesandbox',
-			token: $( '#token' ).val()
-		}, options );
+		options = $.extend( {}, { action: 'translatesandbox' }, options );
 
-		api.post( options )
+		api.postWithToken( 'translatesandbox', options )
 			.done( function () { window.alert( 'Success' ); } )
-			.fail( function () { window.alert( 'Failure' ); } )
-		;
+			.fail( function () { window.alert( 'Failure' ); } );
 	}
 
 	/**
@@ -58,9 +54,9 @@
 
 	/**
 	 * Dialog where the user can tweak reminder email if wanted.
-	 * @param {jQuery} $request
+	 * @param {Object} request
 	 */
-	function reminderDialog( $request ) {
+	function reminderDialog( request ) {
 		var $dialog, keys;
 
 		keys = ['tsb-reminder-title-generic', 'tsb-reminder-content-generic' ];
@@ -74,7 +70,7 @@
 					),
 					$( '<div class="row">' ).append(
 						$( '<div class="three columns">' ).text( 'To:' ),
-						$( '<div class="nine columns">' ).text( $request.find( '.email' ).text() )
+						$( '<div class="nine columns">' ).text( request.email )
 					),
 					$( '<div class="row">' ).append(
 						$( '<div class="three columns">' ).text( 'Subject:' ),
@@ -94,7 +90,7 @@
 				buttons: {
 					'Send': function () {
 						doApiAction( {
-							userid: $request.data( 'data' ).id,
+							userid: request.userid,
 							'do': 'remind',
 							subject: $dialog.find( '.subject' ).val(),
 							body: $dialog.find( '.body' ).val()
@@ -109,56 +105,150 @@
 		} );
 	}
 
-	$( document ).ready( function () {
-		var $requests, $detailsPane;
+	/**
+	 * Display the request details when user clicks on a request item
+	 *
+	 * @param {Object} request The request data set from backend on request items
+	 */
+	function displayRequestDetails( request ) {
+		var storage,
+			$detailsPane = $( '.details.pane' );
 
-		$detailsPane = $( '.details.pane' );
-		$requests = $( '.requests .request' );
-		$requests.on( 'click', function () {
-			var $this = $( this );
+		$detailsPane.empty().append(
+			$( '<div>' )
+				.addClass( 'username row' )
+				.text( request.username ),
+			$( '<div>' )
+				.addClass( 'email row' )
+				.text( request.email ),
+			$( '<div>' )
+				.addClass( 'languages row' )
+				.append(
+					$( '<span>' ).text( 'Afrikaans' ),
+					$( '<span>' ).text( 'español' )
+				),
+			$( '<div>' )
+				.addClass( 'actions row' )
+				.append(
+					$( '<button>' )
+						.addClass( 'accept primary green button' )
+						.text( mw.msg( 'tsb-accept-button-label' ) )
+						.on( 'click', function () {
+							doApiAction( {
+								userid: request.userid,
+								'do': 'promote'
+							} );
+						} ),
+					$( '<button>' )
+						.addClass( 'delete destructive button' )
+						.text( mw.msg( 'tsb-reject-button-label' ) )
+						.on( 'click', function () {
+							doApiAction( {
+								userid: request.userid,
+								'do': 'delete'
+							} );
+						} )
+				),
+			$( '<div>' )
+				.addClass( 'reminder row' )
+				.append(
+					$( '<a href="#"></a>' )
+						.addClass( 'remind link' )
+						.text( mw.msg( 'tsb-reminder-link-text' ) )
+						.on( 'click', function ( e ) {
+							e.preventDefault();
+							reminderDialog( request );
+						} )
+				),
+			$( '<div>' )
+				.addClass( 'translations row' )
+		);
 
-			$detailsPane.empty().append(
+		// @todo: move higher in the tree
+		storage = new mw.translate.TranslationStashStorage();
+		storage.getUserTranslations( request.username ).done( function ( translations ) {
+			var $target = $( '.translations' );
+
+			// TODO: Header for the translations. not i18ned, need UX review
+			$target.append(
 				$( '<div>' )
-					.addClass( 'username row' )
-					.text( $this.find( '.username' ).text() ),
-				$( '<div>' )
-					.addClass( 'email row' )
-					.text( $this.find( '.email' ).text() ),
-				$( '<div>' )
-					.addClass( 'languages row' )
+					.addClass( 'row title' )
 					.append(
-						$( '<span>' ).text( 'Afrikaans' ),
-						$( '<span>' ).text( 'español' )
-					),
-				$( '<div>' )
-					.addClass( 'actions row' )
-					.append(
-						$( '<button>' )
-							.addClass( 'accept primary button' )
-							.text( 'Accept' )
-							.on( 'click', function () {
-								doApiAction( {
-									userid: $this.data( 'data' ).id,
-									'do': 'promote'
-								} );
-							} ),
-						$( '<button>' )
-							.addClass( 'remind button' )
-							.text( 'Send email reminder' )
-							.on( 'click', function () {
-								reminderDialog( $this );
-							} ),
-						$( '<button>' )
-							.addClass( 'delete destructive button' )
-							.text( 'Delete' )
-							.on( 'click', function () {
-								doApiAction( {
-									userid: $this.data( 'data' ).id,
-									'do': 'delete'
-								} );
-							} )
+						$( '<div>' )
+							.text( mw.msg( 'tsb-translations-source' ) )
+							.addClass( 'four columns' ),
+						$( '<div>' )
+							.text( mw.msg( 'tsb-translations-user' ) )
+							.addClass( 'four columns' ),
+						$( '<div>' )
+							.text( mw.msg( 'tsb-translations-current' ) )
+							.addClass( 'four columns' )
 					)
-			);
+				);
+			$.each( translations.translationstash.translations, function( index, translation ) {
+				$target.append(
+					$( '<div>' )
+						.addClass( 'row' )
+						.append(
+							$( '<div>' )
+								.addClass( 'four columns source' )
+								.text( translation.definition ),
+							$( '<div>' )
+								.addClass( 'four columns translation' )
+								.append(
+									$( '<div>' ).text( translation.translation ),
+									$( '<div>' )
+										.addClass( 'info' )
+										.text(
+											$.uls.data.getAutonym( translation.title.split(/[\\/ ]+/).pop() )
+										)
+								),
+							$( '<div>' )
+								.addClass( 'four columns comparison' )
+								.append(
+									$( '<div>' ).text( translation.comparison ),
+									$( '<div>' )
+										.addClass( 'info' )
+										.text( translation.title )
+								)
+						)
+					);
+			} );
 		} );
+	}
+
+	$( document ).ready( function () {
+		var $selectAll = $( '.request-selector-all' );
+
+		// Handle clicks for the select all checkbox
+		$selectAll.click( function () {
+			$( '.request-selector' ).prop( 'checked', this.checked );
+		} );
+
+		// And update the state of select-all checkbox
+		$( '.request-selector' ).on( 'click', function ( e ) {
+			var total, checked, $selects = $( '.request-selector' );
+
+			total = $selects.length;
+			checked = $selects.filter( ':checked' ).length;
+
+			if ( checked === total ) {
+				$selectAll.prop( 'checked', true ).prop( 'indeterminate', false );
+			} else if ( checked === 0 ) {
+				$selectAll.prop( 'checked', false ).prop( 'indeterminate', false );
+			} else {
+				$selectAll.prop( 'indeterminate', true );
+			}
+
+			e.stopPropagation();
+		} );
+
+		// Handle clicks on requests
+		$( '.requests .request' ).on( 'click',  function () {
+			displayRequestDetails( $( this ).data( 'data' ) );
+		} );
+
+		// Activate language selector
+		$( '.language-selector' ).uls();
 	} );
 }( jQuery, mediaWiki ) );

@@ -5,7 +5,7 @@
  * @file
  * @author Niklas Laxström
  * @copyright Copyright © 2010-2013, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -143,12 +143,29 @@ abstract class MessageGroupBase implements MessageGroup {
 			/**
 			 * @todo Branch handling, merge with upper branch keys
 			 */
-			$class = $this->getFromConf( 'MANGLER', 'class' );
 			$this->mangler = new $class();
 			$this->mangler->setConf( $this->conf['MANGLER'] );
 		}
 
 		return $this->mangler;
+	}
+
+	/**
+	 * Returns the configured InsertablesSuggester if any.
+	 * @since 2013.09
+	 */
+	public function getInsertablesSuggester() {
+		$class = $this->getFromConf( 'INSERTABLES', 'class' );
+
+		if ( !$class ) {
+			return null;
+		}
+
+		if ( !class_exists( $class ) ) {
+			throw new MWException( "InsertablesSuggester class $class does not exist." );
+		}
+
+		return new $class();
 	}
 
 	/**

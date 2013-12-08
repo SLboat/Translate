@@ -3,8 +3,9 @@
  * Aliases for special pages of Translate extension.
  *
  * @file
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
+// @codingStandardsIgnoreFile
 
 $specialPageAliases = array();
 
@@ -26,6 +27,7 @@ $specialPageAliases['en'] = array(
 	'AggregateGroups' => array( 'AggregateGroups' ),
 	'SearchTranslations' => array( 'SearchTranslations' ),
 	'TranslateSandbox' => array( 'ManageTranslatorSandbox', 'TranslateSandbox' ),
+	'TranslationStash' => array( 'TranslationStash' ),
 );
 
 /** Afrikaans (Afrikaans) */
@@ -177,6 +179,21 @@ $specialPageAliases['bxr'] = array(
 	'MyLanguage' => array( 'Минии_хэлэн' ),
 );
 
+/** Min Dong Chinese (Mìng-dĕ̤ng-ngṳ̄) */
+$specialPageAliases['cdo'] = array(
+	'Translate' => array( '翻譯' ),
+	'Magic' => array( '高級翻譯' ),
+	'TranslationStats' => array( '翻譯統計' ),
+	'LanguageStats' => array( '語言統計' ),
+	'MessageGroupStats' => array( '信息組統計' ),
+	'PageTranslation' => array( '頁面翻譯' ),
+	'ImportTranslations' => array( '導底翻譯' ),
+	'ManageMessageGroups' => array( '管理信息組' ),
+	'FirstSteps' => array( '頭蜀步' ),
+	'SupportedLanguages' => array( '支持其語言' ),
+	'MyLanguage' => array( '我其語言' ),
+);
+
 /** Chechen (нохчийн) */
 $specialPageAliases['ce'] = array(
 	'Translate' => array( 'Гоч_де' ),
@@ -184,10 +201,10 @@ $specialPageAliases['ce'] = array(
 	'TranslationStats' => array( 'Гочдаран_статистика' ),
 	'Translations' => array( 'Гоч_дарш' ),
 	'LanguageStats' => array( 'Меттан_статистика' ),
-	'MessageGroupStats' => array( 'Хаамийн_тобашан_статистика' ),
+	'MessageGroupStats' => array( 'Хаамийн_тобанийн_статистика' ),
 	'PageTranslation' => array( 'АгӀонаш_гоч_яр' ),
 	'ImportTranslations' => array( 'Гоч_йинарш_импорт_яр' ),
-	'ManageMessageGroups' => array( 'Хаамийн_тобашан_урхалла_дар' ),
+	'ManageMessageGroups' => array( 'Хаамийн_тобанийн_урхалла_дар' ),
 	'FirstSteps' => array( 'Дуьххьарлера_гӀулчаш' ),
 	'SupportedLanguages' => array( 'Ловш_долу_меттанаш' ),
 	'MyLanguage' => array( 'Сан_мотт' ),
@@ -230,6 +247,7 @@ $specialPageAliases['de'] = array(
 	'AggregateGroups' => array( 'Zusammenfassende_Nachrichtengruppen' ),
 	'SearchTranslations' => array( 'Übersetzungen_suchen' ),
 	'TranslateSandbox' => array( 'Übersetzerspielwiese_verwalten' ),
+	'TranslationStash' => array( 'Übersetzungsversteck' ),
 );
 
 /** Zazaki (Zazaki) */
@@ -269,15 +287,21 @@ $specialPageAliases['dv'] = array(
 /** Greek (Ελληνικά) */
 $specialPageAliases['el'] = array(
 	'Translate' => array( 'Μετάφραση' ),
+	'Magic' => array( 'ΠροχωρημένηΜετάφραση', 'ΜαγικέςΛέξεις' ),
 	'TranslationStats' => array( 'ΣτατιστικάΜετάφρασης' ),
 	'Translations' => array( 'Μεταφράσεις' ),
 	'LanguageStats' => array( 'ΣτατιστικάΓλώσσας' ),
+	'MessageGroupStats' => array( 'ΣτατιστικάΟμάδαςΜηνυμάτων' ),
 	'PageTranslation' => array( 'ΜετάφρασηΣελίδας' ),
 	'ImportTranslations' => array( 'ΕισαγωγήΜεταφράσεων' ),
 	'ManageMessageGroups' => array( 'ΔιαχείρισηΟμάδωνΜηνυμάτων' ),
 	'FirstSteps' => array( 'ΠρώταΒήματα' ),
+	'SupportedLanguages' => array( 'ΥποστηριζόμενεςΓλώσσες' ),
 	'MyLanguage' => array( 'ΗΓλώσσαΜου' ),
+	'PageTranslationDeletePage' => array( 'ΔιαγραφήΣελίδαςΜετάφρασηςΣελίδων' ),
+	'AggregateGroups' => array( 'ΣυγκεντρωτικέςΟμάδες' ),
 	'SearchTranslations' => array( 'ΑναζήτησηΜεταφράσεων' ),
+	'TranslateSandbox' => array( 'ΔιαχείρισηΑμμοδοχείουΜεταφραστή', 'ΑμμοδοχείοΜετάφρασης' ),
 );
 
 /** Esperanto (Esperanto) */
@@ -309,6 +333,7 @@ $specialPageAliases['fa'] = array(
 	'TranslationStats' => array( 'آمار_ترجمه‌ها' ),
 	'Translations' => array( 'ترجمه‌ها' ),
 	'LanguageStats' => array( 'آمار_زبان‌ها' ),
+	'MessageGroupStats' => array( 'آمار_گروه_پیغام' ),
 	'PageTranslation' => array( 'ترجمه_صفحه' ),
 	'ImportTranslations' => array( 'درون‌بری_ترجمه‌ها' ),
 	'ManageMessageGroups' => array( 'مدیریت_گروه‌های_پیغام' ),
@@ -316,6 +341,9 @@ $specialPageAliases['fa'] = array(
 	'SupportedLanguages' => array( 'زبان‌های_پشتیبانی‌شده' ),
 	'MyLanguage' => array( 'زبان‌های_من' ),
 	'PageTranslationDeletePage' => array( 'صفحه_حذف_ترجمه_صفحه' ),
+	'AggregateGroups' => array( 'جمع_گروه‌ها' ),
+	'SearchTranslations' => array( 'جستجوی_ترجمه‌ها' ),
+	'TranslateSandbox' => array( 'مدیریت_صفحهٔ_تمرین_ترجمه', 'صفحهٔ_تمرین_ترجمه' ),
 );
 
 /** Finnish (suomi) */
@@ -551,6 +579,7 @@ $specialPageAliases['ko'] = array(
 	'AggregateGroups' => array( '집계그룹' ),
 	'SearchTranslations' => array( '번역찾기' ),
 	'TranslateSandbox' => array( '번역자연습장관리', '번역연습장' ),
+	'TranslationStash' => array( '비공개번역' ),
 );
 
 /** Karachay-Balkar (къарачай-малкъар) */
@@ -636,6 +665,7 @@ $specialPageAliases['mk'] = array(
 	'AggregateGroups' => array( 'ЗбирниГрупи' ),
 	'SearchTranslations' => array( 'ПребарајПреводи' ),
 	'TranslateSandbox' => array( 'РаководиПреведувачкиПесочник' ),
+	'TranslationStash' => array( 'ПреведувачкиСклад' ),
 );
 
 /** Malayalam (മലയാളം) */
@@ -741,7 +771,7 @@ $specialPageAliases['nds-nl'] = array(
 	'FirstSteps' => array( 'Eerste_stappen' ),
 	'SupportedLanguages' => array( 'Ondersteunde_talen' ),
 	'MyLanguage' => array( 'Mien_taal' ),
-	'PageTranslationDeletePage' => array( 'Ziedvertaling_pagina_vortdoon' ),
+	'PageTranslationDeletePage' => array( 'Ziedvertaling_zied_vortdoon' ),
 	'AggregateGroups' => array( 'Samen-evoegden_groepen' ),
 	'SearchTranslations' => array( 'Vertalingen_zeuken' ),
 	'TranslateSandbox' => array( 'Vertalers_zaandkule_beheren' ),
@@ -1091,6 +1121,7 @@ $specialPageAliases['zh-hans'] = array(
 	'PageTranslationDeletePage' => array( '页面翻译删除页面' ),
 	'AggregateGroups' => array( '信息组总计' ),
 	'SearchTranslations' => array( '搜索翻译' ),
+	'TranslateSandbox' => array( '管理译者沙盒' ),
 );
 
 /** Traditional Chinese (中文（繁體）‎) */

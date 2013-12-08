@@ -5,7 +5,7 @@
  * @author Niklas Laxstrom
  *
  * @copyright Copyright © 2010, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  * @file
  */
 
@@ -21,7 +21,7 @@ require_once "$IP/maintenance/Maintenance.php";
 class YamlTests extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->mDescription = 'Script for comparing supported YAML parser implementations';
+		$this->mDescription = 'Script for comparing supported YAML parser implementations.';
 	}
 
 	public function execute() {
@@ -66,7 +66,8 @@ class YamlTests extends Maintenance {
 				$template = $document['TEMPLATE'];
 			} else {
 				if ( !isset( $document['BASIC']['id'] ) ) {
-					trigger_error( "No path ./BASIC/id (group id not defined) in yaml document located in $filename" );
+					trigger_error( "No path ./BASIC/id (group id not defined) " .
+						"in yaml document located in $filename" );
 					continue;
 				}
 				$groups[$document['BASIC']['id']] = $document;

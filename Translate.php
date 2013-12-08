@@ -11,13 +11,13 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  * @author Niklas Laxström
  * @author Siebrand Mazeland
  * @copyright Copyright © 2006-2013, Niklas Laxström, Siebrand Mazeland
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
  * Version number used in extension credits and in other places where needed.
  */
-define( 'TRANSLATE_VERSION', '2013-04-29' );
+define( 'TRANSLATE_VERSION', '2013-10-15' );
 
 /**
  * Extension credits properties.
@@ -25,7 +25,7 @@ define( 'TRANSLATE_VERSION', '2013-04-29' );
 $wgExtensionCredits['specialpage'][] = array(
 	'path' => __FILE__,
 	'name' => 'Translate',
-	'version' => '[https://www.mediawiki.org/wiki/MLEB MLEB 2013.07]',
+	'version' => TRANSLATE_VERSION,
 	'author' => array( 'Niklas Laxström', 'Siebrand Mazeland' ),
 	'descriptionmsg' => 'translate-desc',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:Translate',
@@ -48,7 +48,8 @@ require_once "$dir/_autoload.php";
 $wgExtensionMessagesFiles['Translate'] = "$dir/Translate.i18n.php";
 $wgExtensionMessagesFiles['FirstSteps'] = "$dir/FirstSteps.i18n.php";
 $wgExtensionMessagesFiles['PageTranslation'] = "$dir/PageTranslation.i18n.php";
-$wgExtensionMessagesFiles['TranslateGroupDescriptions'] = "$dir/TranslateGroupDescriptions.i18n.php";
+$wgExtensionMessagesFiles['TranslateGroupDescriptions'] =
+	"$dir/TranslateGroupDescriptions.i18n.php";
 $wgExtensionMessagesFiles['TranslateSearch'] = "$dir/TranslateSearch.i18n.php";
 $wgExtensionMessagesFiles['TranslateSandbox'] = "$dir/TranslateSandbox.i18n.php";
 $wgExtensionMessagesFiles['TranslateAlias'] = "$dir/Translate.alias.php";
@@ -91,22 +92,25 @@ $wgSpecialPageGroups['AggregateGroups'] = 'wiki';
 $wgSpecialPages['SearchTranslations'] = 'SpecialSearchTranslations';
 $wgSpecialPageGroups['SearchTranslations'] = 'wiki';
 $wgSpecialPages['TranslateSandbox'] = 'SpecialTranslateSandbox';
+$wgSpecialPages['TranslationStash'] = 'SpecialTranslationStash';
+$wgSpecialPageGroups['TranslationStash'] = 'wiki';
 
 // API
+$wgAPIGeneratorModules['messagecollection'] = 'ApiQueryMessageCollection';
 $wgAPIListModules['messagecollection'] = 'ApiQueryMessageCollection';
 $wgAPIMetaModules['languagestats'] = 'ApiQueryLanguageStats';
 $wgAPIMetaModules['messagegroups'] = 'ApiQueryMessageGroups';
 $wgAPIMetaModules['messagegroupstats'] = 'ApiQueryMessageGroupStats';
 $wgAPIMetaModules['messagetranslations'] = 'ApiQueryMessageTranslations';
-$wgAPIModules['translationreview'] = 'ApiTranslationReview';
-$wgAPIModules['groupreview'] = 'ApiGroupReview';
 $wgAPIModules['aggregategroups'] = 'ApiAggregateGroups';
-$wgAPIModules['ttmserver'] = 'ApiTTMServer';
-$wgAPIModules['translateuser'] = 'ApiTranslateUser';
-$wgAPIModules['translationaids'] = 'ApiTranslationAids';
+$wgAPIModules['groupreview'] = 'ApiGroupReview';
 $wgAPIModules['hardmessages'] = 'ApiHardMessages';
 $wgAPIModules['translatesandbox'] = 'ApiTranslateSandbox';
-$wgAPIGeneratorModules['messagecollection'] = 'ApiQueryMessageCollection';
+$wgAPIModules['translateuser'] = 'ApiTranslateUser';
+$wgAPIModules['translationaids'] = 'ApiTranslationAids';
+$wgAPIModules['translationreview'] = 'ApiTranslationReview';
+$wgAPIModules['translationstash'] = 'ApiTranslationStash';
+$wgAPIModules['ttmserver'] = 'ApiTTMServer';
 
 // Before MW 1.20
 $wgHooks['APIQueryInfoTokens'][] = 'ApiTranslationReview::injectTokenFunction';
@@ -120,14 +124,17 @@ $wgHooks['ApiTokensGetTokenTypes'][] = 'ApiGroupReview::injectTokenFunction';
 $wgHooks['ApiTokensGetTokenTypes'][] = 'ApiAggregateGroups::injectTokenFunction';
 $wgHooks['ApiTokensGetTokenTypes'][] = 'ApiHardMessages::injectTokenFunction';
 $wgHooks['ApiTokensGetTokenTypes'][] = 'ApiTranslateSandbox::injectTokenFunction';
+$wgHooks['ApiTokensGetTokenTypes'][] = 'ApiTranslationStash::injectTokenFunction';
 // Register hooks.
 $wgHooks['EditPage::showEditForm:initial'][] = 'TranslateEditAddons::addTools';
 $wgHooks['SkinTemplateNavigation'][] = 'TranslateEditAddons::addNavigationTabs';
 $wgHooks['AlternateEdit'][] = 'TranslateEditAddons::intro';
 $wgHooks['EditPageBeforeEditButtons'][] = 'TranslateEditAddons::buttonHack';
 $wgHooks['EditPage::showEditForm:fields'][] = 'TranslateEditAddons::keepFields';
-$wgHooks['LanguageGetTranslatedLanguageNames'][] = 'TranslateHooks::translateMessageDocumentationLanguage';
-$wgHooks['TranslateSupportedLanguages'][] = 'TranslateHooks::translateMessageDocumentationLanguage';
+$wgHooks['LanguageGetTranslatedLanguageNames'][] =
+	'TranslateHooks::translateMessageDocumentationLanguage';
+$wgHooks['TranslateSupportedLanguages'][] =
+	'TranslateHooks::translateMessageDocumentationLanguage';
 $wgHooks['ArticlePrepareTextForEdit'][] = 'TranslateEditAddons::disablePreSaveTransform';
 // Prevent translations creating bogus categories
 $wgHooks['LinksUpdate'][] = 'TranslateHooks::preventCategorization';
@@ -179,7 +186,10 @@ $wgHooks['Translate:MessageGroupStats:isIncluded'][] = 'TranslateHooks::hideRest
 $wgHooks['MakeGlobalVariablesScript'][] = 'TranslateHooks::addConfig';
 
 // Sandbox
+$wgDefaultUserOptions['translate-sandbox'] = '';
+$wgHooks['GetPreferences'][] = 'TranslateSandbox::onGetPreferences';
 $wgHooks['UserGetRights'][] = 'TranslateSandbox::enforcePermissions';
+$wgHooks['ApiCheckCanExecute'][] = 'TranslateSandbox::onApiCheckCanExecute';
 
 // Internal event listeners
 $wgHooks['TranslateEventTranslationEdit'][] = 'MessageGroupStats::clear';
@@ -562,7 +572,8 @@ $wgTranslateYamlLibrary = 'spyc';
 
 /**
  * Whether to allow users to sign up via a sandbox. Sandboxed users cannot do
- * much until approved and thus they can be get rid of easily.
+ * much until approved and thus they can be get rid of easily. Only works with
+ * MediaWiki 1.22 or newer.
  * @since 2013.04
  */
 $wgTranslateUseSandbox = false;
@@ -573,6 +584,18 @@ $wgTranslateUseSandbox = false;
  * @since 2013.04
  */
 $wgTranslateSandboxPromotedGroup = false;
+
+/**
+ * List of page names to always suggest for sandboxed users.
+ * @since 2013.10
+ */
+$wgTranslateSandboxSuggestions = array();
+
+/**
+ * Maximum number of translations a user can make in the sandbox.
+ * @since 2013.10
+ */
+$wgTranslateSandboxLimit = 20;
 
 # </source>
 # === Unsorted ===
@@ -606,14 +629,14 @@ $wgTranslateTestTTMServer = null;
  */
 $wgTranslateUseTux = true;
 
-# </source>
+/**
+ * List of user names that are allowed to alter their privileges and do other
+ * things. Used for supporting integration testing.
+ * @since 2013.10
+ */
+$wgTranslateTestUsers = array();
 
-/** @cond cli_support */
-if ( !defined( 'TRANSLATE_CLI' ) ) {
-	function STDOUT() {}
-	function STDERR() {}
-}
-/** @endcond */
+# </source>
 
 /**
  * Helper function for adding namespace for message groups.

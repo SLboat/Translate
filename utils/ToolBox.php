@@ -6,7 +6,7 @@
  * @author Siebrand Mazeland
  * @author Niklas Laxström
  * @copyright Copyright © 2008-2010, Siebrand Mazeland, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -28,11 +28,12 @@ class TranslateToolbox {
 		if ( $handle->isValid() ) {
 			$message = $title->getNsText() . ':' . $handle->getKey();
 			$desc = wfMessage( 'translate-sidebar-alltrans' )->text();
-			$url = htmlspecialchars( SpecialPage::getTitleFor( 'Translations' )->getLocalURL( 'message=' . $message ) );
+			$url = htmlspecialchars( SpecialPage::getTitleFor( 'Translations' )
+				->getLocalURL( array ('message' => $message ) ) );
 
 			// Add the actual toolbox entry.
 			// Add newlines and tabs for nicer HTML output.
-			echo( "\n\t\t\t\t<li id=\"t-alltrans\"><a href=\"$url\">$desc</a></li>\n" );
+			echo "\n\t\t\t\t<li id=\"t-alltrans\"><a href=\"$url\">$desc</a></li>\n";
 		}
 
 		return true;

@@ -5,7 +5,7 @@
  * @author Robert Leverington <robert@rhl.me.uk>
  *
  * @copyright Copyright © 2010 Robert Leverington
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  * @file
  */
 
@@ -23,9 +23,19 @@ class MagicExport extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
-
-		$this->addOption( 'target', 'Target directory for exported files', true, true );
-		$this->addOption( 'type', 'magic or special', true, true );
+		$this->mDescription = 'Export of aliases and magic words for MediaWiki extensions.';
+		$this->addOption(
+			'target',
+			'Target directory for exported files',
+			true, /*required*/
+			true /*has arg*/
+		);
+		$this->addOption(
+			'type',
+			'magic or special',
+			true, /*required*/
+			true /*has arg*/
+		);
 	}
 
 	public function execute() {
@@ -37,7 +47,7 @@ class MagicExport extends Maintenance {
 			case 'magic':
 				break;
 			default:
-				die( 'Invalid type.' );
+				$this->error( 'Invalid type.', 1 );
 		}
 
 		$this->openHandles();
@@ -89,7 +99,7 @@ class MagicExport extends Maintenance {
 				continue;
 			}
 
-			include( $inFile );
+			include $inFile;
 			switch ( $this->type ) {
 				case 'special':
 					if ( isset( $aliases ) ) {
@@ -99,12 +109,12 @@ class MagicExport extends Maintenance {
 						$this->messagesOld[$group->getId()] = $specialPageAliases;
 						unset( $specialPageAliases );
 					} else {
-						die( "File '$inFile' does not contain an aliases array.\n" );
+						$this->error( "File '$inFile' does not contain an aliases array.", 1 );
 					}
 					break;
 				case 'magic':
 					if ( !isset( $magicWords ) ) {
-						die( "File '$inFile' does not contain a magic words array.\n" );
+						$this->error( "File '$inFile' does not contain a magic words array.", 1 );
 					}
 					$this->messagesOld[$group->getId()] = $magicWords;
 					unset( $magicWords );
@@ -143,6 +153,7 @@ class MagicExport extends Maintenance {
 				case 'special':
 					fwrite( $handle, <<<PHP
 
+// @codingStandardsIgnoreFile
 
 \$specialPageAliases = array();
 PHP
@@ -166,7 +177,7 @@ PHP
 	 * file handle.
 	 */
 	protected function writeFiles() {
-		$langs = self::parseLanguageCodes( '*' );
+		$langs = TranslateUtils::parseLanguageCodes( '*' );
 		unset( $langs[array_search( 'en', $langs )] );
 		$langs = array_merge( array( 'en' ), $langs );
 		foreach ( $langs as $l ) {
@@ -228,10 +239,12 @@ PHP
 					$out = '';
 					switch ( $this->type ) {
 						case 'special':
-							$out .= "\n\n/** {$namesEn[$l]} ({$namesNative[$l]}) */\n\$specialPageAliases['{$l}'] = array(\n";
+							$out .= "\n\n/** {$namesEn[$l]} ({$namesNative[$l]}) " .
+								"*/\n\$specialPageAliases['{$l}'] = array(\n";
 							break;
 						case 'magic':
-							$out .= "\n\n/** {$namesEn[$l]} ({$namesNative[$l]}) */\n\$magicWords['{$l}'] = array(\n";
+							$out .= "\n\n/** {$namesEn[$l]} ({$namesNative[$l]}) *" .
+								"/\n\$magicWords['{$l}'] = array(\n";
 							break;
 					}
 					foreach ( $messagesOut as $key => $translations ) {
@@ -277,22 +290,6 @@ PHP
 		foreach ( $this->handles as $handle ) {
 			fclose( $handle );
 		}
-	}
-
-	/**
-	 * Copied from cli.inc.
-	 * @param $codes
-	 * @return array
-	 */
-	private static function parseLanguageCodes( /* string */$codes ) {
-		$langs = array_map( 'trim', explode( ',', $codes ) );
-		if ( $langs[0] === '*' ) {
-			$languages = Language::getLanguageNames();
-			ksort( $languages );
-			$langs = array_keys( $languages );
-		}
-
-		return $langs;
 	}
 }
 

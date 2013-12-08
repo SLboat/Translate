@@ -5,7 +5,7 @@
  * @file
  * @author Niklas Laxström
  * @copyright Copyright © 2008-2010, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -47,7 +47,8 @@ class MediaWikiMessageChecker extends MessageChecker {
 			$subcheck = 'extra';
 			$matches = $links = array();
 			preg_match_all( "/\[\[([{$tc}]+)(\\|(.+?))?]]/sDu", $translation, $matches );
-			for ( $i = 0; $i < count( $matches[0] ); $i++ ) {
+			$count = count( $matches[0] );
+			for ( $i = 0; $i < $count; $i++ ) {
 				$backMatch = preg_quote( $matches[1][$i], '/' );
 
 				if ( preg_match( "/\[\[$backMatch/", $definition ) ) {
@@ -69,7 +70,8 @@ class MediaWikiMessageChecker extends MessageChecker {
 			$subcheck = 'missing';
 			$matches = $links = array();
 			preg_match_all( "/\[\[([{$tc}]+)(\\|(.+?))?]]/sDu", $definition, $matches );
-			for ( $i = 0; $i < count( $matches[0] ); $i++ ) {
+			$count = count( $matches[0] );
+			for ( $i = 0; $i < $count; $i++ ) {
 				$backMatch = preg_quote( $matches[1][$i], '/' );
 
 				if ( preg_match( "/\[\[$backMatch/", $translation ) ) {
@@ -245,6 +247,9 @@ class MediaWikiMessageChecker extends MessageChecker {
 					$stack++;
 				} elseif ( $translation[$i] === '}' ) {
 					$stack--;
+				} elseif ( $stack > 2 && $translation[$i] === '|' ) {
+					# These pipes belong to another thing, ignore them
+					$translation[$i] = '_';
 				}
 
 				if ( $stack === 0 ) {
@@ -348,7 +353,7 @@ class MediaWikiMessageChecker extends MessageChecker {
 					continue;
 				}
 
-				for ( $i = 0; $i < count( $defArray ); $i++ ) {
+				for ( $i = 0; $i < $defCount; $i++ ) {
 					$defItems = array_map( 'trim', explode( ':', $defArray[$i] ) );
 					$traItems = array_map( 'trim', explode( ':', $traArray[$i] ) );
 

@@ -6,7 +6,7 @@
  * @author Niklas Laxström
  * @author Siebrand Mazeland
  * @copyright Copyright © 2012-2013, Niklas Laxström, Siebrand Mazeland
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -283,7 +283,7 @@ class SpecialSupportedLanguages extends SpecialPage {
 		$out = $this->getOutput();
 
 		$langs = $this->languageCloud();
-		$out->addHtml( '<div class="tagcloud">' );
+		$out->addHtml( '<div class="tagcloud autonym">' );
 		$langs = $this->shuffle_assoc( $langs );
 		foreach ( $langs as $k => $v ) {
 			$name = isset( $names[$k] ) ? $names[$k] : $k;
@@ -310,6 +310,7 @@ class SpecialSupportedLanguages extends SpecialPage {
 		$period = $this->period;
 
 		$links = array();
+		$statsTable = new StatsTable();
 
 		foreach ( $users as $username => $count ) {
 			$title = Title::makeTitleSafe( NS_USER, $username );
@@ -330,7 +331,7 @@ class SpecialSupportedLanguages extends SpecialPage {
 					->numParams( $count, $last )->text();
 				$last = max( 1, min( $period, $last ) );
 				$styles['border-bottom'] = '3px solid #' .
-					$this->getActivityColor( $period - $last, $period );
+					$statsTable->getBackgroundColor( $period - $last, $period );
 			} else {
 				$enc = "<del>$enc</del>";
 			}
@@ -390,24 +391,6 @@ class SpecialSupportedLanguages extends SpecialPage {
 		return $stylestr;
 	}
 
-	/// FIXME: copied from Special:LanguageStats
-	protected function getActivityColor( $subset, $total ) {
-		$v = @round( 255 * $subset / $total );
-
-		if ( $v < 128 ) {
-			// Red to Yellow
-			$red = 'FF';
-			$green = sprintf( '%02X', 2 * $v );
-		} else {
-			// Yellow to Green
-			$red = sprintf( '%02X', 2 * ( 255 - $v ) );
-			$green = 'FF';
-		}
-		$blue = '00';
-
-		return $red . $green . $blue;
-	}
-
 	function shuffle_assoc( $list ) {
 		if ( !is_array( $list ) ) {
 			return $list;
@@ -437,11 +420,12 @@ class SpecialSupportedLanguages extends SpecialPage {
 	protected function getColorLegend() {
 		$legend = '';
 		$period = $this->period;
+		$statsTable = new StatsTable();
 
 		for ( $i = 0; $i <= $period; $i += 30 ) {
 			$iFormatted = htmlspecialchars( $this->getLanguage()->formatNum( $i ) );
 			$legend .= '<span style="background-color:#' .
-				$this->getActivityColor( $period - $i, $period ) .
+				$statsTable->getBackgroundColor( $period - $i, $period ) .
 				"\"> $iFormatted</span>";
 		}
 

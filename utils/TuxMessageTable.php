@@ -51,13 +51,15 @@ HTML;
 <div class="tux-action-bar row">
 	<div class="three columns tux-message-list-statsbar" data-messagegroup="$groupId"></div>
 	<div class="three columns text-center">
-		<button class="toggle button tux-proofread-own-translations-button hide-own hide">$hideOwn</button>
+		<button class="toggle button tux-proofread-own-translations-button hide-own hide">
+			$hideOwn
+		</button>
 		<button class="toggle button tux-editor-clear-translated hide">$clearTranslated</button>
 	</div>
 	<div class="six columns tux-view-switcher text-center">
 		<button class="toggle button down translate-mode-button">$modeTranslate
 		</button><button class="toggle button down page-mode-button">$modePage
-		</button><button class="toggle button hide tux-proofread-button">$modeProofread
+		</button><button class="toggle button hide proofread-mode-button">$modeProofread
 		</button>
 	</div>
 </div>

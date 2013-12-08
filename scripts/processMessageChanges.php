@@ -5,7 +5,7 @@
  * @author Niklas Laxstrom
  *
  * @copyright Copyright © 2012-2013, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  * @file
  */
 
@@ -40,22 +40,22 @@ class ProcessMessageChanges extends Maintenance {
 		$this->mDescription = 'Script for processing message changes in file based message groups';
 		$this->addOption(
 			'group',
-			'Comma separated list of group IDs (can use * as wildcard)',
+			'(optional) Comma separated list of group IDs to process (can use * as wildcard). ' .
+				'Default: "*"',
+			false, /*required*/
+			true /*has arg*/
+		);
+		$this->addOption(
+			'skipgroup',
+			'(optional) Comma separated list of group IDs to not process (can use * ' .
+				'as wildcard). Overrides --group parameter.',
 			false, /*required*/
 			true /*has arg*/
 		);
 	}
 
 	public function execute() {
-		/**
-		 * @var $groups MessageGroupBase[]
-		 */
-		$groups = MessageGroups::getGroupsByType( 'FileBasedMessageGroup' );
-		$whitelist = $this->getOption( 'group' );
-
-		if ( $whitelist ) {
-			$groups = $this->filterGroups( $groups, $whitelist );
-		}
+		$groups = $this->getGroups();
 
 		$this->counter = 0;
 		/** @var FileBasedMessageGroup $group */
@@ -73,6 +73,41 @@ class ProcessMessageChanges extends Maintenance {
 		} else {
 			$this->output( "No changes found\n" );
 		}
+	}
+
+	/**
+	 * Gets list of message groups filtered by user input.
+	 * @return MessageGroup[]
+	 */
+	protected function getGroups() {
+		/// @var $groups MessageGroup[]
+		$groups = MessageGroups::getGroupsByType( 'FileBasedMessageGroup' );
+
+		// Include all if option not given
+		$include = $this->getOption( 'group', '*' );
+		$include = explode( ',', $include );
+		$include = array_map( 'trim', $include );
+		$include = MessageGroups::expandWildcards( $include );
+
+		// Exclude nothing if option not given
+		$exclude = $this->getOption( 'skipgroup', '' );
+		$exclude = explode( ',', $exclude );
+		$exclude = array_map( 'trim', $exclude );
+		$exclude = MessageGroups::expandWildcards( $exclude );
+
+		// Flip to allow isset
+		$include = array_flip( $include );
+		$exclude = array_flip( $exclude );
+
+		$groups = array_filter( $groups,
+			function ( MessageGroup $group ) use ( $include, $exclude ) {
+				$id = $group->getId();
+
+				return isset( $include[$id] ) && !isset( $exclude[$id] );
+			}
+		);
+
+		return $groups;
 	}
 
 	protected function writeChanges() {
@@ -142,7 +177,9 @@ class ProcessMessageChanges extends Maintenance {
 	 * decide what actions to take on those events to bring
 	 * the state more or less in sync.
 	 */
-	protected function addMessageUpdateChanges( FileBasedMessageGroup $group, $code, $reason, $cache ) {
+	protected function addMessageUpdateChanges( FileBasedMessageGroup $group, $code,
+		$reason, $cache
+	) {
 		wfProfileIn( __METHOD__ );
 		/* This throws a warning if message definitions are not yet
 		 * cached and will read the file for definitions. */
@@ -251,29 +288,6 @@ class ProcessMessageChanges extends Maintenance {
 	 */
 	protected static function compareContent( $a, $b ) {
 		return $a === $b;
-	}
-
-	/**
-	 * Filters groups.
-	 *
-	 * @since 2012-10-15
-	 * @param MessageGroupBase[] $groups
-	 * @param string $whitelist Comma separated list of group IDs that should be processed (can
-	 * use * as wildcard)
-	 * @return array of filtered groups
-	 */
-	protected function filterGroups( $groups, $whitelist ) {
-		$whitelist = explode( ',', trim( $whitelist ) );
-		$whitelist = MessageGroups::expandWildcards( $whitelist );
-
-		$filtered = array();
-		foreach ( $whitelist as $id ) {
-			if ( isset( $groups[$id] ) ) {
-				$filtered[$id] = $groups[$id];
-			}
-		}
-
-		return $filtered;
 	}
 }
 

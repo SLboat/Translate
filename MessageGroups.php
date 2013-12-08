@@ -6,7 +6,7 @@
  * @author Niklas Laxström
  * @author Siebrand Mazeland
  * @copyright Copyright © 2008-2013, Niklas Laxström, Siebrand Mazeland
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -476,6 +476,7 @@ class MessageGroups {
 		return array(
 			'!recent' => 'RecentMessageGroup',
 			'!additions' => 'RecentAdditionsMessageGroup',
+			'!sandbox' => 'SandboxMessageGroup',
 		);
 	}
 
@@ -630,6 +631,29 @@ class MessageGroups {
 	}
 
 	/**
+	 * Checks whether all the message groups have the same source language.
+	 * @param array $groups A list of message groups objects.
+	 * @return string Language code if the languages are the same, empty string otherwise.
+	 * @since 2013.09
+	 */
+	public static function haveSingleSourceLanguage( array $groups ) {
+		$languages = array();
+
+		foreach ( $groups as $group ) {
+			$language = $group->getSourceLanguage();
+			if ( !in_array( $language, $languages ) ) {
+				$languages[] = $language;
+			}
+		}
+
+		if ( count( $languages ) === 1 ) {
+			return $languages[0];
+		}
+
+		return '';
+	}
+
+	/**
 	 * Get all the aggregate messages groups defined in translate_metadata table.
 	 * @return array
 	 * @since 2012-05-09 return value changed
@@ -661,5 +685,66 @@ class MessageGroups {
 		}
 
 		return $groups;
+	}
+
+	/**
+	 * Filters out messages that should not be translated under normal
+	 * conditions.
+	 *
+	 * @param MessageHandle $handle Handle for the translation target.
+	 * @return boolean
+	 * @since 2013.10
+	 */
+	public static function isTranslatableMessage( MessageHandle $handle ) {
+		static $cache = array();
+
+		if ( !$handle->isValid() ) {
+			return false;
+		}
+
+		$group = $handle->getGroup();
+		$groupId = $group->getId();
+		$language = $handle->getCode();
+		$cacheKey = "$groupId:$language";
+
+		if ( !isset( $cache[$cacheKey] ) ) {
+			$allowed = true;
+			$discouraged = false;
+
+			$whitelist = $group->getTranslatableLanguages();
+			if ( is_array( $whitelist ) && !isset( $whitelist[$language] ) ) {
+				$allowed = false;
+			}
+
+			if ( self::getPriority( $group ) === 'discouraged' ) {
+				$discouraged = true;
+			} else {
+				$priorityLanguages = TranslateMetadata::get( $groupId, 'prioritylangs' );
+				if ( $priorityLanguages ) {
+					$map = array_flip( explode( ',', $priorityLanguages ) );
+					if ( !isset( $map[$language] ) ) {
+						$discouraged = true;
+					}
+				}
+			}
+
+			$cache[$cacheKey] = array(
+				'relevant' => $allowed && !$discouraged,
+				'tags' => array(),
+			);
+
+			$groupTags = $group->getTags();
+			foreach ( array( 'ignored', 'optional' ) as $tag ) {
+				if ( isset( $groupTags[$tag] ) ) {
+					foreach ( $groupTags[$tag] as $key ) {
+						// TODO: ucfirst should not be here
+						$cache[$cacheKey]['tags'][ucfirst( $key )] = true;
+					}
+				}
+			}
+		}
+
+		return $cache[$cacheKey]['relevant'] &&
+			!isset( $cache[$cacheKey]['tags'][ucfirst( $handle->getKey() )] );
 	}
 }

@@ -5,7 +5,7 @@
  * @file
  * @author Niklas Laxström
  * @copyright Copyright © 2007-2011, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -704,7 +704,15 @@ class MessageCollection implements ArrayAccess, Iterator, Countable {
 		$dbr = wfGetDB( $dbtype );
 
 		$tables = array( 'page', 'revision', 'text' );
-		$fields = array( 'page_namespace', 'page_title', 'page_latest', 'rev_user', 'rev_user_text', 'old_flags', 'old_text' );
+		$fields = array(
+			'page_namespace',
+			'page_title',
+			'page_latest',
+			'rev_user',
+			'rev_user_text',
+			'old_flags',
+			'old_text'
+		);
 		$conds = array(
 			'page_latest = rev_id',
 			'old_id = rev_text_id',

@@ -9,7 +9,7 @@
  * @defgroup FFS File format support
  * @author Niklas Laxström
  * @copyright Copyright © 2008-2013, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -322,6 +322,10 @@ class SimpleFFS implements FFS {
 	 */
 	protected function tryReadSource( $filename, MessageCollection $collection ) {
 		if ( $this->group instanceof SingleFileBasedMessageGroup ) {
+			return;
+		}
+
+		if ( get_class( $this->group->getFFS() ) !== get_class( $this ) ) {
 			return;
 		}
 

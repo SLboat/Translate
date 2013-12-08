@@ -4,7 +4,7 @@
  *
  * @author Niklas Laxström
  * @copyright Copyright © 2008-2010, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  * @file
  */
 
@@ -230,7 +230,7 @@ class SimpleFormatWriter {
 	}
 
 	/*
-	 * @todo looks the same as FFS::filterAuthors, except the $groupId param. Can probably be discarded.
+	 * @todo Same as FFS::filterAuthors, except the $groupId param. Can probably be discarded.
 	 */
 	public function filterAuthors( array $authors, $code, $groupId ) {
 		global $wgTranslateAuthorBlacklist;

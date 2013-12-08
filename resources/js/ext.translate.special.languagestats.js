@@ -3,7 +3,7 @@
  * @author Krinkle <krinklemail (at) gmail (dot) com>
  * @author Niklas Laxström, 2012
  * @created January 3, 2011
- * @license GPL v2, CC-BY-SA-3.0
+ * @license GPL-2.0+, CC-BY-SA-3.0
  */
 /*global mw:false*/
 jQuery( document ).ready( function ( $ ) {
@@ -103,13 +103,23 @@ jQuery( document ).ready( function ( $ ) {
 mw.loader.using( 'jquery.colorUtil', function () {
 	'use strict';
 	jQuery( document ).ready( function ( $ ) {
+		// It is possible that the first event we get is hover-out, in
+		// which case the colors will get stuck wrong. Ignore it.
+		var seenHoverIn = false;
+
 		$( '.mw-sp-translate-table.wikitable tr' ).hover( function () {
+			seenHoverIn = true;
 			$( '> td.hover-color', this )
 				// 30% more brightness
 				.css( 'background-color', function ( i, val ) {
+					// @codingStandardsIgnoreStart Bug in CodeSniffer?
 					return $.colorUtil.getColorBrightness( val, +0.3 );
+					// codingStandardsIgnoreEnd
 				} );
 		}, function () {
+			if ( !seenHoverIn ) {
+				return;
+			}
 			$( '> td.hover-color', this )
 				// 30% less brightness
 				.css( 'background-color', function ( i, val ) {

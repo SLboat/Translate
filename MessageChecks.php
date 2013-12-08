@@ -6,7 +6,7 @@
  * @defgroup MessageCheckers Message Checkers
  * @author Niklas Laxström
  * @copyright Copyright © 2008-2013, Niklas Laxström
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ * @license GPL-2.0+
  */
 
 /**
@@ -31,10 +31,14 @@
  *
  * Warnings are of format: <pre>
  * $warnings[$key][] = array(
- *    array( 'printf', $subcheck, $key, $code ), # check idenfitication
- *    'translate-checks-parameters-unknown', # check warning message
- *    array( 'PARAMS', $params ), # optional special param list, formatted later with Language::commaList()
- *    array( 'COUNT', count($params) ), # optional number of params, formatted later with Language::formatNum()
+ *    # check idenfitication
+ *    array( 'printf', $subcheck, $key, $code ),
+ *    # check warning message
+ *    'translate-checks-parameters-unknown',
+ *    # optional special param list, formatted later with Language::commaList()
+ *    array( 'PARAMS', $params ),
+ *    # optional number of params, formatted later with Language::formatNum()
+ *    array( 'COUNT', count( $params ) ),
  *    'Any other parameters to the message',
  * </pre>
  *

@@ -104,10 +104,10 @@ class SpecialImportTranslations extends SpecialPage {
 	 */
 	protected function checkError( $msg ) {
 		// Give grep a chance to find the usages:
-		// translate-import-err-type-not-supported, translate-import-err-dl-failed,
-		// translate-import-err-ul-failed, translate-import-err-invalid-title,
-		// translate-import-err-no-such-file, translate-import-err-stale-group,
-		// translate-import-err-no-headers, translate-import-err-warnings
+		// translate-import-err-dl-failed, translate-import-err-ul-failed,
+		// translate-import-err-invalid-title, translate-import-err-no-such-file,
+		// translate-import-err-stale-group, translate-import-err-no-headers,
+		// translate-import-err-warnings
 		if ( $msg[0] !== 'ok' ) {
 			$errorWrap = "<div class='error'>\n$1\n</div>";
 			$msg[0] = 'translate-import-err-' . $msg[0];
@@ -124,10 +124,11 @@ class SpecialImportTranslations extends SpecialPage {
 	 * Constructs and outputs file input form with supported methods.
 	 */
 	protected function outputForm() {
-		global $wgTranslateAllowImportFromUrl;
-
 		$this->getOutput()->addModules( 'ext.translate.special.importtranslations' );
-		TranslateUtils::addSpecialHelpLink( $this->getOutput(), 'Help:Extension:Translate/Off-line_translation' );
+		TranslateUtils::addSpecialHelpLink(
+			$this->getOutput(),
+			'Help:Extension:Translate/Off-line_translation'
+		);
 		/**
 		 * Ugly but necessary form building ahead, ohoy
 		 */

@@ -31,6 +31,7 @@
 		this.saving = false;
 		this.expanded = false;
 		this.listen();
+		this.storage = this.options.storage || new mw.translate.TranslationApiStorage();
 	}
 
 	TranslateEditor.prototype = {
@@ -46,6 +47,17 @@
 				return;
 			}
 
+			this.render();
+			// onReady callback
+			if ( this.options.onReady ) {
+				this.options.onReady.call( this );
+			}
+		},
+
+		/**
+		 * Render the editor UI
+		 */
+		render: function () {
 			this.$editor = $( '<div>' )
 				.addClass( 'row tux-message-editor hide' )
 				.append(
@@ -92,6 +104,8 @@
 			.remove()
 			.end()
 			.children().removeClass( 'hide' );
+			this.dirty = false;
+			mw.translate.dirty = false;
 		},
 
 		/**
@@ -122,7 +136,9 @@
 					.text( mw.msg( 'tux-status-translated' ) )
 				);
 
-			this.$messageItem.addClass( 'translated' );
+			this.$messageItem
+				.addClass( 'translated' )
+				.removeClass( 'untranslated' );
 			this.dirty = false;
 
 			if ( this.message.properties ) {
@@ -136,9 +152,10 @@
 		 */
 		save: function () {
 			var translateEditor = this,
-				api = new mw.Api(),
-				translation = translateEditor.$editor.find( '.editcolumn textarea' ).val();
+				translation;
 
+			mw.translateHooks.run( 'beforeSubmit', translateEditor.$editor );
+			translation = translateEditor.$editor.find( '.editcolumn textarea' ).val();
 			translateEditor.saving = true;
 
 			// beforeSave callback
@@ -155,55 +172,54 @@
 			translateEditor.$editor.find( '.message-tools-history' )
 				.removeClass( 'hide' );
 
-			api.postWithEditToken( {
-				action: 'edit',
-				title: translateEditor.message.title,
-				text: translation
-			}, function ( response ) {
-				if ( response.edit.result === 'Success' ) {
-					translateEditor.markTranslated();
-
-					// Update the translation
-					translateEditor.message.translation = translation;
-					translateEditor.$editTrigger.find( '.tux-list-translation' )
-						.text( translation );
-				} else {
-					translateEditor.savingError( response.warning );
-				}
-
-				translateEditor.saving = false;
-
-				// remove warnings if any.
-				translateEditor.removeWarning( 'diff' );
-				translateEditor.removeWarning( 'validation' );
-
-				$( '.tux-editor-clear-translated' )
-					.removeClass( 'hide' )
-					.prop( 'disabled', false );
-
-				// Save callback
-				if ( translateEditor.options.onSave ) {
-					translateEditor.options.onSave( translation );
-				}
-
-				mw.translate.dirty = false;
-			}, function ( errorCode, results ) {
-				translateEditor.savingError( results.error.info );
-
-				translateEditor.saving = false;
+			this.storage.save(
+				translateEditor.message.title,
+				translation
+			).done( function () {
+				// Update the translation
+				translateEditor.message.translation = translation;
+				translateEditor.onSaveSuccess();
+			} ).fail( function ( errorCode, response ) {
+				translateEditor.onSaveFail( response.error.info );
 			} );
+		},
+
+		/**
+		 * Success handler for the translation saving.
+		 */
+		onSaveSuccess: function () {
+			this.markTranslated();
+			this.$editTrigger.find( '.tux-list-translation' )
+				.text( this.message.translation );
+			this.saving = false;
+
+			// remove warnings if any.
+			this.removeWarning( 'diff' );
+			this.removeWarning( 'validation' );
+
+			$( '.tux-editor-clear-translated' )
+				.removeClass( 'hide' )
+				.prop( 'disabled', false );
+
+			// Save callback
+			if ( this.options.onSave ) {
+				this.options.onSave( this.message.translation );
+			}
+
+			mw.translate.dirty = false;
+			mw.translateHooks.run( 'afterSubmit', this.$editor );
 		},
 
 		/**
 		 * Marks that there was a problem saving a translation.
 		 * @param {string} error Strings of warnings to display.
 		 */
-		savingError: function ( error ) {
+		onSaveFail: function ( error ) {
 			this.addWarning(
 				mw.msg( 'tux-editor-save-failed', error ),
 				'translation-saving'
 			);
-
+			this.saving = false;
 			this.markUnsaved();
 		},
 
@@ -235,6 +251,7 @@
 				this.$editTrigger = $next;
 				return this.next();
 			}
+
 			// If this is the last message, just hide it
 			if ( !$next.length ) {
 				this.hide();
@@ -428,6 +445,7 @@
 				} );
 
 			$textarea = $( '<textarea>' )
+				.addClass( 'tux-textarea-translation' )
 				.attr( {
 					lang: $messageList.data( 'targetlangcode' ),
 					dir: $messageList.data( 'targetlangdir' )
@@ -459,8 +477,6 @@
 				 * - mw.translate.dirty: "you have unchanged edits" warning
 				 */
 				if ( original === current ) {
-					translateEditor.dirty = false;
-					mw.translate.dirty = false;
 					translateEditor.markUnunsaved();
 				} else {
 					translateEditor.dirty = true;
@@ -517,8 +533,7 @@
 							// Restore the translation
 							$textarea
 								.focus()
-								.val( originalTranslation )
-								.trigger( 'input' );
+								.val( originalTranslation );
 
 							// and go back to hiding.
 							$discardChangesButton.addClass( 'hide' );
@@ -586,15 +601,22 @@
 				.on( 'click', function ( e ) {
 					translateEditor.skip();
 					translateEditor.next();
+
+					if ( translateEditor.options.onSkip ) {
+						translateEditor.options.onSkip.call( translateEditor );
+					}
+
 					e.stopPropagation();
 				} );
 
+			// This appears instead of "Skip" on the last message on the page
 			$cancelButton = $( '<button>' )
 				.addClass( 'button tux-editor-cancel-button' )
 				.text( mw.msg( 'tux-editor-cancel-button-label' ) )
 				.on( 'click', function ( e ) {
 					translateEditor.skip();
 					translateEditor.hide();
+
 					e.stopPropagation();
 				} );
 
@@ -627,7 +649,7 @@
 		validateTranslation: function () {
 			var translateEditor = this,
 				url = new mw.Uri( mw.config.get( 'wgScript' ) ),
-				$textarea = translateEditor.$editor.find( '.editcolumn textarea' );
+				$textarea = translateEditor.$editor.find( '.tux-textarea-translation' );
 
 			// TODO: We need a better API for this
 			url.extend( {
@@ -744,6 +766,7 @@
 					} );
 
 				$messageDescTextarea = $( '<textarea>' )
+					.addClass( 'tux-textarea-documentation' )
 					.on( 'textchange', function () {
 						$messageDescSaveButton.prop( 'disabled', false );
 					} );
@@ -858,7 +881,7 @@
 			// delay to have it settle down and have correct results. Otherwise
 			// there will be a size change once the first letter is typed.
 			delay( function() {
-				$textarea.trigger( 'autosize' );
+				$textarea.trigger( 'autosize.resizeIncludeStyle' );
 			}, 1 );
 
 			this.shown = true;
