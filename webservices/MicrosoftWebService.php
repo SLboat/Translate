@@ -44,19 +44,24 @@ class MicrosoftWebService extends TranslationWebService
      */
     protected function getMSTokens($clientID, $clientSecret)
     {
-        //这是当前的验证地址
+       //这是当前的验证地址
         $authUrl = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13/"; //验证地址
         
-        $options = array(); //看起来定义它是必要的
-        $options['method']   = 'POST';
-        $options['timeout']  = $this->config['timeout']; //有趣的是，在class里看起来是共享的
-        $options['postData'] = array(
+        //构建传递参数们
+        $params = array(
             'grant_type' => "client_credentials", //验证地址
             'scope' => "http://api.microsofttranslator.com", //使用范围，因为这套api看起来是很全面的玩意
             'client_id' => $clientID,
             'client_secret' => $clientSecret
         );
-        # 可能用的上再次转录 $url .= wfArrayToCgi($params);
+        //构造url
+        $params = wfArrayToCgi($params);
+        $options            = array();
+        
+        $options['method']   = 'POST';
+        $options['timeout']  = $this->config['timeout']; //有趣的是，在class里看起来是共享的
+        $options['postData'] = $params;
+
         #wfErrorLog('工厂构造'.serialize($options), '/tmp/wm.log' ); //调试信息
 
         $req = MWHttpRequest::factory($authUrl, $options);
